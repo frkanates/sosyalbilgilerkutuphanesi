@@ -32,8 +32,18 @@ input{width:100%;padding:10px;border:2px solid #e4dcce;border-radius:10px;font:i
 <div class="box"><div class="hd"><span>📚 6. Sınıf Sosyal Bilgiler • Birlikte Yaşamak</span><span><span id="st">Giriş</span> &nbsp;<span class="sc">★ <span id="sc">0</span></span></span></div>
 <div class="rail"><div id="pf"></div></div><div id="app"></div></div>
 <script>
-// Sonuç kaydı için Apps Script web uygulaması adresini buraya yapıştır (apps-script.gs dosyasına bak). Boşsa sonuç kaydedilmez.
-const SCRIPT_URL="";
+// Sonuç kaydı için Apps Script web uygulaması adresi
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycby8fZgD0Q2YgJ22lUx27d5h_G4QFYiitvvdL3LTLrxu-R1GVlV5RX4msSY-Xw4tWqLoRg/exec";
+
+// URL'den gizli okul kodunu yakalama (?kod=tasokul veya ?tasokul)
+function getOkulKodu() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('kod')) return params.get('kod').trim();
+  const keys = Array.from(params.keys());
+  return keys.length > 0 && !params.get(keys[0]) ? keys[0].trim() : "";
+}
+const AKTIF_OKUL_KODU = getOkulKodu();
+
 const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const SORT=[["Evlat","d"],["Torun","d"],["Kardeş","d"],["Yeğen","d"],["Sınıf Başkanı","s"],["Takım Kaptanı","s"],["Kulüp Üyesi","s"],["Sporcu","s"]];
 const TF=[
@@ -90,8 +100,8 @@ function fin(rows,e){score+=e;sc[sec]=e;rows.forEach(r=>{if(!r.ok)W.push(r)});re
 function go(){rev=null;sec++;R(1)}
 function revH(){return `<h2>Bölüm ${sec+1} sonucu: +${rev.e} / ${MAX[sec]} puan</h2><p class="d">Yanlışlarını incele, doğrusunu öğren.</p>${rev.rows.map(r=>`<div class="rv ${r.ok?"ok":"bad"}">${r.ok?"✓":"✗"} ${r.t}${r.ok?"":`<div class="note">${r.n}</div>`}</div>`).join("")}${bar("",1,"go()",sec==4?"Sonucu Gör 🏁":"Sonraki Bölüm →")}`}
 
-function startH(){return `<h2>Birlikte Yaşamak Keşif Quizi</h2><p class="d">Önce özet ve videolardan çalış, sonra quizi çöz. Toplam 100 puan.</p><input id="ia" placeholder="Ad Soyad"><input id="is" placeholder="Sınıf (örn. 6/A)"><input id="in" placeholder="Okul numarası"><input id="ik" placeholder="Sınıf kodu (öğretmeninden al)"><p class="note">Sınıf kodu olmadan da oynayabilirsin ama sonucun öğretmenine gönderilmez.</p>${bar("",1,"st0()","Başla →")}`}
-function st0(){const a=$("#ia").value.trim(),s=$("#is").value.trim();if(!a||!s){alert("Ad soyad ve sınıfı yaz.");return}me={a,s,n:$("#in").value.trim(),k:$("#ik").value.trim()};sec=0;R(1)}
+function startH(){return `<h2>Birlikte Yaşamak Keşif Quizi</h2><p class="d">Önce özet ve videolardan çalış, sonra quizi çöz. Toplam 100 puan.</p><input id="ia" placeholder="Ad Soyad"><input id="is" placeholder="Sınıf (örn. 6-A)"><input id="in" placeholder="Okul numarası (bilmiyorsan boş bırak)">${bar("",1,"st0()","Başla →")}`}
+function st0(){const a=$("#ia").value.trim(),s=$("#is").value.trim();if(!a\vert{}\vert{}!s){alert("Ad soyad ve sınıfı yaz.");return}me={a,s,n:$("#in").value.trim()};sec=0;R(1)}
 
 function sortH(){const un=S.items.filter(x=>!S.p[x.i]),bk=c=>S.items.filter(x=>S.p[x.i]==c).map(x=>`<span class="chip">${x.t} <b onclick="event.stopPropagation();delete S.p[${x.i}];R()">×</b></span>`).join("")||"<small>Buraya dokun</small>";
 return `<h2>Bölüm 1: Rol Sınıflandırma</h2><p class="d">Bir rol seç, sonra doğru sepete dokun.</p><div class="pool">${un.map(x=>`<div class="pill ${S.s===x.i?"on":""}" onclick="S.s=${x.i};R()">${x.t}</div>`).join("")||"✓ Hepsi yerleşti"}</div><div class="g2"><div class="bk" onclick="drop('d')"><h3>👶 Doğuştan Gelen Roller</h3>${bk("d")}</div><div class="bk" onclick="drop('s')"><h3>🏆 Sonradan Kazanılan Roller</h3>${bk("s")}</div></div>${bar(`Kalan: ${un.length}`,!un.length,"doneS()")}`}
@@ -114,10 +124,45 @@ function okO(){const s=O.st[O.i],ok=s.o.every((v,k)=>v==k);O.rows.push({ok,t:s.t
 
 function endH(){const t=score>=85?["🎖️","Altın Rozetli Bilinçli Vatandaş"]:score>=65?["🧭","Kültür ve Dayanışma Rehberi"]:["🌱","Sosyal Kâşif"];
 return `<div style="text-align:center"><div style="font-size:3.5rem">${t[0]}</div><h2>${t[1]}</h2><p class="d">${esc(me.a)} • ${esc(me.s)}</p><div class="big">${score} / 100</div></div>
-<h3 style="margin:14px 0 8px">Bölüm puanların</h3>${NM.map((n,i)=>`<div class="row"><span>${i+1}. ${n}</span><b>${sc[i]} / ${MAX[i]}</b></div>`).join("")}
+<h3 style="margin:14px 0 8px">Bölüm puanların</h3>${NM.map((n,i)=>`<div class="row"><span>${i+1}.${n}</span><b>${sc[i]} /${MAX[i]}</b></div>`).join("")}
 <h3 style="margin:14px 0 8px">Tekrar etmen gerekenler (${W.length})</h3>${W.length?W.map(r=>`<div class="rv bad">${r.t}<div class="note">${r.n}</div></div>`).join(""):"<p>Hepsi doğru, harika! 🎉</p>"}
-<p id="msg" class="note" style="margin:12px 0"></p>${bar("",1,"location.reload()","Yeniden Başla")}`}
-async function send(){const m=$("#msg");if(!me.k){m.textContent="Sınıf kodu girilmediği için sonuç kaydedilmedi.";return}if(!SCRIPT_URL){m.textContent="Kayıt adresi tanımlı değil, sonuç kaydedilmedi.";return}
-m.textContent="Sonuç gönderiliyor…";try{const r=await fetch(SCRIPT_URL,{method:"POST",body:JSON.stringify({kod:me.k,ad:me.a,sinif:me.s,no:me.n,puan:score,b:sc,yanlis:W.length,liste:W.map(r=>r.t.replace(/<[^>]+>/g,"")).join(" | ").slice(0,1500)})});const j=await r.json();m.textContent=j.ok?"✓ Sonucun öğretmenine gönderildi.":"✗ Sınıf kodu hatalı, sonuç kaydedilmedi."}catch(e){m.textContent="✗ Sonuç gönderilemedi. İnternet bağlantını kontrol et."}}
+<p id="msg" class="note" style="margin:12px 0;display:none;font-weight:700"></p>${bar("",1,"location.reload()","Yeniden Başla")}`}
+
+async function send(){
+  if(!AKTIF_OKUL_KODU || !SCRIPT_URL) return;
+  const m=$("#msg");
+  if(m){
+    m.style.display="block";
+    m.style.color="#64748b";
+    m.textContent="⏳ Sonuçların öğretmenine gönderiliyor…";
+  }
+  try{
+    await fetch(SCRIPT_URL,{
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({
+        okulKodu:AKTIF_OKUL_KODU,
+        kod:AKTIF_OKUL_KODU,
+        ad:me.a,
+        sinif:me.s,
+        no:me.n,
+        puan:score,
+        b:sc,
+        yanlis:W.length,
+        liste:W.map(r=>r.t.replace(/<[^>]+>/g,"")).join(" | ").slice(0,1500)
+      })
+    });
+    if(m){
+      m.style.color="#059669";
+      m.textContent="✓ Sonucun öğretmenine gönderildi!";
+    }
+  }catch(e){
+    if(m){
+      m.style.color="#dc2626";
+      m.textContent="⚠️ Sonuç gönderilemedi. İnternet bağlantını kontrol et.";
+    }
+  }
+}
 R();
 </script></body></html>
