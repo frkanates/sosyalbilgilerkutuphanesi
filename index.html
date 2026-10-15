@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sosyal Bilgiler Kütüphanesi | Yeni Nesil Öğrenme Ekosistemi</title>
+  <meta name="description" content="6. sınıf Sosyal Bilgiler için harita simülasyonları, etkileşimli oyunlar ve ünite keşif quizleri.">
+  <meta name="theme-color" content="#f7f3ea">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -188,9 +191,34 @@
       box-shadow: var(--shadow-sm);
     }
 
-    .tab-btn.disabled {
+    .tab-btn:disabled {
       cursor: not-allowed;
       opacity: 0.45;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .stat-chip {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1.5px solid rgba(217, 119, 6, 0.25);
+      border-radius: 99px;
+      padding: 7px 16px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: #475569;
+    }
+    .stat-chip b { color: var(--accent); font-size: 1rem; }
+
+    .badge-label { transition: transform 0.2s ease; }
+    .action-card:not(.disabled):hover .badge-label { transform: translateX(3px); }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
     }
 
     /* AKORDİYON */
@@ -255,6 +283,12 @@
       cursor: pointer;
       user-select: none;
       gap: 16px;
+    }
+
+    .acc-trigger:focus-visible,
+    .action-card:focus-visible {
+      outline: 3px solid var(--accent-gold);
+      outline-offset: -3px;
     }
 
     .acc-trigger-left {
@@ -331,22 +365,28 @@
     }
 
     .acc-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s cubic-bezier(0, 1, 0, 1);
+      display: grid;
+      grid-template-rows: 0fr;
+      visibility: hidden;
       background: #faf7f2;
-      border-top: 1px solid transparent;
+      border-top: 1.5px solid transparent;
+      transition: grid-template-rows 0.3s ease, visibility 0s linear 0.3s, border-color 0.3s;
     }
 
     .acc-item.open .acc-body {
-      max-height: 400px;
-      transition: max-height 0.35s ease-in-out;
-      border-top: 1.5px solid var(--border);
+      grid-template-rows: 1fr;
+      visibility: visible;
+      border-top-color: var(--border);
+      transition: grid-template-rows 0.3s ease, visibility 0s, border-color 0.3s;
     }
 
     .acc-content {
-      padding: 20px 22px;
+      min-height: 0;
+      overflow: hidden;
+      padding: 0 22px;
     }
+    .acc-content > :first-child { margin-top: 20px; }
+    .acc-content > :last-child { margin-bottom: 20px; }
 
     /* MATERYAL GRIDI */
     .action-grid {
@@ -484,8 +524,10 @@
 
     @media (max-width: 680px) {
       .hero h2 { font-size: 2.1rem; }
-      .acc-trigger { flex-direction: column; align-items: flex-start; }
-      .acc-trigger-right { align-self: flex-end; margin-top: -24px; }
+      .acc-trigger { flex-wrap: wrap; padding: 16px 18px; }
+      .acc-trigger-left { flex-direction: column; align-items: flex-start; gap: 10px; flex: 1 1 100%; }
+      .acc-trigger-right { width: 100%; justify-content: space-between; }
+      .tab-btn { padding: 10px 6px; font-size: 0.8rem; }
       .footer-container { flex-direction: column; text-align: center; }
       .footer-signature { width: 100%; justify-content: center; }
     }
@@ -515,15 +557,16 @@
     <p>
       Türkiye Yüzyılı Maarif Modeli ile tam uyumlu; harita simülasyonları, etkileşimli görevler ve bölüm keşif quizleri.
     </p>
+    <div class="hero-stats" id="stats"></div>
   </section>
 
   <!-- KADEMELER -->
   <div class="tabs-wrapper">
     <div class="tabs">
-      <button class="tab-btn disabled" title="Geliştirme Aşamasında">5. Sınıf 🔒</button>
-      <button class="tab-btn active">6. Sınıf ●</button>
-      <button class="tab-btn disabled" title="Geliştirme Aşamasında">7. Sınıf 🔒</button>
-      <button class="tab-btn disabled" title="Geliştirme Aşamasında">8. Sınıf 🔒</button>
+      <button class="tab-btn" disabled title="Geliştirme aşamasında">5. Sınıf 🔒</button>
+      <button class="tab-btn active" aria-current="true">6. Sınıf ●</button>
+      <button class="tab-btn" disabled title="Geliştirme aşamasında">7. Sınıf 🔒</button>
+      <button class="tab-btn" disabled title="Geliştirme aşamasında">8. Sınıf 🔒</button>
     </div>
   </div>
 
@@ -535,7 +578,7 @@
 
       <!-- 1. ÖĞRENME ALANI -->
       <div class="acc-item has-content open">
-        <button class="acc-trigger" onclick="toggleAcc(this)">
+        <div class="acc-trigger" role="button" tabindex="0" aria-expanded="false" onclick="toggleAcc(this)">
           <div class="acc-trigger-left">
             <span class="unit-num-badge">1. Öğrenme Alanı</span>
             <div class="unit-title-box">
@@ -547,19 +590,18 @@
             <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
-        </button>
+        </div>
         <div class="acc-body">
           <div class="acc-content">
             <div class="action-grid">
-              <!-- Bağlantı: 1-unite-quiz.html -->
               <a href="1-unite-quiz.html" class="action-card quiz">
                 <div class="card-left">
                   <span>⚡</span>
-                  <span>1. Ünite Keşif Quizi</span>
+                  <span>Birlikte Yaşamak Keşif Quizi</span>
                 </div>
                 <span class="badge-label">Başlat ➜</span>
               </a>
-              <div class="action-card disabled">
+              <div class="action-card disabled" aria-disabled="true">
                 <div class="card-left">
                   <span>🗺️</span>
                   <span>Dayanışma Görevi (Oyun)</span>
@@ -573,7 +615,7 @@
 
       <!-- 2. ÖĞRENME ALANI -->
       <div class="acc-item has-content open">
-        <button class="acc-trigger" onclick="toggleAcc(this)">
+        <div class="acc-trigger" role="button" tabindex="0" aria-expanded="false" onclick="toggleAcc(this)">
           <div class="acc-trigger-left">
             <span class="unit-num-badge">2. Öğrenme Alanı</span>
             <div class="unit-title-box">
@@ -585,11 +627,10 @@
             <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
-        </button>
+        </div>
         <div class="acc-body">
           <div class="acc-content">
             <div class="action-grid">
-              <!-- Bağlantı: harita-kasifi.html -->
               <a href="harita-kasifi.html" class="action-card game">
                 <div class="card-left">
                   <span>🗺️</span>
@@ -597,13 +638,13 @@
                 </div>
                 <span class="badge-label">Oyunu Başlat ➜</span>
               </a>
-              <div class="action-card disabled">
+              <a href="2-unite-quiz.html" class="action-card quiz">
                 <div class="card-left">
                   <span>⚡</span>
-                  <span>2. Ünite Keşif Quizi</span>
+                  <span>Evimiz Dünya Keşif Quizi</span>
                 </div>
-                <span class="badge-label">Hazırlanıyor ⏳</span>
-              </div>
+                <span class="badge-label">Başlat ➜</span>
+              </a>
             </div>
           </div>
         </div>
@@ -611,7 +652,7 @@
 
       <!-- 3. ÖĞRENME ALANI -->
       <div class="acc-item">
-        <button class="acc-trigger" onclick="toggleAcc(this)">
+        <div class="acc-trigger" role="button" tabindex="0" aria-expanded="false" onclick="toggleAcc(this)">
           <div class="acc-trigger-left">
             <span class="unit-num-badge">3. Öğrenme Alanı</span>
             <div class="unit-title-box">
@@ -623,7 +664,7 @@
             <span class="status-pill soon">Hazırlanıyor</span>
             <span class="chevron-icon">▼</span>
           </div>
-        </button>
+        </div>
         <div class="acc-body">
           <div class="acc-content">
             <div class="empty-state">
@@ -636,7 +677,7 @@
 
       <!-- 4. ÖĞRENME ALANI -->
       <div class="acc-item">
-        <button class="acc-trigger" onclick="toggleAcc(this)">
+        <div class="acc-trigger" role="button" tabindex="0" aria-expanded="false" onclick="toggleAcc(this)">
           <div class="acc-trigger-left">
             <span class="unit-num-badge">4. Öğrenme Alanı</span>
             <div class="unit-title-box">
@@ -648,7 +689,7 @@
             <span class="status-pill soon">Hazırlanıyor</span>
             <span class="chevron-icon">▼</span>
           </div>
-        </button>
+        </div>
         <div class="acc-body">
           <div class="acc-content">
             <div class="empty-state">
@@ -661,7 +702,7 @@
 
       <!-- 5. ÖĞRENME ALANI -->
       <div class="acc-item has-content open">
-        <button class="acc-trigger" onclick="toggleAcc(this)">
+        <div class="acc-trigger" role="button" tabindex="0" aria-expanded="false" onclick="toggleAcc(this)">
           <div class="acc-trigger-left">
             <span class="unit-num-badge">5. Öğrenme Alanı</span>
             <div class="unit-title-box">
@@ -673,11 +714,10 @@
             <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
-        </button>
+        </div>
         <div class="acc-body">
           <div class="acc-content">
             <div class="action-grid">
-              <!-- Bağlantı: harita-kasifi-ekonomi.html -->
               <a href="harita-kasifi-ekonomi.html" class="action-card game">
                 <div class="card-left">
                   <span>🏭</span>
@@ -685,10 +725,10 @@
                 </div>
                 <span class="badge-label">Simülasyon ➜</span>
               </a>
-              <div class="action-card disabled">
+              <div class="action-card disabled" aria-disabled="true">
                 <div class="card-left">
                   <span>⚡</span>
-                  <span>5. Ünite Ekonomi Quizi</span>
+                  <span>Hayatımızdaki Ekonomi Quizi</span>
                 </div>
                 <span class="badge-label">Hazırlanıyor ⏳</span>
               </div>
@@ -699,7 +739,7 @@
 
       <!-- 6. ÖĞRENME ALANI -->
       <div class="acc-item">
-        <button class="acc-trigger" onclick="toggleAcc(this)">
+        <div class="acc-trigger" role="button" tabindex="0" aria-expanded="false" onclick="toggleAcc(this)">
           <div class="acc-trigger-left">
             <span class="unit-num-badge">6. Öğrenme Alanı</span>
             <div class="unit-title-box">
@@ -711,7 +751,7 @@
             <span class="status-pill soon">Hazırlanıyor</span>
             <span class="chevron-icon">▼</span>
           </div>
-        </button>
+        </div>
         <div class="acc-body">
           <div class="acc-content">
             <div class="empty-state">
@@ -743,10 +783,27 @@
   </footer>
 
   <script>
-    function toggleAcc(button) {
-      const item = button.closest('.acc-item');
-      item.classList.toggle('open');
+    function toggleAcc(trigger) {
+      const item = trigger.closest('.acc-item');
+      const open = item.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', open);
     }
+
+    document.querySelectorAll('.acc-trigger').forEach(function (t) {
+      t.setAttribute('aria-expanded', t.closest('.acc-item').classList.contains('open'));
+      t.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAcc(t); }
+      });
+    });
+
+    (function () {
+      const active = document.querySelectorAll('.action-card:not(.disabled)').length;
+      const ready = document.querySelectorAll('.acc-item.has-content').length;
+      const total = document.querySelectorAll('.acc-item').length;
+      document.getElementById('stats').innerHTML =
+        '<span class="stat-chip"><b>' + active + '</b> aktif materyal</span>' +
+        '<span class="stat-chip"><b>' + ready + '/' + total + '</b> öğrenme alanı hazır</span>';
+    })();
   </script>
 
 </body>
