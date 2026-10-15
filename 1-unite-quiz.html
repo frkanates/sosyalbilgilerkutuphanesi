@@ -25,22 +25,20 @@ body{font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:#f5f
 .nx{background:#d97706;color:#fff;border:0;border-radius:12px;padding:12px 24px;font:inherit;font-weight:800;cursor:pointer}.nx:disabled{opacity:.4;cursor:not-allowed}
 .rv{border:1.5px solid;border-radius:12px;padding:10px 14px;margin-bottom:8px}.ok{background:#d1fae5;border-color:#059669}.bad{background:#fee2e2;border-color:#dc2626}
 .note{font-size:.9rem;color:#475569;margin-top:4px}
-input{width:100%;padding:10px;border:2px solid #e4dcce;border-radius:10px;font:inherit;margin-bottom:10px}
+input,select{width:100%;padding:10px;border:2px solid #e4dcce;border-radius:10px;font:inherit;margin-bottom:10px}
 .big{font-size:2.2rem;font-weight:800;color:#b45309}
 @media(max-width:600px){.g2{grid-template-columns:1fr}.row{flex-direction:column;align-items:stretch}.bar{flex-direction:column;align-items:stretch}}
 </style></head><body>
 <div class="box"><div class="hd"><span>📚 6. Sınıf Sosyal Bilgiler • Birlikte Yaşamak</span><span><span id="st">Giriş</span> &nbsp;<span class="sc">★ <span id="sc">0</span></span></span></div>
 <div class="rail"><div id="pf"></div></div><div id="app"></div></div>
 <script>
-// Sonuç kaydı için Apps Script web uygulaması adresi
 const SCRIPT_URL="https://script.google.com/macros/s/AKfycby8fZgD0Q2YgJ22lUx27d5h_G4QFYiitvvdL3LTLrxu-R1GVlV5RX4msSY-Xw4tWqLoRg/exec";
 
-// URL'den gizli okul kodunu yakalama (?kod=tasokul veya ?tasokul)
 function getOkulKodu() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('kod')) return params.get('kod').trim();
-  const keys = Array.from(params.keys());
-  return keys.length > 0 && !params.get(keys[0]) ? keys[0].trim() : "";
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('kod')) return p.get('kod').trim();
+  const keys = Array.from(p.keys());
+  return keys.length > 0 && !p.get(keys[0]) ? keys[0].trim() : "";
 }
 const AKTIF_OKUL_KODU = getOkulKodu();
 
@@ -85,7 +83,10 @@ const ORD=[
 ["İmece ile sorun çözme",["Topluluğun ortak sorununu belirlemek","Görev paylaşıp el birliğiyle çalışmak","İşi bitirip dayanışmayı kutlamak"]],
 ["Rollerin zaman içindeki değişimi",["Çocukken aile içinde çocuk ve kardeş rolü","Gençken öğrenci, takım oyuncusu, kulüp üyesi rolü","Yetişkinken meslek sahibi, yönetici, ebeveyn rolü"]]];
 const MAX=[16,20,20,20,24],NM=["Rol Sınıflandırma","Doğru / Yanlış","Kelime Sandığı","Çoktan Seçmeli","Sıralama"];
-let sec=-1,score=0,me={},sc=[],W=[],rev=null,sent=0;
+
+let sec = (AKTIF_OKUL_KODU !== "") ? -1 : 0;
+let score=0,me={a:"Misafir Öğrenci",s:"Serbest",n:"-"},sc=[],W=[],rev=null,sent=0;
+
 const S={p:{},s:null,items:sh(SORT.map((x,i)=>({i,t:x[0],c:x[1]})))};
 const T={a:{},items:sh(TF.map((x,i)=>({i,t:x[0],v:x[1],e:x[2]})))};
 const F={p:{},s:null,items:sh(FILL.map((x,i)=>({i,t:x[0],r:x[1]}))),bank:sh(BANK)};
@@ -94,14 +95,50 @@ const O={i:0,rows:[],e:0,st:ORD.map(s=>{let o=sh(s[1].map((_,i)=>i));if(o.every(
 const bar=(m,on,fn,l="Bölümü Tamamla →")=>`<div class="bar"><b>${m}</b><button class="nx" ${on?"":"disabled"} onclick="${fn}">${l}</button></div>`;
 const esc=s=>String(s).replace(/</g,"&lt;");
 
-function R(top){const y=scrollY;$("#sc").textContent=score;$("#st").textContent=sec<0?"Giriş":sec<5?`Bölüm ${sec+1} / 5`:"Sonuç";$("#pf").style.width=Math.max(0,sec)*20+"%";
-$("#app").innerHTML=rev?revH():[startH,sortH,tfH,fillH,mcqH,ordH,endH][sec+1]();scrollTo(0,top?0:y);if(sec==5&&!rev&&!sent){sent=1;send()}}
+function R(top){
+  const y=scrollY;
+  $("#sc").textContent=score;
+  $("#st").textContent=sec<0?"Giriş":sec<5?`Bölüm ${sec+1} / 5`:"Sonuç";
+  $("#pf").style.width=Math.max(0,sec)*20+"%";
+  
+  if(rev){
+    $("#app").innerHTML = revH();
+  } else if(sec === -1){
+    $("#app").innerHTML = startH();
+  } else {
+    $("#app").innerHTML = [sortH,tfH,fillH,mcqH,ordH,endH][sec]();
+  }
+  
+  scrollTo(0,top?0:y);
+  if(sec==5&&!rev&&!sent){sent=1;send()}
+}
+
 function fin(rows,e){score+=e;sc[sec]=e;rows.forEach(r=>{if(!r.ok)W.push(r)});rev={rows,e};R(1)}
 function go(){rev=null;sec++;R(1)}
 function revH(){return `<h2>Bölüm ${sec+1} sonucu: +${rev.e} / ${MAX[sec]} puan</h2><p class="d">Yanlışlarını incele, doğrusunu öğren.</p>${rev.rows.map(r=>`<div class="rv ${r.ok?"ok":"bad"}">${r.ok?"✓":"✗"} ${r.t}${r.ok?"":`<div class="note">${r.n}</div>`}</div>`).join("")}${bar("",1,"go()",sec==4?"Sonucu Gör 🏁":"Sonraki Bölüm →")}`}
 
-function startH(){return `<h2>Birlikte Yaşamak Keşif Quizi</h2><p class="d">Önce özet ve videolardan çalış, sonra quizi çöz. Toplam 100 puan.</p><input id="ia" placeholder="Ad Soyad"><input id="is" placeholder="Sınıf (örn. 6-A)"><input id="in" placeholder="Okul numarası (bilmiyorsan boş bırak)">${bar("",1,"st0()","Başla →")}`}
-function st0(){const a=$("#ia").value.trim(),s=$("#is").value.trim();if(!a\vert{}\vert{}!s){alert("Ad soyad ve sınıfı yaz.");return}me={a,s,n:$("#in").value.trim()};sec=0;R(1)}
+function startH(){
+  return `<h2>Birlikte Yaşamak Keşif Quizi 🧭</h2>
+  <p class="d">Lütfen bilgilerini yazarak teste başla (Toplam 100 puan).</p>
+  <input id="ia" placeholder="Adın ve Soyadın">
+  <input id="in" placeholder="Okul Numaran (bilmiyorsan boş bırak)">
+  <select id="is">
+    <option value="6-A">6-A</option>
+    <option value="6-B">6-B</option>
+    <option value="6-C">6-C</option>
+    <option value="6-D">6-D</option>
+  </select>
+  ${bar("",1,"st0()","Başla →")}`;
+}
+
+function st0(){
+  const a=$("#ia").value.trim();
+  const s=$("#is").value;
+  if(!a){alert("Lütfen adını ve soyadını yaz!");return;}
+  me={a,s,n:$("#in").value.trim()||"-"};
+  sec=0;
+  R(1);
+}
 
 function sortH(){const un=S.items.filter(x=>!S.p[x.i]),bk=c=>S.items.filter(x=>S.p[x.i]==c).map(x=>`<span class="chip">${x.t} <b onclick="event.stopPropagation();delete S.p[${x.i}];R()">×</b></span>`).join("")||"<small>Buraya dokun</small>";
 return `<h2>Bölüm 1: Rol Sınıflandırma</h2><p class="d">Bir rol seç, sonra doğru sepete dokun.</p><div class="pool">${un.map(x=>`<div class="pill ${S.s===x.i?"on":""}" onclick="S.s=${x.i};R()">${x.t}</div>`).join("")||"✓ Hepsi yerleşti"}</div><div class="g2"><div class="bk" onclick="drop('d')"><h3>👶 Doğuştan Gelen Roller</h3>${bk("d")}</div><div class="bk" onclick="drop('s')"><h3>🏆 Sonradan Kazanılan Roller</h3>${bk("s")}</div></div>${bar(`Kalan: ${un.length}`,!un.length,"doneS()")}`}
@@ -122,11 +159,15 @@ function ordH(){const s=O.st[O.i];return `<h2>Bölüm 5: Sıralama</h2><p class=
 function mv(k,d){const o=O.st[O.i].o;[o[k],o[k+d]]=[o[k+d],o[k]];R()}
 function okO(){const s=O.st[O.i],ok=s.o.every((v,k)=>v==k);O.rows.push({ok,t:s.t,n:"Doğru sıra: "+s.it.map((x,k)=>`${k+1}) ${x}`).join(" → ")});if(ok)O.e+=8;if(O.i<2){O.i++;R(1)}else fin(O.rows,O.e)}
 
-function endH(){const t=score>=85?["🎖️","Altın Rozetli Bilinçli Vatandaş"]:score>=65?["🧭","Kültür ve Dayanışma Rehberi"]:["🌱","Sosyal Kâşif"];
-return `<div style="text-align:center"><div style="font-size:3.5rem">${t[0]}</div><h2>${t[1]}</h2><p class="d">${esc(me.a)} • ${esc(me.s)}</p><div class="big">${score} / 100</div></div>
-<h3 style="margin:14px 0 8px">Bölüm puanların</h3>${NM.map((n,i)=>`<div class="row"><span>${i+1}.${n}</span><b>${sc[i]} /${MAX[i]}</b></div>`).join("")}
-<h3 style="margin:14px 0 8px">Tekrar etmen gerekenler (${W.length})</h3>${W.length?W.map(r=>`<div class="rv bad">${r.t}<div class="note">${r.n}</div></div>`).join(""):"<p>Hepsi doğru, harika! 🎉</p>"}
-<p id="msg" class="note" style="margin:12px 0;display:none;font-weight:700"></p>${bar("",1,"location.reload()","Yeniden Başla")}`}
+function endH(){
+  const t=score>=85?["🎖️","Altın Rozetli Bilinçli Vatandaş"]:score>=65?["🧭","Kültür ve Dayanışma Rehberi"]:["🌱","Sosyal Kâşif"];
+  const kisiDetay = (AKTIF_OKUL_KODU !== "") ? `<p class="d">${esc(me.a)} • ${esc(me.s)}</p>` : "";
+  
+  return `<div style="text-align:center"><div style="font-size:3.5rem">${t[0]}</div><h2>${t[1]}</h2>${kisiDetay}<div class="big">${score} / 100</div></div>
+  <h3 style="margin:14px 0 8px">Bölüm puanların</h3>${NM.map((n,i)=>`<div class="row"><span>${i+1}.${n}</span><b>${sc[i]} /${MAX[i]}</b></div>`).join("")}
+  <h3 style="margin:14px 0 8px">Tekrar etmen gerekenler (${W.length})</h3>${W.length?W.map(r=>`<div class="rv bad">${r.t}<div class="note">${r.n}</div></div>`).join(""):"<p>Hepsi doğru, harika! 🎉</p>"}
+  <p id="msg" class="note" style="margin:12px 0;display:none;font-weight:700"></p>${bar("",1,"location.reload()","Yeniden Başla")}`;
+}
 
 async function send(){
   if(!AKTIF_OKUL_KODU || !SCRIPT_URL) return;
@@ -164,5 +205,6 @@ async function send(){
     }
   }
 }
+
 R();
 </script></body></html>
