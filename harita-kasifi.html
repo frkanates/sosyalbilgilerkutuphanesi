@@ -302,8 +302,8 @@
 <body>
 
 <div id="app">
-  <!-- 1. GİRİŞ MODALI -->
-  <div class="modal-overlay" id="loginModal">
+  <!-- 1. GİRİŞ MODALI (Yalnızca URL'de okul kodu varsa görünür) -->
+  <div class="modal-overlay" id="loginModal" style="display:none;">
     <div class="modal-card">
       <h2>Harita Kâşifi 🧭</h2>
       <p>Lütfen bilgilerini girerek keşfe başla!</p>
@@ -354,7 +354,7 @@
         <div style="font-size:13px; color:#64748b;" id="reportMistakes">Hatalı İller: Yok</div>
       </div>
       
-      <div id="reportSaved" style="font-size:11px; color:#64748b; font-weight:700; margin-bottom:14px;">
+      <div id="reportSaved" style="font-size:11px; color:#64748b; font-weight:700; margin-bottom:14px; display:none;">
         ⏳ Sonuçların gönderiliyor...
       </div>
 
@@ -442,6 +442,15 @@
 <script>
   // Güncellenen Google Apps Script Web App URL'si
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8fZgD0Q2YgJ22lUx27d5h_G4QFYiitvvdL3LTLrxu-R1GVlV5RX4msSY-Xw4tWqLoRg/exec";
+
+  // URL'den gizli okul kodunu yakalama (?kod=tasokul veya ?tasokul)
+  function getOkulKodu() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('kod')) return params.get('kod').trim();
+    const keys = Array.from(params.keys());
+    return keys.length > 0 && !params.get(keys[0]) ? keys[0].trim() : "";
+  }
+  const AKTIF_OKUL_KODU = getOkulKodu();
 
   let studentData = {
     adSoyad: "",
@@ -824,10 +833,16 @@
   }
 
   function handleLevelClick(targetGrade) {
-    if (targetGrade !== studentData.seviye) {
+    if (AKTIF_OKUL_KODU !== "" && targetGrade !== studentData.seviye) {
       showToast("Seviye öğretmenin tarafından kilitlendi!", "error");
       return;
     }
+    // Kodsuz serbest modda istenen sınıfa geçiş serbest
+    studentData.seviye = targetGrade;
+    currentGrade = targetGrade;
+    totalQuestionsInCurrentTour = targetGrade === 'Karma' ? 20 : 10;
+    setLevel(targetGrade);
+    startNewTour();
   }
 
   // Oyunu Başlatma
@@ -959,7 +974,7 @@
     questCardBox.classList.remove('quest-pulse');
     progressBadge.classList.remove('badge-pop');
 
-    void questCardBox.offsetWidth; // DOM Reflow (Animasyonun tekrar oynamasını sağlar)
+    void questCardBox.offsetWidth; // DOM Reflow
 
     progressBadge.innerText = `Soru: ${currentQuestionIndex + 1} / ${totalQuestionsInCurrentTour}`;
     currentQuestionObj = tourQuestions[currentQuestionIndex];
@@ -1006,8 +1021,6 @@
   function savePending(list) {
     try { localStorage.setItem(PENDING_KEY, JSON.stringify(list)); } catch (e) {}
   }
-  // no-cors yanıt okunamaz: ağ hatası olmadan istek sunucuya ulaştıysa "gönderildi" sayarız.
-  // Aynı kayitId sunucuda tekrar yazılmaz, bu yüzden yeniden denemek güvenli.
   function sendPayload(payload) {
     return fetch(SCRIPT_URL, {
       method: "POST",
@@ -1063,40 +1076,49 @@
         everMistakenIds.splice(i, 1);
       }
     });
-    saveProgress();
+    if (progressKey) saveProgress();
 
-    const payload = {
-      kayitId: tourId,
-      adSoyad: studentData.adSoyad,
-      okulNo: studentData.okulNo,
-      sube: studentData.sube,
-      seviye: studentData.seviye === "Karma" ? "4-5-6 Karma" : studentData.seviye + ". Sınıf",
-      turSayisi: studentData.turSayisi,
-      dogruSayisi: firstTryCount,
-      toplamSoru: totalQuestionsInCurrentTour,
-      gecenSure: tourDurationString,
-      gecenSureSn: elapsedSeconds,
-      yanlisTiklama: totalWrongClicks,
-      hataliIller: mistakenCities.join(", ")
-    };
+    // SADECE URL'DE OKUL KODU VARSA KAYIT AL
+    if (AKTIF_OKUL_KODU !== "") {
+      const payload = {
+        okulKodu: AKTIF_OKUL_KODU,
+        kayitId: tourId,
+        adSoyad: studentData.adSoyad,
+        okulNo: studentData.okulNo,
+        sube: studentData.sube,
+        seviye: studentData.seviye === "Karma" ? "4-5-6 Karma" : studentData.seviye + ". Sınıf",
+        turSayisi: studentData.turSayisi,
+        dogruSayisi: firstTryCount,
+        toplamSoru: totalQuestionsInCurrentTour,
+        gecenSure: tourDurationString,
+        gecenSureSn: elapsedSeconds,
+        yanlisTiklama: totalWrongClicks,
+        hataliIller: mistakenCities.join(", ")
+      };
 
-    const saved = document.getElementById('reportSaved');
-    saved.style.color = '#64748b';
-    saved.innerText = '⏳ Sonuçların gönderiliyor...';
+      const saved = document.getElementById('reportSaved');
+      saved.style.display = 'block';
+      saved.style.color = '#64748b';
+      saved.innerText = '⏳ Sonuçların gönderiliyor...';
 
-    const pending = loadPending();
-    pending.push(payload);
-    savePending(pending);
+      const pending = loadPending();
+      pending.push(payload);
+      savePending(pending);
 
-    sendPayload(payload).then(ok => {
-      if (ok) {
-        saved.style.color = '#059669';
-        saved.innerText = '✓ Sonuçların öğretmenine gönderildi!';
-      } else {
-        saved.style.color = '#b45309';
-        saved.innerText = '⚠️ İnternet sorunu var. Sonucun bağlantı gelince otomatik gönderilecek.';
-      }
-    });
+      sendPayload(payload).then(ok => {
+        if (ok) {
+          saved.style.color = '#059669';
+          saved.innerText = '✓ Sonuçların öğretmenine gönderildi!';
+        } else {
+          saved.style.color = '#b45309';
+          saved.innerText = '⚠️ İnternet sorunu var. Sonucun bağlantı gelince otomatik gönderilecek.';
+        }
+      });
+    } else {
+      // Kod yoksa kayıt satırı gizlenir, sunucuya hiçbir şey gitmez
+      const saved = document.getElementById('reportSaved');
+      if (saved) saved.style.display = 'none';
+    }
   }
 
   function restartTour() {
@@ -1112,8 +1134,19 @@
     setTimeout(() => { toast.className = 'toast'; }, 2200);
   }
 
+  // Başlangıç Mantığı: Kod varsa kayıt modalı açılır, yoksa doğrudan serbest oyun başlar
+  if (AKTIF_OKUL_KODU !== "") {
+    document.getElementById('loginModal').style.display = 'flex';
+  } else {
+    // Normal / Kodsuz serbest mod
+    setLevel(4);
+    startNewTour();
+  }
+
   setTimeout(() => { map.invalidateSize(); }, 250);
-  flushPending();
+  if (AKTIF_OKUL_KODU !== "") {
+    flushPending();
+  }
 </script>
 </body>
 </html>
