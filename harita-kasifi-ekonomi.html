@@ -269,8 +269,8 @@
 <body>
 
 <div id="app">
-  <!-- 1. GİRİŞ MODALI -->
-  <div class="modal-overlay" id="loginModal">
+  <!-- 1. GİRİŞ MODALI (Sadece URL'de okul kodu varsa görüntülenir) -->
+  <div class="modal-overlay" id="loginModal" style="display:none;">
     <div class="modal-card">
       <h2>Üretim ve Kaynak Atlası 🌾⛏️</h2>
       <p>Türkiye'nin doğal kaynaklarını ve üretim çarklarını keşfetmeye hazır mısın?</p>
@@ -306,7 +306,7 @@
         <div style="font-size:13px; color:#64748b;" id="reportMistakes">Hatalı İller: Yok</div>
       </div>
       
-      <div id="reportSaved" style="font-size:11px; color:#64748b; font-weight:700; margin-bottom:14px;">
+      <div id="reportSaved" style="font-size:11px; color:#64748b; font-weight:700; margin-bottom:14px; display:none;">
         ⏳ Sonuçların Drive'a kaydediliyor...
       </div>
 
@@ -394,17 +394,15 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  // Harita kütüphanesi yüklenemezse (okul ağı engeli vb.) oyun çökmesin, açıklama göstersin.
   if (typeof L === 'undefined') {
     document.getElementById('loginModal').innerHTML = '<div class="modal-card"><h2>Harita yüklenemedi 🗺️</h2><p>İnternet bağlantını kontrol edip sayfayı yenile. Sorun sürerse öğretmenine haber ver.</p></div>';
     throw new Error('Leaflet yuklenemedi');
   }
 
-  // Google Apps Script web uygulaması adresi (apps-script.gs).
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCscTimDDrKC04y_ewcEh3tm64zHKNUkPFRRQ_QY19il5j6Nso4evXEIlt4n3D4Vlk/exec";
+  // Google Apps Script Web App URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8fZgD0Q2YgJ22lUx27d5h_G4QFYiitvvdL3LTLrxu-R1GVlV5RX4msSY-Xw4tWqLoRg/exec";
 
-  // Örtük kayıt: sayfa adresinde bir kod varsa (ör. ...harita.html?tasokul veya ...?kod=tasokul) sonuçlar sınıfa göre
-  // Google Sheets'e kaydedilir. Kod yoksa oyun normal oynanır, hiçbir şey kaydedilmez. Kodun doğruluğu SUNUCUDA kontrol edilir.
+  // URL'den gizli okul kodunu yakalama (?tasokul veya ?kod=tasokul)
   const LINK_KOD = (function () {
     const p = new URLSearchParams(location.search);
     let k = (p.get('kod') || '').trim();
@@ -432,13 +430,12 @@
   let tourFinished = false;
 
   let wrongCityIds = [];
-  // Yanlış listesi öğrenciye özel tutulur (ortak bilgisayarda karışmasın).
   function wrongKey() { return 'uretim_wrong_' + studentData.sube + '_' + studentData.okulNo + '_' + studentData.adSoyad.toLowerCase().replace(/\s+/g, '_'); }
   function loadWrong() { try { wrongCityIds = JSON.parse(localStorage.getItem(wrongKey()) || '[]'); } catch (e) { wrongCityIds = []; } }
   function saveWrong() { try { localStorage.setItem(wrongKey(), JSON.stringify(wrongCityIds)); } catch (e) {} }
 
   // -------------------------------------------------------------
-  // 28 İL: her ilin s1-s3 zinciri ilk sektörüne (sec[0]) aittir, diğer sektörlerin zincirleri alt içindedir
+  // 28 İL VERİ HAVUZU
   // -------------------------------------------------------------
   const CITIES = [
     { id: "tek", name: "Tekirdağ", lat: 40.978, lng: 27.511, sec: ["tarim"],
@@ -609,7 +606,7 @@
       s3: "Van Gölü feribotları Türkiye ile İran arasındaki demiryolu yüklerini göl üzerinden taşır; balıklar bölgeye dağıtılır.",
       alt: {},
       q: "Dünyada sadece kendi sodalı sularında yaşayan İnci Kefali balığına ev sahipliği yapan ve feribotla tren taşımacılığı yapılan su kaynağımız hangi ilimizdedir?", cat: "Su & Balıkçılık", hint: "Türkiye'nin en büyük gölünün kıyısındaki tarihi il." }
-  ];;
+  ];
 
   // -------------------------------------------------------------
   // LEAFLET HARİTA KURULUMU
@@ -620,7 +617,7 @@
     minZoom: 5,
     maxZoom: 9,
     zoomControl: false,
-    maxBounds: [[34.0, 24.5], [43.5, 46.5]], // Türkiye dışına kaymayı önler
+    maxBounds: [[34.0, 24.5], [43.5, 46.5]],
     maxBoundsViscosity: 0.8
   });
   L.control.zoom({ position: 'bottomleft' }).addTo(map);
@@ -907,31 +904,40 @@
     document.getElementById('reportMistakes').innerText = `Hatalı İller: ${mistakenCities.length > 0 ? mistakenCities.join(", ") : "Hata Yok 🎯"}`;
     document.getElementById('reportModal').style.display = 'flex';
 
-    const payload = {
-      kayitId: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
-      adSoyad: studentData.adSoyad,
-      okulNo: studentData.okulNo,
-      sube: studentData.sube,
-      oyun: "Üretim Atlası",
-      seviye: "6. Sınıf Üretim Atlası",
-      turSayisi: studentData.turSayisi,
-      puan: score,
-      dogruSayisi: firstTryCount,
-      toplamSoru: 20,
-      gecenSure: tourDurationString,
-      gecenSureSn: elapsedSeconds,
-      yanlisTiklama: totalWrongClicks,
-      hataliIller: mistakenCities.join(", "),
-      yanlisDetay: wrongDetail.join(" | ")
-    };
+    if (LINK_KOD) {
+      const payload = {
+        okulKodu: LINK_KOD,
+        kod: LINK_KOD,
+        kayitId: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+        adSoyad: studentData.adSoyad,
+        okulNo: studentData.okulNo,
+        sube: studentData.sube,
+        oyun: "Üretim Atlası",
+        seviye: "6. Sınıf Üretim Atlası",
+        turSayisi: studentData.turSayisi,
+        puan: score,
+        dogruSayisi: firstTryCount,
+        toplamSoru: 20,
+        gecenSure: tourDurationString,
+        gecenSureSn: elapsedSeconds,
+        yanlisTiklama: totalWrongClicks,
+        hataliIller: mistakenCities.join(", "),
+        yanlisDetay: wrongDetail.join(" | ")
+      };
 
-    pendingPayload = payload;
-    sendResult();
+      pendingPayload = payload;
+      sendResult();
+    } else {
+      const saved = document.getElementById('reportSaved');
+      if (saved) saved.style.display = 'none';
+    }
   }
 
   let pendingPayload = null;
   async function sendResult() {
     const saved = document.getElementById('reportSaved');
+    if (!saved) return;
+    saved.style.display = 'block';
     saved.style.color = '#64748b';
     if (!studentData.kod) { saved.innerText = ''; return; }
     if (!SCRIPT_URL) { saved.innerText = 'ℹ️ Kayıt bağlantısı henüz yapılmadı.'; return; }
@@ -939,17 +945,12 @@
     try {
       const res = await fetch(SCRIPT_URL, {
         method: "POST",
+        mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ ...pendingPayload, kod: studentData.kod })
+        body: JSON.stringify({ ...pendingPayload, kod: studentData.kod, okulKodu: studentData.kod })
       });
-      const data = await res.json();
-      if (data && data.ok) {
-        saved.style.color = '#059669';
-        saved.innerText = '✓ Sonuçların öğretmenine gönderildi.';
-      } else {
-        saved.style.color = '#dc2626';
-        saved.innerText = '✗ Sonuç kaydedilemedi. Öğretmenine haber ver.';
-      }
+      saved.style.color = '#059669';
+      saved.innerText = '✓ Sonuçların öğretmenine gönderildi.';
     } catch (e) {
       saved.style.color = '#b45309';
       saved.innerHTML = '⚠️ Sonuç gönderilemedi. <button onclick="sendResult()" style="padding:3px 10px;border-radius:8px;border:1px solid #b45309;background:#fff;font-weight:800;cursor:pointer;">Tekrar dene</button>';
@@ -969,6 +970,13 @@
     toast.className = `toast ${type}`;
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => { toast.className = 'toast'; }, 2200);
+  }
+
+  // Başlangıç Kontrolü: Kod varsa login modalını aç, yoksa doğrudan oyuna geç
+  if (LINK_KOD) {
+    document.getElementById('loginModal').style.display = 'flex';
+  } else {
+    renderCityMarkers();
   }
 
   setTimeout(() => { map.invalidateSize(); }, 300);
