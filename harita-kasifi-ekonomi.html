@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Türkiye Üretim ve Kaynak Atlası - 6. Sınıf</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --tarim: #16a34a;
+      --hayvan: #d97706;
+      --orman: #059669;
+      --maden: #dc2626;
+      --su: #0284c7;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --text: #0f172a;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body, html { height: 100%; width: 100%; overflow: hidden; background: #bfdbfe; }
+
+    #app { display: flex; flex-direction: column; height: 100vh; width: 100vw; position: relative; }
+    @supports (height: 100dvh) { #app { height: 100dvh; } }
+    #map { width: 100%; height: 100%; z-index: 1; background: #bfdbfe; }
+
+    /* Giriş ve Karne Modalları */
+    .modal-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-card {
+      background: #ffffff;
+      padding: 26px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .modal-card h2 { font-size: 22px; color: var(--primary); margin-bottom: 6px; }
+    .modal-card p { font-size: 13px; color: #64748b; margin-bottom: 18px; }
+    .form-group { text-align: left; margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px; }
+    .form-group input, .form-group select {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-weight: 600; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: var(--primary-light); }
+    .btn-submit {
+      width: 100%; padding: 12px; border-radius: 12px; border: none; background: var(--primary); color: #ffffff; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.2s ease; margin-top: 8px;
+    }
+    .btn-submit:hover { background: var(--primary-light); }
+
+    /* Üst Kontrol & Soru Çubuğu */
+    .top-header {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .bar-row { display: flex; gap: 10px; width: 100%; flex-wrap: wrap; }
+
+    .control-card {
+      pointer-events: auto;
+      background: var(--card-bg);
+      padding: 8px 14px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.18);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 6px;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 10px;
+    }
+    .mode-btn {
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: #475569;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .mode-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 2px 6px rgba(30, 58, 138, 0.3);
+    }
+
+    /* Sektör Butonları */
+    .sector-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .sec-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: white;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .sec-btn:hover { border-color: #94a3b8; }
+    .sec-btn.active { color: white; border-color: transparent; }
+    .sec-btn[data-sec="hepsi"].active { background: #334155; }
+    .sec-btn[data-sec="tarim"].active { background: var(--tarim); }
+    .sec-btn[data-sec="hayvan"].active { background: var(--hayvan); }
+    .sec-btn[data-sec="orman"].active { background: var(--orman); }
+    .sec-btn[data-sec="maden"].active { background: var(--maden); }
+    .sec-btn[data-sec="su"].active { background: var(--su); }
+
+    .quest-card {
+      flex: 1;
+      justify-content: space-between;
+      border-left: 6px solid var(--primary-light);
+      display: none;
+    }
+    .quest-tag { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .quest-body { font-size: 15px; font-weight: 700; color: var(--text); margin-top: 2px; }
+
+    .score-badge {
+      font-size: 13px; font-weight: 800; color: #1e3a8a; background: #eff6ff;
+      padding: 6px 12px; border-radius: 20px; border: 1px solid #bfdbfe; white-space: nowrap;
+    }
+    .progress-badge {
+      font-size: 13px; font-weight: 800; color: #047857; background: #ecfdf5;
+      padding: 6px 12px; border-radius: 20px; border: 1px solid #a7f3d0; white-space: nowrap;
+    }
+
+    /* 3 Aşamalı Açılır Bilgi Kartı */
+    .step-modal {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 2500;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .step-modal-card {
+      background: white;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      overflow: hidden;
+      animation: popIn 0.25s ease-out;
+    }
+    @keyframes popIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .step-modal-header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 16px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .step-modal-header h3 { font-size: 18px; font-weight: 800; }
+    .step-modal-body {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: 68vh;
+      overflow-y: auto;
+    }
+    .step-box {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: #f8fafc;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-box.s1 { border-color: #bbf7d0; background: #f0fdf4; }
+    .step-box.s2 { border-color: #fed7aa; background: #fff7ed; }
+    .step-box.s3 { border-color: #bae6fd; background: #f0f9ff; }
+    .step-icon { font-size: 26px; line-height: 1; }
+    .step-info h4 { font-size: 12.5px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+    .step-box.s1 h4 { color: #15803d; }
+    .step-box.s2 h4 { color: #c2410c; }
+    .step-box.s3 h4 { color: #0369a1; }
+    .step-info p { font-size: 14px; font-weight: 600; color: #1e293b; line-height: 1.45; }
+    .step-modal-footer {
+      padding: 14px 22px;
+      background: #f1f5f9;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* Toast */
+    .toast {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      z-index: 2000;
+      opacity: 0;
+      transition: all 0.25s ease;
+      pointer-events: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+    .toast.success { background: #059669; opacity: 1; transform: translateX(-50%) translateY(-6px); }
+    .toast.error { background: #dc2626; opacity: 1; transform: translateX(-50%) translateY(-6px); }
+
+    /* Leaflet Tooltip */
+    .city-label-tooltip {
+      background: rgba(15, 23, 42, 0.92) !important;
+      border: 1px solid rgba(255,255,255,0.7) !important;
+      color: #ffffff !important;
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      padding: 2px 7px !important;
+      border-radius: 6px !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+    }
+    .modal-card { max-height: 94vh; overflow-y: auto; }
+    .sec-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .sec-chip { padding: 5px 12px; font-size: 12px; font-weight: 800; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; color: #334155; cursor: pointer; }
+    .sec-chip.on { color: #fff; border-color: transparent; }
+    @media (max-width: 640px) {
+      .top-header { top: 6px; left: 6px; right: 6px; gap: 6px; }
+      .bar-row { gap: 6px; }
+      .control-card { padding: 6px 8px; gap: 6px; }
+      .mode-btn { padding: 7px 9px; font-size: 11px; }
+      .sec-btn { padding: 5px 8px; font-size: 11px; }
+      .quest-body { font-size: 13px; }
+      .city-label-tooltip { font-size: 9px !important; padding: 1px 4px !important; }
+      .step-modal-body { max-height: 60vh; }
+      .step-info p { font-size: 13px; }
+      .toast { font-size: 12px; padding: 8px 14px; width: max-content; max-width: 90%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <!-- 1. GİRİŞ MODALI -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card">
+      <h2>Üretim ve Kaynak Atlası 🌾⛏️</h2>
+      <p>Türkiye'nin doğal kaynaklarını ve üretim çarklarını keşfetmeye hazır mısın?</p>
+      <div class="form-group">
+        <label>Adın ve Soyadın:</label>
+        <input type="text" id="inputName" maxlength="60" placeholder="Örn: Mehmet Can" />
+      </div>
+      <div class="form-group">
+        <label>Okul Numaran:</label>
+        <input type="text" id="inputNo" inputmode="numeric" maxlength="10" placeholder="Örn: 312" />
+      </div>
+      <div class="form-group">
+        <label>Sınıfın / Şuben:</label>
+        <select id="selectBranch">
+          <option value="6-A">6-A</option>
+          <option value="6-B">6-B</option>
+          <option value="6-C">6-C</option>
+        </select>
+      </div>
+      <button class="btn-submit" onclick="startGame()">Keşfe Başla 🚀</button>
+    </div>
+  </div>
+
+  <!-- 2. GÖREV SONU KARNE MODALI -->
+  <div class="modal-overlay" id="reportModal" style="display:none;">
+    <div class="modal-card">
+      <h2>Tebrikler Genç Kaşif! 🎉</h2>
+      <p>20 soruluk Türkiye üretim rotasını tamamladın.</p>
+      
+      <div style="background:#f1f5f9; padding:16px; border-radius:12px; margin-bottom:16px; text-align:left;">
+        <div style="font-size:15px; font-weight:800; color:#1e3a8a; margin-bottom:4px;" id="reportScore">Skor: 0 / 20</div>
+        <div style="font-size:13px; font-weight:700; color:#334155; margin-bottom:6px;" id="reportDuration">⏱️ Geçen Süre: -</div>
+        <div style="font-size:13px; color:#64748b;" id="reportMistakes">Hatalı İller: Yok</div>
+      </div>
+      
+      <div id="reportSaved" style="font-size:11px; color:#64748b; font-weight:700; margin-bottom:14px;">
+        ⏳ Sonuçların Drive'a kaydediliyor...
+      </div>
+
+      <button class="btn-submit" onclick="restartTour()">Yeniden Oyna (Hataları Önceliklendir) ↷</button>
+    </div>
+  </div>
+
+  <!-- 3. 3 AŞAMALI AÇILIR BİLGİ KARTI -->
+  <div class="step-modal" id="stepModal">
+    <div class="step-modal-card">
+      <div class="step-modal-header">
+        <h3 id="modalCityTitle">📍 Şehir Adı</h3>
+        <button style="background:none; border:none; color:white; font-size:20px; cursor:pointer;" onclick="dismissStepModal()">×</button>
+      </div>
+      <div class="step-modal-body">
+        <div class="sec-chips" id="modalSectors"></div>
+        <div class="step-box s1">
+          <div class="step-icon" id="modalI1">🌱</div>
+          <div class="step-info">
+            <h4 id="modalH1">-</h4>
+            <p id="modalStep1">-</p>
+          </div>
+        </div>
+        <div class="step-box s2">
+          <div class="step-icon" id="modalI2">🏭</div>
+          <div class="step-info">
+            <h4 id="modalH2">-</h4>
+            <p id="modalStep2">-</p>
+          </div>
+        </div>
+        <div class="step-box s3">
+          <div class="step-icon" id="modalI3">🚛</div>
+          <div class="step-info">
+            <h4 id="modalH3">-</h4>
+            <p id="modalStep3">-</p>
+          </div>
+        </div>
+      </div>
+      <div class="step-modal-footer">
+        <button class="btn-submit" style="width:auto; padding:8px 20px;" id="btnModalAction" onclick="closeStepModal()">Haritaya Dön</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Üst Bar -->
+  <div class="top-header">
+    <div class="bar-row">
+      <div class="control-card">
+        <div class="mode-tabs">
+          <button class="mode-btn active" id="btnExplore" onclick="switchMode('explore')">🔍 Serbest Keşif</button>
+          <button class="mode-btn" id="btnQuiz" onclick="switchMode('quiz')">🎯 20 Görevli Kaşif</button>
+        </div>
+      </div>
+
+      <div class="control-card" id="sectorControls">
+        <div class="sector-tabs">
+          <button class="sec-btn active" data-sec="hepsi" onclick="setSector('hepsi')">Tümü</button>
+          <button class="sec-btn" data-sec="tarim" onclick="setSector('tarim')">🌾 Tarım</button>
+          <button class="sec-btn" data-sec="hayvan" onclick="setSector('hayvan')">🐄 Hayvancılık</button>
+          <button class="sec-btn" data-sec="orman" onclick="setSector('orman')">🌲 Orman</button>
+          <button class="sec-btn" data-sec="maden" onclick="setSector('maden')">⛏️ Maden</button>
+          <button class="sec-btn" data-sec="su" onclick="setSector('su')">🐟 Su & Balık</button>
+        </div>
+      </div>
+
+      <div class="control-card" id="quizStatus" style="margin-left:auto; display:none;">
+        <span class="progress-badge" id="progressBadge">Soru: 1 / 20</span>
+        <span class="score-badge" id="scoreBadge">0 Puan</span>
+      </div>
+    </div>
+
+    <div class="bar-row">
+      <div class="control-card quest-card" id="questCardBox">
+        <div>
+          <div class="quest-tag" id="questLevelTag">6. SINIF ÜRETİM, DAĞITIM VE TÜKETİM GÖREVİ</div>
+          <div class="quest-body" id="questText">Soru yükleniyor...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="map"></div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // Harita kütüphanesi yüklenemezse (okul ağı engeli vb.) oyun çökmesin, açıklama göstersin.
+  if (typeof L === 'undefined') {
+    document.getElementById('loginModal').innerHTML = '<div class="modal-card"><h2>Harita yüklenemedi 🗺️</h2><p>İnternet bağlantını kontrol edip sayfayı yenile. Sorun sürerse öğretmenine haber ver.</p></div>';
+    throw new Error('Leaflet yuklenemedi');
+  }
+
+  // Google Apps Script web uygulaması adresi (apps-script.gs).
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCscTimDDrKC04y_ewcEh3tm64zHKNUkPFRRQ_QY19il5j6Nso4evXEIlt4n3D4Vlk/exec";
+
+  // Örtük kayıt: sayfa adresinde bir kod varsa (ör. ...harita.html?tasokul veya ...?kod=tasokul) sonuçlar sınıfa göre
+  // Google Sheets'e kaydedilir. Kod yoksa oyun normal oynanır, hiçbir şey kaydedilmez. Kodun doğruluğu SUNUCUDA kontrol edilir.
+  const LINK_KOD = (function () {
+    const p = new URLSearchParams(location.search);
+    let k = (p.get('kod') || '').trim();
+    if (!k) { for (const key of p.keys()) { if (key !== 'kod') { k = key.trim(); break; } } }
+    return k;
+  })();
+
+  let studentData = { adSoyad: "", okulNo: "", sube: "6-A", kod: LINK_KOD, turSayisi: 1 };
+  let currentMode = 'explore';
+  let currentSector = 'hepsi';
+
+  let score = 0;
+  let currentQIndex = 0;
+  let correctCount = 0;
+  let tourQuestions = [];
+  let mistakenCities = [];
+  let currentQuestionObj = null;
+  let tourStartTime = 0;
+  let tourDurationString = "";
+  let answering = false;
+  let wrongThisQuestion = 0;
+  let firstTryCount = 0;
+  let totalWrongClicks = 0;
+  let wrongDetail = [];
+  let tourFinished = false;
+
+  let wrongCityIds = [];
+  // Yanlış listesi öğrenciye özel tutulur (ortak bilgisayarda karışmasın).
+  function wrongKey() { return 'uretim_wrong_' + studentData.sube + '_' + studentData.okulNo + '_' + studentData.adSoyad.toLowerCase().replace(/\s+/g, '_'); }
+  function loadWrong() { try { wrongCityIds = JSON.parse(localStorage.getItem(wrongKey()) || '[]'); } catch (e) { wrongCityIds = []; } }
+  function saveWrong() { try { localStorage.setItem(wrongKey(), JSON.stringify(wrongCityIds)); } catch (e) {} }
+
+  // -------------------------------------------------------------
+  // 28 İL: her ilin s1-s3 zinciri ilk sektörüne (sec[0]) aittir, diğer sektörlerin zincirleri alt içindedir
+  // -------------------------------------------------------------
+  const CITIES = [
+    { id: "tek", name: "Tekirdağ", lat: 40.978, lng: 27.511, sec: ["tarim"],
+      s1: "Ergene Havzası'nın sarı gelinliği AYÇİÇEĞİ tarlaları tüm ovayı kaplar.",
+      s2: "Fabrikalarda çekirdekler preslenerek altın sarısı sıvı bitkisel yemeklik yağa dönüştürülür.",
+      s3: "Tenekelere doldurulan ayçiçek yağları başta İstanbul olmak üzere tüm Türkiye mutfaklarına dağıtılır.",
+      alt: {},
+      q: "Geniş tarlalarında ayçiçeği yetiştirilen ve fabrikalarında bitkisel sıvı yağ üretilen Trakya ilimiz neresidir?", cat: "Tarım & Sanayi", hint: "Marmara'nın batısında, ayçiçeğinin başkenti." },
+    { id: "bal", name: "Balıkesir", lat: 39.6484, lng: 27.8826, sec: ["maden", "tarim", "hayvan"],
+      s1: "Bigadiç havzasında roket yakıtı ve cam sanayisinde kullanılan dünya devi BOR madeni saklıdır.",
+      s2: "Bandırma'daki Boraks tesislerinde bor işlenir ve rafine edilir.",
+      s3: "Bandırma Limanı'ndan gemilere yüklenip cam ve seramik sanayisine, ayrıca dünyaya ihraç edilir.",
+      alt: {tarim: ["Edremit Körfezi'nin yamaçlarında zeytin ağaçları meyve verir.", "Zeytinler fabrikalarda sıkılarak zeytinyağına, sabuna ve sofralık zeytine dönüşür.", "Şişelenen zeytinyağı ve kavanozlanan zeytinler marketlere dağıtılır, kahvaltı sofralarına gelir."], hayvan: ["Balıkesir'de tavuk çiftliklerinde (kümeslerde) TAVUKÇULUK yapılır.", "Yumurtalar tesislerde ayıklanıp boylanır ve paketlenir; tavuklar kesimhanelerde ete dönüşür.", "Yumurta ve tavuk eti soğutmalı araçlarla büyük şehirlerin marketlerine dağıtılır."]},
+      q: "Dünya rezerv lideri olduğumuz, roket yakıtı ve cam sanayisinde kullanılan BOR madeninin çıkarıldığı ve Bandırma Limanı'ndan ihraç edildiği ilimiz hangisidir?", cat: "Maden & Enerji", hint: "Güney Marmara'da Bigadiç havzası." },
+    { id: "bur", name: "Bursa", lat: 40.1885, lng: 29.061, sec: ["orman", "hayvan", "tarim"],
+      s1: "Uludağ'ın eteklerindeki ve çevresindeki gür ormanlardan ağaçlar kesilerek tomruk elde edilir.",
+      s2: "İnegöl ilçesinde ağaçlar işlenerek Türkiye'nin en büyük Mobilya Sanayisi kurulmuştur.",
+      s3: "Üretilen masa ve koltuklar hem Türkiye'deki evlere dağıtılır hem de tırlarla Avrupa'ya ihraç edilir.",
+      alt: {hayvan: ["Bursa'da dut yapraklarıyla beslenen ipek böcekleri koza örer (ipekböcekçiliği).", "Kozalar atölyelerde ve fabrikalarda ipek ipliğe, sonra kumaşa dönüştürülür.", "İpek kumaşlar, eşarplar ve ürünler çarşılarda satılır, tüketicilere ulaşır."], tarim: ["Bursa Ovası'nda ve çevresinde ŞEFTALİ bahçeleri yetişir.", "Şeftaliler tesislerde meyve suyuna, konserveye ve reçele dönüştürülür.", "Paketlenen şeftali ürünleri marketlere dağıtılır, sofralara gelir."]},
+      q: "Gür orman varlığı ve ahşap zanaatıyla İnegöl ilçesinde devasa bir 'Mobilya Sanayisi' kuran ilimiz hangisidir?", cat: "Orman & Sanayi", hint: "Uludağ'ın eteğindeki yeşil Bursa." },
+    { id: "bol", name: "Bolu", lat: 40.735, lng: 31.6061, sec: ["hayvan", "orman"],
+      s1: "İstanbul ve Ankara gibi metropollerin tam ortasında, dev kapalı kümes çiftlikleri kurulmuştur.",
+      s2: "Besi ve kümes hayvancılığı tesislerinde tavuk eti ve yumurta el değmeden hijyenik paketlenir.",
+      s3: "Soğutmalı araçlarla birkaç saat içinde çevre büyükşehirlerin market raflarına ulaştırılır.",
+      alt: {orman: ["Bolu'nun geniş çam ve kayın ormanlarında ağaçlar kesilir.", "Kereste fabrikalarında tomruklar tahtaya, kontrplağa ve parkeye dönüşür.", "Kereste ve parke inşaat ve mobilya firmalarına, oradan evlerimize dağıtılır."]},
+      q: "Tüketici nüfusa yakınlığı sebebiyle modern kümes hayvancılığının (tavukçuluk) en çok geliştiği Batı Karadeniz ilimiz hangisidir?", cat: "Hayvancılık & Pazar", hint: "İstanbul ve Ankara arasındaki dağlık ve ormanlık geçiş şehri." },
+    { id: "kut", name: "Kütahya", lat: 39.4167, lng: 29.9833, sec: ["maden"],
+      s1: "Emet'te dünya devi BOR, Tunçbilek'te ise elektrik üreten LİNYİT kömürü çıkarılır.",
+      s2: "Toprağın özel kili fabrikalarda porselen ve seramik tabaklara dönüştürülür.",
+      s3: "Güzelim porselen tabaklar çeyiz mağazalarına, bor ise sanayiye dağıtılır.",
+      alt: {},
+      q: "Toprağın ham madde olarak kullanılıp porselen ve seramiğe dönüştüğü, ayrıca Emet ilçesinde bor çıkarılan ilimiz neresidir?", cat: "Maden & Sanayi", hint: "Porselen ve çinileriyle ünlü ilimiz." },
+    { id: "man", name: "Manisa", lat: 38.6191, lng: 27.4289, sec: ["maden", "tarim"],
+      s1: "Soma'daki ocaklarda yerin altından LİNYİT kömürü çıkarılır.",
+      s2: "Kömür Soma Termik Santrali'nde yakılarak elektrik enerjisine dönüştürülür.",
+      s3: "Elektrik, iletim hatlarıyla fabrikalara ve evlere dağıtılır; ışığımız ve makinelerimiz bununla çalışır.",
+      alt: {tarim: ["Gediz Ovası'nda güneş altında çekirdeksiz üzüm bağları yetişir.", "Üzümler sergilerde güneşte kurutulur, ayıklanıp paketlenir.", "Kuru üzüm İzmir Limanı'ndan dünyaya ihraç edilir; marketlerde kuru yemiş olarak satılır."]},
+      q: "Termik santrallerde yakılarak elektrik enerjisi elde edilen LİNYİT kömürünün en büyük ocaklarından Soma nerededir?", cat: "Maden & Enerji", hint: "Gediz Havzası'nda çekirdeksiz üzüm ve Soma linyitiyle ünlü ilimiz." },
+    { id: "izm", name: "İzmir", lat: 38.4237, lng: 27.1428, sec: ["maden", "tarim"],
+      s1: "Dünyanın petrol ülkelerinden tankerlerle getirilen HAM PETROL Aliağa'ya ulaşır.",
+      s2: "Aliağa Rafinerisi'nde ham petrol işlenerek benzin, motorin ve asfalta dönüştürülür.",
+      s3: "Akaryakıt tankerlerle ve boru hatlarıyla istasyonlara dağıtılır; otomobillerimiz depoyu burada doldurur.",
+      alt: {tarim: ["Ege'nin güneşli yamaçlarında zeytin ve incir ağaçları meyve verir.", "Zeytinler yağhanelerde sıkılır, incirler kurutulup paketlenir.", "Zeytinyağı ve kuru incir İzmir limanlarından yurt dışına gönderilir, marketlerde satılır."]},
+      q: "Aliağa Petrol Rafinerisi'ne ve Ege'nin en büyük ihracat limanına sahip kıyı metropolümüz hangisidir?", cat: "Sanayi & Liman", hint: "Ege'nin incisi büyük liman kenti." },
+    { id: "mug", name: "Muğla", lat: 37.2153, lng: 28.3636, sec: ["su", "hayvan"],
+      s1: "Sakin ve korunaklı koylarda deniz kafesleri kurulur; çipura ve levrek burada büyütülür (kültür balıkçılığı).",
+      s2: "Kafeslerde yetişen balıklar tesislerde ayıklanır, temizlenir ve buzla paketlenir.",
+      s3: "Özel soğutmalı tırlar ve uçaklarla taze balıklar saatler içinde İtalya ve İspanya'ya uçar.",
+      alt: {hayvan: ["Muğla'nın çam ormanlarında arıcılar kovanlarını yerleştirir; arılar çam balının hammaddesini toplar.", "Ballar süzülür, kavanozlanır ve etiketlenir.", "Çam balı marketlere ve ihracata dağıtılır, kahvaltı sofralarına gelir."]},
+      q: "Deniz kıyısındaki korunaklı koylarda kurulan dev kafeslerde 'Kültür Balıkçılığı' (çipura-levrek) yapıp Avrupa'ya ihraç eden Ege ilimiz hangisidir?", cat: "Su & Balıkçılık", hint: "Güney Ege'nin balık ve çam balı diyarı." },
+    { id: "ant", name: "Antalya", lat: 36.8969, lng: 30.7133, sec: ["tarim"],
+      s1: "Kışın hava neredeyse hiç donmaz, güneş sıcacıktır (Kış ılıklığı şartı).",
+      s2: "Cam ve naylon seralarda ısıtma masrafı olmadan kış ortasında domates ve salatalık üretilir.",
+      s3: "Kışın kar yağan Erzurum veya Ankara'daki manavlara kamyonlarla taze sebze buradan sevk edilir.",
+      alt: {},
+      q: "Kışların çok ılık geçmesi sayesinde soba yakmadan cam ve naylon seralarda kış sebzeciliği yapan Akdeniz merkezimiz hangisidir?", cat: "Tarım Kuşağı", hint: "Akdeniz'in seracılık ve narenciye kenti." },
+    { id: "ada", name: "Adana", lat: 37.0, lng: 35.3213, sec: ["tarim"],
+      s1: "Seyhan ve Ceyhan nehirlerinin taşıdığı alüvyon toprakta 'Beyaz Altın' pamuk ve mısır coşar.",
+      s2: "Çırçır fabrikalarında pamuk çekirdeğinden ayrılır, iplik fabrikalarında dokunur.",
+      s3: "Giyindiğimiz tişörtler ve elbiseler buradan çıkan pamukla mağaza vitrinlerine dağıtılır.",
+      alt: {},
+      q: "Seyhan ve Ceyhan nehirlerinin suladığı Çukurova'da yetiştirilen pamukla tekstil sanayisinin geliştiği güney ilimiz hangisidir?", cat: "Tarım & Sanayi", hint: "Çukurova'nın merkezindeki bereketli ilimiz." },
+    { id: "kon", name: "Konya", lat: 37.8746, lng: 32.4932, sec: ["tarim", "hayvan"],
+      s1: "Uçsuz bucaksız düzlüklerde buğday, arpa ve şeker pancarı tarlaları uzanır.",
+      s2: "Değirmenlerde buğday un olur, şeker fabrikalarında pancar beyaz şekere dönüştürülür.",
+      s3: "Fırınlara un, bakkallara şeker çuvalları taşınır; soframızın ekmek garantisidir.",
+      alt: {hayvan: ["Konya'nın geniş kıraç meralarında Akkaraman gibi KÜÇÜKBAŞ hayvanlar (koyun, keçi) otlar.", "Koyunların sütünden peynir, yapağısından yün iplik yapılır; etleri kasaplarda işlenir.", "Peynir ve et marketlere ve kasaplara, yün iplik tekstil atölyelerine dağıtılır."]},
+      q: "'Türkiye'nin Tahıl Ambarı' olarak bilinen, geniş ovalarında buğday ve şeker pancarı fabrikaları bulunan ilimiz hangisidir?", cat: "Tarım Kuşağı", hint: "İç Anadolu'nun uçsuz bucaksız düzlük şehri." },
+    { id: "esk", name: "Eskişehir", lat: 39.7767, lng: 30.5206, sec: ["maden", "tarim"],
+      s1: "Seyitgazi'de dünya devi bor madeni, yerin altında ise beyaz 'Lüle Taşı' bulunur.",
+      s2: "Bor madeni ileri teknoloji tesislerinde rafine edilir; lüle taşı usta ellerde süs eşyası olur.",
+      s3: "Bor; fırın camları (Borcam) ve savunma sanayisinde kullanılmak üzere yurt içi ve dışına dağıtılır.",
+      alt: {tarim: ["Eskişehir Ovası'nda ŞEKER PANCARI tarlaları yetişir.", "Pancarlar şeker fabrikasında yıkanıp kesilir ve şekere dönüştürülür.", "Toz ve kesme şeker marketlere ve gıda fabrikalarına dağıtılır; çayımıza, tatlılarımıza katılır."]},
+      q: "Eti Maden tarafından işletilen Seyitgazi (Kırka) bor rezervlerine ve beyaz Lüle Taşı'na ev sahipliği yapan ilimiz hangisidir?", cat: "Maden & Taş", hint: "Porsuk Çayı kıyısındaki modern üniversite kenti." },
+    { id: "zon", name: "Zonguldak", lat: 41.4564, lng: 31.7987, sec: ["maden"],
+      s1: "Türkiye'de demiri eritebilecek güçte tek yüksek kalorili TAŞ KÖMÜRÜ buradan çıkar.",
+      s2: "Çatalağzı Termik Santrali'nde elektrik üretir, demir fabrikalarının fırınlarını 1500 dereceye ısıtır.",
+      s3: "Trenlerle hemen komşusu olan Karabük ve Ereğli fabrikalarına taşınır.",
+      alt: {},
+      q: "Türkiye'nin tek yüksek kalorili, demir fabrikalarını 1500 derecede ısıtan TAŞ KÖMÜRÜ madenleri hangi ilimizdedir?", cat: "Maden & Enerji", hint: "Batı Karadeniz'in maden şehri." },
+    { id: "kar", name: "Karabük", lat: 41.2061, lng: 32.6204, sec: ["maden"],
+      s1: "Burada demir madeni ÇIKMAZ! Ama Zonguldak'taki taş kömürüne (enerji kaynağına) çok yakındır.",
+      s2: "Sivas'tan trenle gelen demir, Zonguldak'ın kömürüyle Karabük KARDEMİR fabrikasında eritilir.",
+      s3: "Tren rayları, inşaat demirleri ve ağır köprü çelikleri buradan tüm Türkiye'ye yayılır.",
+      alt: {},
+      q: "Sivas Divriği'den çıkarılan demir cevheri, eritilmesi için gereken taş kömürüne yakınlığı sebebiyle haritadaki hangi sanayi şehrimize taşınır?", cat: "Maden & Enerji", hint: "KARDEMİR fabrikasının bulunduğu Batı Karadeniz ili." },
+    { id: "kas", name: "Kastamonu", lat: 41.3887, lng: 33.7827, sec: ["maden", "orman", "tarim"],
+      s1: "Küre Dağları'ndaki ocaklarda zengin BAKIR cevheri çıkarılır.",
+      s2: "Cevher, zenginleştirme tesislerinde bakır bakımından zenginleştirilir.",
+      s3: "Çıkarılan bakır cevheri işlenmek üzere Samsun Limanı'na karayoluyla nakledilir.",
+      alt: {orman: ["Küre Dağları'nın metrelerce boyundaki gür ormanlarında ağaçlar kesilir.", "Tomruklar fabrikalarda parkeye, kerestelere ve suntaya dönüştürülür.", "Sunta ve parke mobilya ve inşaat sektörüne dağıtılır, evlerimizde kullanılır."], tarim: ["Taşköprü ilçesinin verimli topraklarında SARIMSAK yetişir.", "Sarımsaklar hasattan sonra kurutulur, ayıklanır ve demet ya da paket yapılır.", "Sarımsak marketlere, pazarlara ve ihracatla yurt dışına dağıtılır; yemeklerimizde kullanılır."]},
+      q: "Küre Dağları'ndan zengin BAKIR madeni çıkarılan ve gür ormanlarıyla kereste/sunta sanayisi gelişen ilimiz hangisidir?", cat: "Maden & Orman", hint: "Küre bakır yataklarının bulunduğu ilimiz." },
+    { id: "sam", name: "Samsun", lat: 41.2867, lng: 36.33, sec: ["maden", "tarim"],
+      s1: "Bakır cevheri, Kastamonu (Küre) ve Artvin (Murgul) madenlerinden çıkarılıp Samsun'a getirilir.",
+      s2: "Kastamonu ve Artvin'den gelen bakır, Samsun Bakır İşletmesi'nde eritilerek saf tele dönüştürülür.",
+      s3: "Elektrik kablosu haline gelen bakır, telefonlardan otomobillere kadar her sanayiye dağılır.",
+      alt: {tarim: ["Bafra ve Çarşamba deltalarının verimli topraklarında sebze ve pirinç yetişir.", "Pirinçler tesislerde ayıklanır, parlatılır ve paketlenir.", "Paketlenen pirinç ve sebzeler marketlere dağıtılır, sofralara gelir."]},
+      q: "Kastamonu ve Artvin'den çıkarılan bakır madeni, deniz yoluyla taşınarak Karadeniz'in en gelişmiş limanına sahip hangi ilimizde işlenir?", cat: "Maden & Liman", hint: "Çarşamba ve Bafra deltalarının olduğu büyük liman ili." },
+    { id: "riz", name: "Rize", lat: 41.0201, lng: 40.5234, sec: ["tarim"],
+      s1: "Kıyıda her mevsim yağış alan nemli iklimde ve asitli toprakta ÇAY yetişir; çay en çok Rize'de üretilir.",
+      s2: "Çay yaprağı beklerse bozulur! Bu yüzden fabrikalar tarlanın hemen dibine kurulmuştur.",
+      s3: "Paketlenen kuru çaylar her sabah kahvaltımızda ince belli bardaklarımıza dolar.",
+      alt: {},
+      q: "Toplandıktan birkaç saat sonra solduğu için fabrikaları tarlaların HEMEN DİBİNE kurulan çayımızın başkenti neresidir?", cat: "Tarım Kuşağı", hint: "Doğu Karadeniz'in bol yağışlı yeşil kenti." },
+    { id: "gir", name: "Giresun", lat: 40.9128, lng: 38.3895, sec: ["tarim"],
+      s1: "Karadeniz'in dik yamaçlarındaki bahçelerde FINDIK yetişir; Türkiye dünya fındık üretiminde birinci sıradadır.",
+      s2: "Kırma tesislerinde fındık kabuğundan ayrılır, kavrulur ve kakaoyla birleşip çikolata/ezme olur.",
+      s3: "Kavrulan ve kırılan fındıklar gemilerle ve tırlarla dünyadaki çikolata ve gıda fabrikalarına ulaştırılır.",
+      alt: {},
+      q: "Dünya üretim ve ihracatında açık ara birinci olduğumuz fındığın anavatanı olan Doğu Karadeniz ilimiz neresidir?", cat: "Tarım Kuşağı", hint: "Fındık Araştırma Enstitüsü'nün bulunduğu kıyı ili." },
+    { id: "art", name: "Artvin", lat: 41.1828, lng: 41.8183, sec: ["su", "maden"],
+      s1: "Çoruh Nehri'nin hırçın suyu, dar vadilerde kurulan dev kanyon barajlarında toplanır.",
+      s2: "Türkiye'nin en yüksek barajı Yusufeli Barajı, suyun gücünü tertemiz elektriğe dönüştürür.",
+      s3: "Üretilen hidroelektrik enerji, yüksek gerilim hatlarıyla fabrikalarımıza can suyu olur.",
+      alt: {maden: ["Murgul'da yerin altından zengin BAKIR cevheri çıkarılır.", "Cevher Murgul'daki tesiste zenginleştirilir, sonra eritilmek üzere Samsun'daki tesise gönderilir.", "Saf bakır kablo ve tel olur; elektrik ve elektronik sanayisinde kullanılır."]},
+      q: "Murgul ilçesinde bakır çıkarılan, Çoruh Nehri üzerindeki Yusufeli Barajı ile hidroelektrik enerji üreten sınır ilimiz hangisidir?", cat: "Su & Enerji", hint: "Kafkasör ve Çoruh Nehri ile ünlü dağlık ilimiz." },
+    { id: "erz", name: "Erzurum", lat: 39.9043, lng: 41.2679, sec: ["hayvan"],
+      s1: "Yaz yağmurlarıyla metrelerce boy atan gür dağ çayırları yer alır; büyükbaş sığırlar bu meralarda otlar.",
+      s2: "Sütler süt fabrikalarında peynire ve tereyağına, hayvanlar kombinalarda ete dönüştürülür.",
+      s3: "Peynir, tereyağı ve et soğutmalı tırlarla büyük şehirlerin marketlerine ve şarküterilerine ulaşır.",
+      alt: {},
+      q: "Yaz yağmurlarıyla yeşeren gür otlaklar sayesinde 'Büyükbaş Mera Hayvancılığı'nın yapıldığı yüksek plato merkezimiz hangisidir?", cat: "Hayvancılık", hint: "Doğu Anadolu'nun karlı ve çayırlı yüksek yaylası." },
+    { id: "siv", name: "Sivas", lat: 39.7477, lng: 37.0179, sec: ["maden"],
+      s1: "Divriği ilçesinde Türkiye'nin en kaliteli ve zengin DEMİR cevheri yatakları bulunur.",
+      s2: "Maden ocaklarından kepçelerle çıkarılan demir taşları vagonlara yüklenir.",
+      s3: "Trenlere doldurulan demir, eritilmek üzere Karabük ve İskenderun fabrikalarına yollanır.",
+      alt: {},
+      q: "Türkiye'nin en zengin ve kaliteli DEMİR madeni yataklarının bulunduğu Divriği ilçesi hangi ilimizdedir?", cat: "Maden & Sanayi", hint: "Kızılırmak'ın doğduğu tarihi İç Anadolu ili." },
+    { id: "mal", name: "Malatya", lat: 38.3552, lng: 38.3095, sec: ["tarim"],
+      s1: "Güneşin kavurduğu vadi tabanlarında dünya birincisi olduğumuz KURU KAYISI yetiştirilir.",
+      s2: "Kükürt odalarında sarartılır, güneş altında kurutularak bozulmadan yıllarca kalması sağlanır.",
+      s3: "Kutulanan kuru kayısılar tüm dünyaya 'Malatya Kayısısı' mührüyle ihraç edilir.",
+      alt: {},
+      q: "Dünya kuru kayısı ticaretinin lideri olan, güneş altında kayısı kurutan Doğu Anadolu şehrimiz hangisidir?", cat: "Tarım Kuşağı", hint: "Hekimhan demiri ve sarı kayısısıyla meşhur ilimiz." },
+    { id: "ela", name: "Elazığ", lat: 38.681, lng: 39.2264, sec: ["maden", "su"],
+      s1: "Guleman'da paslanmaz çeliğin sırrı KROM, Maden ilçesinde ise BAKIR yer alır.",
+      s2: "Ferrokrom tesislerinde eritilerek parlak metal külçeler halinde dökülür.",
+      s3: "Uçak, gemi ve askeri zırh üretiminde kullanılmak üzere dünya sanayisine satılır.",
+      alt: {su: ["Fırat Nehri'nin suyu Keban Barajı'nda toplanır.", "Barajın türbinleri suyun gücüyle elektrik üretir (hidroelektrik).", "Elektrik iletim hatlarıyla fabrikalara ve evlere dağıtılır; ışığımız ve makinelerimiz bununla çalışır."]},
+      q: "Çeliği sertleştirip paslanmaz yapan, uçak ve gemi sanayisinin vazgeçilmezi KROM madeninin çıkarıldığı Guleman havzası hangi ildedir?", cat: "Maden & Enerji", hint: "Keban Barajı'na komşu Ferrokrom tesislerinin olduğu ilimiz." },
+    { id: "bat", name: "Batman", lat: 37.8812, lng: 41.1294, sec: ["maden"],
+      s1: "Raman Dağı'nda tıkır tıkır çalışan petrol atbaşları Türkiye'nin ilk ham petrolünü çeker.",
+      s2: "Kuyuların hemen yanına kurulan Batman Rafinerisi'nde petrol işlenip mazota ve asfalta çevrilir.",
+      s3: "Bölgedeki yolların asfaltı ve araçların yakıtı doğrudan buradan dağıtılır.",
+      alt: {},
+      q: "Türkiye'nin yerin altından çıkan ilk yerli ham petrolünün bulunduğu Raman Dağı hangi ilimizdedir?", cat: "Maden & Enerji", hint: "Güneydoğu'nun petrol kuyularıyla ünlü kenti." },
+    { id: "gaz", name: "Gaziantep", lat: 37.0662, lng: 37.3833, sec: ["tarim"],
+      s1: "Sıcak ve kuru iklimde taşlık arazide yetişen meşhur ANTEP FISTIĞI üretilir.",
+      s2: "Kavrulup çıtlatılır, taş fırınlarda pişen çıtır çıtır baklavaların içine zümrüt gibi serpiştirilir.",
+      s3: "Tepsi tepsi baklavalar hava kargo ve tırlarla hem Türkiye'ye hem de Arap ülkelerine gider.",
+      alt: {},
+      q: "Kurak iklimi seven, baklavalara lezzet katan meşhur 'Yeşil Altın' fıstığın başkenti olan ilimiz neresidir?", cat: "Tarım Kuşağı", hint: "Güneydoğu'nun sanayi ve gastronomi merkezi." },
+    { id: "urf", name: "Şanlıurfa", lat: 37.1591, lng: 38.7969, sec: ["tarim", "su"],
+      s1: "GAP sayesinde Fırat'ın suyu Harran Ovası'na ulaşınca kurak topraklarda PAMUK tarlaları yetişir.",
+      s2: "Çırçır fabrikalarında pamuk tohumundan ayrılıp balyalanır, iplik fabrikalarında ipliğe dönüşür.",
+      s3: "İplikler tekstil fabrikalarında kumaşa dönüşür; giysiler mağazalara dağıtılır.",
+      alt: {su: ["Fırat Nehri'nin suyu Atatürk Barajı'nda toplanır.", "Barajın türbinleri suyun gücüyle elektrik üretir; tünellerle de sulama suyu Harran Ovası'na akıtılır.", "Elektrik hatlarla evlere ve fabrikalara dağıtılır; su tarlalara ulaşır."]},
+      q: "GAP projesi ile Fırat'ın suları toprağa kavuşunca Türkiye pamuk üretiminde 1. sıraya yükselen ilimiz hangisidir?", cat: "Tarım & Su", hint: "Harran Ovası ve Atatürk Barajı'na ev sahipliği yapan kadim kent." },
+    { id: "trz", name: "Trabzon", lat: 41.0027, lng: 39.7168, sec: ["su"],
+      s1: "Karadeniz hamsisi bu kıyılarda bol avlanır; Türkiye'de avlanan deniz balığının büyük bölümü Karadeniz'den gelir.",
+      s2: "Taze hamsiler buzlanır, küçük balıklar ise fabrikalarda balık yağı ve tavuk yemine çevrilir.",
+      s3: "Gece ağlardan çıkan hamsiler, sabah erkenden Ankara ve İstanbul balık tezgahlarında yerini alır.",
+      alt: {},
+      q: "Karadeniz hamsisinin bol avlandığı, hamsinin sofralara ve balık unu fabrikalarına dağıtıldığı Doğu Karadeniz liman kentimiz neresidir?", cat: "Su & Balıkçılık", hint: "Karadeniz'in kadim liman ve balıkçılık kenti." },
+    { id: "van", name: "Van", lat: 38.5012, lng: 43.3729, sec: ["su"],
+      s1: "Türkiye'nin en büyük kapalı su havzası ve sodalı gölü olan Van Gölü'ne sahiptir.",
+      s2: "Dünyada sadece bu sodalı suda yaşayabilen endemik İNCİ KEFALİ balığı avlanır; ayrıca dev feribotlar tren taşır.",
+      s3: "Van Gölü feribotları Türkiye ile İran arasındaki demiryolu yüklerini göl üzerinden taşır; balıklar bölgeye dağıtılır.",
+      alt: {},
+      q: "Dünyada sadece kendi sodalı sularında yaşayan İnci Kefali balığına ev sahipliği yapan ve feribotla tren taşımacılığı yapılan su kaynağımız hangi ilimizdedir?", cat: "Su & Balıkçılık", hint: "Türkiye'nin en büyük gölünün kıyısındaki tarihi il." }
+  ];;
+
+  // -------------------------------------------------------------
+  // LEAFLET HARİTA KURULUMU
+  // -------------------------------------------------------------
+  const map = L.map('map', {
+    center: [39.1, 35.5],
+    zoom: 6,
+    minZoom: 5,
+    maxZoom: 9,
+    zoomControl: false,
+    maxBounds: [[34.0, 24.5], [43.5, 46.5]], // Türkiye dışına kaymayı önler
+    maxBoundsViscosity: 0.8
+  });
+  L.control.zoom({ position: 'bottomleft' }).addTo(map);
+
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 18,
+    attribution: 'Tiles © Esri'
+  }).addTo(map);
+
+  const cityMarkersLayer = L.layerGroup().addTo(map);
+
+  function getSectorColor(sec) {
+    switch(sec) {
+      case 'tarim': return '#16a34a';
+      case 'hayvan': return '#d97706';
+      case 'orman': return '#059669';
+      case 'maden': return '#dc2626';
+      case 'su': return '#0284c7';
+      default: return '#1e3a8a';
+    }
+  }
+
+  function renderCityMarkers() {
+    cityMarkersLayer.clearLayers();
+
+    CITIES.forEach(city => {
+      let mainColor = '#1e3a8a';
+      let radius = 8;
+      let opacity = 0.95;
+
+      if (currentMode === 'explore' && currentSector !== 'hepsi') {
+        if (city.sec.includes(currentSector)) {
+          mainColor = getSectorColor(currentSector);
+          radius = 11;
+          opacity = 1;
+        } else {
+          opacity = 0.35;
+          radius = 6;
+        }
+      }
+
+      const marker = L.circleMarker([city.lat, city.lng], {
+        radius: radius,
+        fillColor: mainColor,
+        color: '#ffffff',
+        weight: 2.5,
+        opacity: 1,
+        fillOpacity: opacity
+      });
+
+      marker.bindTooltip(`<strong>${city.name}</strong>`, {
+        permanent: true,
+        direction: 'top',
+        className: 'city-label-tooltip',
+        offset: [0, -6]
+      });
+
+      marker.on('click', () => handleCityClick(city));
+      cityMarkersLayer.addLayer(marker);
+    });
+  }
+
+  // -------------------------------------------------------------
+  // MOD & SEKTÖR GEÇİŞLERİ
+  // -------------------------------------------------------------
+  function switchMode(mode) {
+    currentMode = mode;
+    document.getElementById('btnExplore').classList.toggle('active', mode === 'explore');
+    document.getElementById('btnQuiz').classList.toggle('active', mode === 'quiz');
+
+    document.getElementById('sectorControls').style.display = (mode === 'explore') ? 'flex' : 'none';
+    document.getElementById('quizStatus').style.display = (mode === 'quiz') ? 'flex' : 'none';
+    document.getElementById('questCardBox').style.display = (mode === 'quiz') ? 'flex' : 'none';
+
+    if (mode === 'quiz') {
+      startNewTour();
+    } else {
+      setSector('hepsi');
+    }
+  }
+
+  function setSector(sec) {
+    currentSector = sec;
+    document.querySelectorAll('.sec-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-sec') === sec);
+    });
+    renderCityMarkers();
+  }
+
+  // -------------------------------------------------------------
+  // ŞEHRE TIKLAMA (Keşif vs Quiz)
+  // -------------------------------------------------------------
+  function handleCityClick(city) {
+    if (currentMode === 'explore') {
+      openCityModal(city, pickSector(city), false, '📍 ');
+    } else if (currentMode === 'quiz') {
+      handleQuizAnswer(city);
+    }
+  }
+
+  // -------------------------------------------------------------
+  // QUİZ MOTORU (20 Soru & Yanlışları Önceliklendirme)
+  // -------------------------------------------------------------
+  function startNewTour() {
+    score = 0;
+    correctCount = 0;
+    currentQIndex = 0;
+    mistakenCities = [];
+    firstTryCount = 0;
+    totalWrongClicks = 0;
+    wrongDetail = [];
+    wrongThisQuestion = 0;
+    answering = false;
+    tourFinished = false;
+    tourStartTime = Date.now();
+    document.getElementById('scoreBadge').innerText = "0 Puan";
+
+    let pool = [...CITIES];
+    let priority = [];
+
+    if (wrongCityIds.length > 0) {
+      priority = pool.filter(c => wrongCityIds.includes(c.id));
+      pool = pool.filter(c => !wrongCityIds.includes(c.id));
+    }
+
+    pool.sort(() => Math.random() - 0.5);
+    priority.sort(() => Math.random() - 0.5);
+
+    tourQuestions = [...priority, ...pool].slice(0, 20);
+    renderCityMarkers();
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    if (currentQIndex >= tourQuestions.length) {
+      finishTour();
+      return;
+    }
+
+    currentQuestionObj = tourQuestions[currentQIndex];
+    wrongThisQuestion = 0;
+    answering = false;
+
+    document.getElementById('progressBadge').innerText = `Soru: ${currentQIndex + 1} / ${tourQuestions.length}`;
+    document.getElementById('questLevelTag').innerText = `6. SINIF: ${currentQuestionObj.cat.toUpperCase()}`;
+    document.getElementById('questText').innerText = currentQuestionObj.q;
+  }
+
+  function handleQuizAnswer(clickedCity) {
+    if (!currentQuestionObj || answering) return;
+
+    if (clickedCity.id === currentQuestionObj.id) {
+      answering = true;
+      const gained = wrongThisQuestion === 0 ? 5 : 2;
+      if (wrongThisQuestion === 0) firstTryCount++;
+      correctCount++;
+      score += gained;
+      document.getElementById('scoreBadge').innerText = `${score} Puan`;
+
+      wrongCityIds = wrongCityIds.filter(id => id !== clickedCity.id);
+      saveWrong();
+
+      showToast(`Harika! Doğru İl: ${clickedCity.name} (+${gained} Puan)`, "success");
+
+      setTimeout(() => {
+        openCityModal(clickedCity, clickedCity.sec[0], true, '🎉 Harika Bildin: ');
+      }, 350);
+
+    } else {
+      wrongThisQuestion++;
+      totalWrongClicks++;
+      wrongDetail.push(currentQuestionObj.name + ' sorusunda ' + clickedCity.name + ' seçildi');
+      showToast(`Tıkladığın yer: ${clickedCity.name}. İpucu: ${currentQuestionObj.hint}`, "error");
+
+      if (!wrongCityIds.includes(currentQuestionObj.id)) {
+        wrongCityIds.push(currentQuestionObj.id);
+        saveWrong();
+      }
+      if (!mistakenCities.includes(currentQuestionObj.name)) {
+        mistakenCities.push(currentQuestionObj.name);
+      }
+    }
+  }
+
+  function nextQuizQuestion() {
+    closeStepModal();
+    currentQIndex++;
+    loadQuestion();
+  }
+
+  // -------------------------------------------------------------
+  // MODAL YÖNETİMİ
+  // -------------------------------------------------------------
+  const SECTOR_META = {
+    tarim:  { n: '🌾 Tarım',        i: ['🌱','🏭','🛒'], t: ['1. Adım: Tarlada ve Bahçede Başlar (Üretim)', '2. Adım: Fabrikada İşlenir (Sanayi)', '3. Adım: Dağıtılır ve Sofraya Gelir (Dağıtım & Tüketim)'] },
+    hayvan: { n: '🐄 Hayvancılık',  i: ['🐄','🏭','🛒'], t: ['1. Adım: Çiftlikte ve Meralarda Başlar (Üretim)', '2. Adım: Tesiste İşlenir (Sanayi)', '3. Adım: Dağıtılır ve Sofraya Gelir (Dağıtım & Tüketim)'] },
+    orman:  { n: '🌲 Orman',        i: ['🌲','🪚','🛋️'], t: ['1. Adım: Ormanda Başlar (Üretim)', '2. Adım: Atölyede ve Fabrikada İşlenir (Sanayi)', '3. Adım: Dağıtılır ve Evimize Gelir (Dağıtım & Tüketim)'] },
+    maden:  { n: '⛏️ Maden & Enerji', i: ['⛏️','🏭','🚛'], t: ['1. Adım: Madende ve Yerin Altında Başlar (Üretim)', '2. Adım: Tesiste İşlenir (Rafineri, Fabrika, Santral)', '3. Adım: Dağıtılır ve Kullanılır (Dağıtım & Tüketim)'] },
+    su:     { n: '🐟 Su & Balık',   i: ['🐟','🏭','🚛'], t: ['1. Adım: Denizde, Gölde ve Barajda Başlar (Üretim)', '2. Adım: Tesiste İşlenir veya Dönüşür (Sanayi)', '3. Adım: Dağıtılır ve Tüketilir (Dağıtım & Tüketim)'] }
+  };
+  let modalCity = null, modalPrefix = '';
+
+  function getChain(city, sector) {
+    return sector === city.sec[0] ? [city.s1, city.s2, city.s3] : city.alt[sector];
+  }
+  function pickSector(city) {
+    return (currentSector !== 'hepsi' && city.sec.includes(currentSector)) ? currentSector : city.sec[0];
+  }
+
+  function openCityModal(city, sector, isQuizNext, prefix) {
+    modalCity = city;
+    modalPrefix = prefix;
+    showChain(sector);
+
+    const actionBtn = document.getElementById('btnModalAction');
+    if (isQuizNext) {
+      actionBtn.innerText = "Sıradaki Göreve Geç ➔";
+      actionBtn.onclick = nextQuizQuestion;
+    } else {
+      actionBtn.innerText = "Haritaya Dön";
+      actionBtn.onclick = closeStepModal;
+    }
+    document.getElementById('stepModal').style.display = 'flex';
+  }
+
+  function showChain(sector) {
+    const meta = SECTOR_META[sector];
+    const chain = getChain(modalCity, sector);
+    document.getElementById('modalCityTitle').innerText = modalPrefix + modalCity.name;
+
+    const chips = document.getElementById('modalSectors');
+    chips.style.display = modalCity.sec.length > 1 ? 'flex' : 'none';
+    chips.innerHTML = modalCity.sec.map(s =>
+      `<button class="sec-chip ${s === sector ? 'on' : ''}" style="${s === sector ? 'background:' + getSectorColor(s) : ''}" onclick="showChain('${s}')">${SECTOR_META[s].n}</button>`
+    ).join('');
+
+    for (let k = 0; k < 3; k++) {
+      document.getElementById('modalI' + (k + 1)).innerText = meta.i[k];
+      document.getElementById('modalH' + (k + 1)).innerText = meta.t[k];
+      document.getElementById('modalStep' + (k + 1)).innerText = chain[k];
+    }
+  }
+
+  function dismissStepModal() {
+    if (currentMode === 'quiz' && answering) nextQuizQuestion();
+    else closeStepModal();
+  }
+
+  function closeStepModal() {
+    document.getElementById('stepModal').style.display = 'none';
+  }
+
+  // -------------------------------------------------------------
+  // GİRİŞ, KARNE & GOOGLE SHEETS
+  // -------------------------------------------------------------
+  function startGame() {
+    const name = document.getElementById('inputName').value.trim();
+    const no = document.getElementById('inputNo').value.trim();
+    const branch = document.getElementById('selectBranch').value;
+
+    if (!name) { alert("Lütfen adını ve soyadını yaz!"); return; }
+
+    studentData.adSoyad = name;
+    studentData.okulNo = no || "-";
+    studentData.sube = branch;
+    loadWrong();
+
+    document.getElementById('loginModal').style.display = 'none';
+    renderCityMarkers();
+    map.invalidateSize();
+  }
+
+  function finishTour() {
+    if (tourFinished) return;
+    tourFinished = true;
+
+    const elapsedSeconds = Math.round((Date.now() - tourStartTime) / 1000);
+    const mins = Math.floor(elapsedSeconds / 60);
+    const secs = elapsedSeconds % 60;
+    tourDurationString = mins > 0 ? `${mins} dk ${secs} sn` : `${secs} sn`;
+
+    document.getElementById('reportScore').innerText = `Skor: ${score} / 100 (${firstTryCount} ilk denemede doğru)`;
+    document.getElementById('reportDuration').innerText = `⏱️ Geçen Süre: ${tourDurationString}`;
+    document.getElementById('reportMistakes').innerText = `Hatalı İller: ${mistakenCities.length > 0 ? mistakenCities.join(", ") : "Hata Yok 🎯"}`;
+    document.getElementById('reportModal').style.display = 'flex';
+
+    const payload = {
+      kayitId: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+      adSoyad: studentData.adSoyad,
+      okulNo: studentData.okulNo,
+      sube: studentData.sube,
+      oyun: "Üretim Atlası",
+      seviye: "6. Sınıf Üretim Atlası",
+      turSayisi: studentData.turSayisi,
+      puan: score,
+      dogruSayisi: firstTryCount,
+      toplamSoru: 20,
+      gecenSure: tourDurationString,
+      gecenSureSn: elapsedSeconds,
+      yanlisTiklama: totalWrongClicks,
+      hataliIller: mistakenCities.join(", "),
+      yanlisDetay: wrongDetail.join(" | ")
+    };
+
+    pendingPayload = payload;
+    sendResult();
+  }
+
+  let pendingPayload = null;
+  async function sendResult() {
+    const saved = document.getElementById('reportSaved');
+    saved.style.color = '#64748b';
+    if (!studentData.kod) { saved.innerText = ''; return; }
+    if (!SCRIPT_URL) { saved.innerText = 'ℹ️ Kayıt bağlantısı henüz yapılmadı.'; return; }
+    saved.innerText = '⏳ Sonuçların kaydediliyor...';
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ ...pendingPayload, kod: studentData.kod })
+      });
+      const data = await res.json();
+      if (data && data.ok) {
+        saved.style.color = '#059669';
+        saved.innerText = '✓ Sonuçların öğretmenine gönderildi.';
+      } else {
+        saved.style.color = '#dc2626';
+        saved.innerText = '✗ Sonuç kaydedilemedi. Öğretmenine haber ver.';
+      }
+    } catch (e) {
+      saved.style.color = '#b45309';
+      saved.innerHTML = '⚠️ Sonuç gönderilemedi. <button onclick="sendResult()" style="padding:3px 10px;border-radius:8px;border:1px solid #b45309;background:#fff;font-weight:800;cursor:pointer;">Tekrar dene</button>';
+    }
+  }
+
+  function restartTour() {
+    studentData.turSayisi++;
+    document.getElementById('reportModal').style.display = 'none';
+    startNewTour();
+  }
+
+  let toastTimer;
+  function showToast(msg, type) {
+    const toast = document.getElementById('toast');
+    toast.innerText = msg;
+    toast.className = `toast ${type}`;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toast.className = 'toast'; }, 2200);
+  }
+
+  setTimeout(() => { map.invalidateSize(); }, 300);
+</script>
+</body>
+</html>
