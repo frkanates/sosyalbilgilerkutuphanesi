@@ -524,9 +524,9 @@
 
     @media (max-width: 680px) {
       .hero h2 { font-size: 2.1rem; }
-      .acc-trigger { flex-wrap: wrap; padding: 16px 18px; }
-      .acc-trigger-left { flex-direction: column; align-items: flex-start; gap: 10px; flex: 1 1 100%; }
-      .acc-trigger-right { width: 100%; justify-content: space-between; }
+      .acc-trigger { flex-wrap: nowrap; padding: 16px 18px; }
+      .acc-trigger-left { flex-direction: column; align-items: flex-start; gap: 10px; flex: 1 1 auto; }
+      .acc-trigger-right { width: auto; }
       .tab-btn { padding: 10px 6px; font-size: 0.8rem; }
       .footer-container { flex-direction: column; text-align: center; }
       .footer-signature { width: 100%; justify-content: center; }
@@ -557,7 +557,6 @@
     <p>
       Türkiye Yüzyılı Maarif Modeli ile tam uyumlu; harita simülasyonları, etkileşimli görevler ve bölüm keşif quizleri.
     </p>
-    <div class="hero-stats" id="stats"></div>
   </section>
 
   <!-- KADEMELER -->
@@ -587,7 +586,6 @@
             </div>
           </div>
           <div class="acc-trigger-right">
-            <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
         </div>
@@ -601,13 +599,13 @@
                 </div>
                 <span class="badge-label">Başlat ➜</span>
               </a>
-              <div class="action-card disabled" aria-disabled="true">
+              <a href="1-unite-oyun.html" class="action-card game">
                 <div class="card-left">
                   <span>🗺️</span>
-                  <span>Dayanışma Görevi (Oyun)</span>
+                  <span>Oyun: Mahalle Kahramanı</span>
                 </div>
-                <span class="badge-label">Hazırlanıyor ⏳</span>
-              </div>
+                <span class="badge-label">Oyunu Başlat ➜</span>
+              </a>
             </div>
           </div>
         </div>
@@ -624,7 +622,6 @@
             </div>
           </div>
           <div class="acc-trigger-right">
-            <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
         </div>
@@ -634,7 +631,7 @@
               <a href="harita-kasifi.html" class="action-card game">
                 <div class="card-left">
                   <span>🗺️</span>
-                  <span>Harita Kâşifleri</span>
+                  <span>Oyun: Harita Kâşifleri</span>
                 </div>
                 <span class="badge-label">Oyunu Başlat ➜</span>
               </a>
@@ -661,7 +658,6 @@
             </div>
           </div>
           <div class="acc-trigger-right">
-            <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
         </div>
@@ -675,13 +671,20 @@
                 </div>
                 <span class="badge-label">Başlat ➜</span>
               </a>
-              <div class="action-card disabled" aria-disabled="true">
+              <a href="3-unite-oyun.html" class="action-card game">
                 <div class="card-left">
                   <span>🗺️</span>
-                  <span>Tarih Atlası (Oyun)</span>
+                  <span>Oyun: Bozkırdan Anadolu'ya</span>
                 </div>
-                <span class="badge-label">Hazırlanıyor ⏳</span>
-              </div>
+                <span class="badge-label">Oyunu Başlat ➜</span>
+              </a>
+              <a href="tarih-kervani.html" class="action-card game">
+                <div class="card-left">
+                  <span>🗺️</span>
+                  <span>Oyun: Türk Kervanı</span>
+                </div>
+                <span class="badge-label">Oyunu Başlat ➜</span>
+              </a>
             </div>
           </div>
         </div>
@@ -698,7 +701,6 @@
             </div>
           </div>
           <div class="acc-trigger-right">
-            <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
         </div>
@@ -712,13 +714,13 @@
                 </div>
                 <span class="badge-label">Başlat ➜</span>
               </a>
-              <div class="action-card disabled" aria-disabled="true">
+              <a href="4-unite-oyun.html" class="action-card game">
                 <div class="card-left">
                   <span>🏛️</span>
-                  <span>Vatandaşlık Simülasyonu (Oyun)</span>
+                  <span>Oyun: Demokrasi Şehri</span>
                 </div>
-                <span class="badge-label">Hazırlanıyor ⏳</span>
-              </div>
+                <span class="badge-label">Oyunu Başlat ➜</span>
+              </a>
             </div>
           </div>
         </div>
@@ -735,7 +737,6 @@
             </div>
           </div>
           <div class="acc-trigger-right">
-            <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
         </div>
@@ -745,7 +746,7 @@
               <a href="harita-kasifi-ekonomi.html" class="action-card game">
                 <div class="card-left">
                   <span>🏭</span>
-                  <span>Harita Kâşifleri: Üretim, Dağıtım ve Tüketim</span>
+                  <span>Oyun: Ekonomi Kâşifleri</span>
                 </div>
                 <span class="badge-label">Simülasyon ➜</span>
               </a>
@@ -772,7 +773,6 @@
             </div>
           </div>
           <div class="acc-trigger-right">
-            <span class="status-pill ready">● Aktif Materyal</span>
             <span class="chevron-icon">▼</span>
           </div>
         </div>
@@ -786,13 +786,13 @@
                 </div>
                 <span class="badge-label">Başlat ➜</span>
               </a>
-              <div class="action-card disabled" aria-disabled="true">
+              <a href="6-unite-oyun.html" class="action-card game">
                 <div class="card-left">
                   <span>🔬</span>
-                  <span>Bilim ve Teknoloji Atölyesi (Oyun)</span>
+                  <span>Oyun: Dijital Yolculuk Atölyesi</span>
                 </div>
-                <span class="badge-label">Hazırlanıyor ⏳</span>
-              </div>
+                <span class="badge-label">Oyunu Başlat ➜</span>
+              </a>
             </div>
           </div>
         </div>
@@ -831,15 +831,6 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAcc(t); }
       });
     });
-
-    (function () {
-      const active = document.querySelectorAll('.action-card:not(.disabled)').length;
-      const ready = document.querySelectorAll('.acc-item.has-content').length;
-      const total = document.querySelectorAll('.acc-item').length;
-      document.getElementById('stats').innerHTML =
-        '<span class="stat-chip"><b>' + active + '</b> aktif materyal</span>' +
-        '<span class="stat-chip"><b>' + ready + '/' + total + '</b> öğrenme alanı hazır</span>';
-    })();
   </script>
 
 </body>
