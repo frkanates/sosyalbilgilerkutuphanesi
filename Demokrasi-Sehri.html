@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demokrasi Şehri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#1b1d4a;--panel:#2a2d68;--soft:#343885;--line:#4a4fa8;--ink:#f2f3ff;--a:#ff9f43;--b:#3ed6b0;--c:#ffd166;--map:#23265a;--onb:#1b1d4a;--onok:#052a22}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Fredoka','Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header class="top"><a class="back" href="index.html">← Kütüphane</a><div class="brand"><span>🏛️</span>Demokrasi Şehri</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk-oyun-4";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwJYffvYwLIh2EoDhMI7kjupGyjmxq0IzX8vadxk4eVitMpltcmgAbBEQ8x-ewGQOvb/exec";const OYUN="4. Ünite Oyunu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Meydan", "e": "🗳️", "x": 50, "y": 52, "sub": "Demokrasinin temelleri", "intro": "Şehrin ışıkları sönmüş! Her bölgeyi aydınlatmak için demokrasinin bir parçasını öğreneceksin. Önce meydandan başlayalım.", "c": [["🧭", "Demokrasi nedir?", "Yönetimin halkın ya da halkın özgürce seçtiği temsilcilerin elinde olduğu, tüm vatandaşların eşit sayıldığı yönetim biçimidir."], ["🏛️", "Milli egemenlik", "Yönetim yetkisi millete aittir; millet bu yetkiyi seçtiği temsilciler aracılığıyla kullanır."], ["⚖️", "Eşitlik ve özgürlük", "Herkes kanun önünde eşittir. Özgürlük, başkasına zarar vermeden istediğini yapabilmektir."], ["🎶", "Çoğulculuk, katılım, çoğunluk", "Farklı fikirler yönetime yansır, herkes karar sürecine katılır; en çok oyu alan seçilir ama azınlığın hakları da korunur."]], "t": [{"k": "match", "q": "Demokrasinin ilkelerini açıklamalarıyla eşleştir.", "pairs": [["Milli egemenlik", "Yönetim yetkisi millete aittir"], ["Eşitlik", "Herkes kanun önünde aynı haklara sahiptir"], ["Özgürlük", "Başkasına zarar vermeden istediğini yapabilmek"], ["Çoğulculuk", "Farklı fikirlerin yönetime yansıması"], ["Çoğunluk", "En çok oyu alanın seçilmesi"]]}], "r": ["Meydan Bekçisi", "Demokraside şehrin kurallarını hep birlikte koyar, hep birlikte yönetiriz."]}, {"n": "Meclis", "e": "📜", "x": 50, "y": 16, "sub": "Kanun yapma gücü", "intro": "Şehrin en önemli binasına geldin: kanunlar burada yapılıyor.", "c": [["📜", "Yasama yetkisi", "Şehrin kurallarını (kanunları) belirleme yetkisidir."], ["🏛️", "Anayasa Madde 7", "Yasama yetkisi Türk milleti adına Türkiye Büyük Millet Meclisi'ne aittir; bu yetki devredilemez."], ["🗳️", "Oyun gücü", "Doğrudan kanun yapamayız; oy vererek seçtiğimiz milletvekillerine bu gücü emanet ederiz."]], "t": [{"k": "order", "q": "Kanunun yapılış sürecini sırala.", "steps": ["Vatandaşlar seçimlerde oy kullanır", "Seçilen milletvekilleri TBMM'de toplanır", "Milletvekilleri millet adına kanunları yapar"]}], "r": ["Meclis Üyesi", "Kanun yapma gücü milletindir; TBMM bu gücü millet adına kullanır."]}, {"n": "Karar Çarkları", "e": "⚙️", "x": 22, "y": 30, "sub": "Kararı kim etkiler?", "intro": "Yöneticiler karar alırken yalnız değildir. Dört dev çark kararları şekillendirir.", "c": [["🤝", "Siyasi partiler", "Aynı görüşteki insanların kurduğu siyasal kuruluşlardır; mecliste kanun teklifi sunarak yönetimi doğrudan etkiler."], ["🌱", "STK", "Gönüllülerin eğitim, çevre ve sağlık için kurduğu dernek ve vakıflardır."], ["📺", "Medya", "Gazete, TV ve internet; toplumu bilgilendirir, kamuoyu oluşturur."], ["💭", "Kamuoyu", "Halkın ortak düşüncesidir; yöneticiler karar alırken halkın tepkisini dikkate alır."]], "t": [{"k": "match", "q": "Örneği doğru aktörle eşleştir.", "pairs": [["Çevre yasası için kampanya başlatan dernek", "STK"], ["Mecliste kanun teklifi sunan siyasal kuruluş", "Siyasi parti"], ["Çevre sorununu haber yapan televizyon", "Medya"], ["Halkın bir konudaki ortak düşüncesi", "Kamuoyu"]]}, {"k": "order", "q": "Karar alma sürecinin aşamalarını sırala.", "steps": ["Sorun gündeme gelir", "Çözüm önerileri getirilir", "Karar değerlendirilir"]}], "r": ["Çark Ustası", "Halk bu çarkları döndürerek yönetimin kararlarını etkiler ve şekillendirir."]}, {"n": "Okul ve Aile", "e": "🏫", "x": 22, "y": 72, "sub": "Hayatın içinde demokrasi", "intro": "Demokrasi sadece mecliste değil; evde, okulda ve sokakta da yaşanır.", "c": [["🏠", "Ailede", "Tatil kararına katılmak, ev işlerinde adil görev paylaşımı yapmak."], ["🏫", "Okulda", "Sınıf başkanı ya da kulüp temsilcisi seçmek, okul kuralları için fikir sunmak."], ["🚌", "Toplumda", "Otobüse binerken sıraya girmek, kurallara uymak, başkalarının haklarına saygı göstermek."]], "t": [{"k": "sort", "q": "Örnekleri doğru alana yerleştir.", "bins": [["Ailede", "🏠"], ["Okulda", "🏫"], ["Toplumda", "🚌"]], "items": [["Tatil kararına katılmak", 0], ["Ev işlerinde adil görev paylaşımı", 0], ["Sınıf başkanını seçmek", 1], ["Kural sandığına fikir atmak", 1], ["Otobüse binerken sıraya girmek", 2], ["Başkalarının haklarına saygı göstermek", 2]]}], "r": ["Demokrasi Öğrencisi", "Demokrasi önce evde ve okulda öğrenilir."]}, {"n": "Hak Kalkanı", "e": "🛡️", "x": 78, "y": 30, "sub": "Temel hak ve özgürlükler", "intro": "Anayasa herkese bir kalkan verir: temel hak ve özgürlükler.", "c": [["🔒", "Madde 12", "Herkes kişiliğine bağlı, dokunulmaz, devredilmez ve vazgeçilmez temel hak ve hürriyetlere sahiptir."], ["❤️", "Yaşama ve sağlık", "Yaşama hakkı (Madde 17) en temel haktır. Sağlıklı ve dengeli çevrede yaşama hakkı Madde 56'dadır."], ["🤫", "Özel hayat", "Özel hayatın gizliliği Madde 20'de güvence altındadır."], ["📚", "Eğitim, inanç, sanat", "Eğitim hakkı Madde 42, din ve vicdan özgürlüğü Madde 24, bilim ve sanat özgürlüğü Madde 27."]], "t": [{"k": "match", "q": "Hakkı Anayasa maddesiyle eşleştir.", "pairs": [["Yaşama hakkı", "Madde 17"], ["Özel hayatın gizliliği", "Madde 20"], ["Din ve vicdan özgürlüğü", "Madde 24"], ["Eğitim hakkı", "Madde 42"], ["Sağlıklı çevrede yaşama hakkı", "Madde 56"]]}, {"k": "pick", "rounds": [{"q": "Mert yüksek sesle müzik dinliyor, komşusu Ali Amca'nın huzur ve sağlık hakkı bozuluyor. Çözüm nedir?", "o": ["Mert kulaklık kullanarak karşılıklı saygıyı sağlar", "Özgürlüğü sınırsız olduğu için müzik açık kalır", "Ali Amca şikâyet etme hakkına sahip değildir", "Müzik dinlemek yasaklanır"], "a": 0, "w": "Bir kişinin özgürlüğü, başkasının haklarının başladığı yerde biter.", "h": "Hakkın sınırını düşün."}]}], "r": ["Hak Kalkanı", "Haklarımız dokunulmazdır ama sınırı başkalarının hakkıdır."]}, {"n": "Görevlerimiz", "e": "📋", "x": 78, "y": 72, "sub": "Etkin vatandaş", "intro": "Haklarını bilen ve kanunlar çerçevesinde arayan kişiye etkin vatandaş denir. Görevlerimiz neler?", "c": [["⚖️", "Kanunlara uymak", "Toplumsal düzeni sağlamak için."], ["🏦", "Vergi vermek (Madde 73)", "Mali gücümüze göre; yol, hastane ve okul gibi kamu giderleri için."], ["🛡️", "Askerlik (Madde 72)", "Vatan hizmetidir."], ["🗳️", "Oy kullanmak (Madde 67)", "18 yaşını doldurunca şehrin geleceğine karar vermek."]], "t": [{"k": "match", "q": "Görevi amacıyla eşleştir.", "pairs": [["Vergi vermek", "Yol, hastane, okul gibi kamu giderleri"], ["Kanunlara uymak", "Toplumsal düzeni sağlamak"], ["Askerlik yapmak", "Vatan hizmeti"], ["Oy kullanmak", "18 yaşından itibaren yönetimi seçmek"]]}], "r": ["Etkin Vatandaş", "Haklarını bilen ve görevlerini yerine getiren kişi etkin vatandaştır."]}, {"n": "Dijital Ofis", "e": "💻", "x": 50, "y": 86, "sub": "Dijital vatandaşlık", "intro": "Şehrin en yeni binası: devlet artık cebimizde!", "c": [["🚪", "e-Devlet", "turkiye.gov.tr; 15 yaşını doldurmuş vatandaş PTT şifresiyle 7/24 resmî işlem yapar. Belgeler resmî ve barkodludur."], ["🩺", "e-Nabız ve MHRS", "Tahlil, reçete, aşı bilgileri ve doktor randevusu."], ["🎓", "e-Okul ve EBA", "e-Okul: not, devamsızlık, karne. EBA: canlı ders, video, dijital kitap; eğitimde fırsat eşitliği."], ["📣", "CİMER", "Dilekçe hakkı (Madde 74) ve bilgi edinme hakkıyla istek, şikâyet ve öneriler dijital ortamda iletilir."], ["🦸", "Dijital vatandaş", "Bilinçli, güvenli, etik ve sorumludur; siber zorbalıkta güvenilir bir yetişkinden yardım alır, kişisel bilgilerini korur."]], "t": [{"k": "match", "q": "Dijital hizmeti işleviyle eşleştir.", "pairs": [["e-Devlet", "Resmî işlemleri evden yapma"], ["e-Nabız", "Tahlil ve reçete görme"], ["MHRS", "Doktor randevusu alma"], ["e-Okul", "Not ve devamsızlık takibi"], ["EBA", "Canlı ders ve ders videoları"]]}, {"k": "sort", "q": "CİMER'e hangi konular yazılır, hangileri yazılmaz?", "bins": [["Yazılır", "✅"], ["Yazılmaz", "⛔"]], "items": [["Mahalleye park yapılması önerisi", 0], ["Kamu kurumundaki eksiklikler", 0], ["Belediye hizmetindeki aksaklık", 0], ["Hakaret içeren şikâyet", 1], ["Mahkemede devam eden dava", 1], ["Gerçek dışı beyan", 1]]}], "r": ["Dijital Vatandaş", "Teknolojiyi bilinçli, güvenli ve sorumlu kullanmak etkin vatandaşlığın dijital yüzüdür."]}];
+const G={title:"Demokrasi Şehri",story:"Demokrasi Şehri'nin ışıkları sönmüş! Haritadaki her bölgeye git, kartları aç ve görevleri tamamla. Her görevle şehrin pencereleri ve lambaları yanacak.",end:["Şehrin ışıkları yandı!", "Demokrasinin temelleri, kanun yapma gücü, temel haklar, görevler ve dijital vatandaşlık: artık etkin bir vatandaşsın."],map:d=>{const n=Object.keys(d).length;return `<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="gl"><stop offset="0" stop-color="#ffd166" stop-opacity=".85"/><stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient></defs>
+<rect width="100" height="60" fill="#23265a"/>
+<g fill="#fff" opacity=".7"><circle cx="8" cy="5" r=".3"/><circle cx="30" cy="3" r=".25"/><circle cx="70" cy="4" r=".3"/><circle cx="92" cy="6" r=".25"/><circle cx="58" cy="2" r=".2"/><circle cx="18" cy="2" r=".2"/></g>
+<g stroke="#3a3f93" stroke-width="3.2" fill="none"><circle cx="50" cy="31" r="15"/><path d="M0 31h100M50 8v52"/><path d="M12 6l20 14M88 6L68 20M12 58l20-14M88 58L68 44"/></g>
+<circle cx="50" cy="31" r="7" fill="#2f3485" stroke="#5560c8" stroke-width=".4"/>
+<g transform="translate(46 28)"><rect width="8" height="6" rx="1" fill="#8d96ff"/><rect x="2" y="-1" width="4" height="1.2" fill="#ffd166"/><rect x="2.8" y="1.6" width="2.4" height=".5" fill="#23265a"/></g>
+<g transform="translate(38 3)"><rect y="6" width="24" height="7" fill="#4d55b8"/><path d="M5 6a7 7 0 0 1 14 0z" fill="#6b73e0"/><path d="M12 -1v-3" stroke="#fff" stroke-width=".3"/><path d="M12 -4h3l-.8.9.8.9h-3z" fill="#e63946"/><path d="M3 7v6M7 7v6M11 7v6M15 7v6M19 7v6M23 7v6" stroke="#8d96ff" stroke-width=".7"/></g>
+<g fill="#4d55b8"><rect x="14" y="20" width="14" height="10"/><rect x="14" y="44" width="14" height="10"/><rect x="72" y="20" width="14" height="10"/><rect x="72" y="44" width="14" height="10"/></g>
+${[[16,22],[16,46],[74,22],[74,46]].map(([x,y],b)=>[0,1,2].map(k=>`<rect x="${x+k*4}" y="${y}" width="2.2" height="2.2" fill="${n>b+k?'#ffd166':'#2a2f78'}"/>`).join('')).join('')}
+${ST.map((s,i)=>`<circle cx="${s.x}" cy="${s.y*0.6+6}" r="1" fill="${d[i]?'#ffd166':'#5560c8'}"/>${d[i]?`<circle cx="${s.x}" cy="${s.y*0.6+6}" r="6" fill="url(#gl)"/>`:''}`).join('')}
+</svg>`}};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 6-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>

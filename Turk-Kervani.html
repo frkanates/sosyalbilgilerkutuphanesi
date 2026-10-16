@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Türk Kervanı | Ortak Mirasımız</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:#f5f2ea;color:#1e293b;padding:14px;display:flex;justify-content:center}
+.box{width:100%;max-width:820px;background:#fff;border:2px solid #e4dcce;border-radius:18px;overflow:hidden}
+.hd{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;padding:10px 18px;background:#faf7f2;border-bottom:2px solid #e4dcce;font-weight:700}
+#mw{display:none;border-bottom:2px solid #e4dcce}#gm{display:block;width:100%;height:auto;aspect-ratio:800/340}#mw .mnote{font-size:.72rem;color:#64748b;padding:3px 12px;background:#fdfbf7}#car{transition:transform 1.2s ease}.pop{transform-box:fill-box;transform-origin:center;animation:pop .9s ease-out}@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}.lbl{font-weight:800;font-size:11px;padding:1px 6px}.cap{font-size:20px;line-height:26px;text-align:center;background:none;border:0}
+.era{display:none;gap:6px;flex-wrap:wrap;padding:8px 18px;border-bottom:2px solid #e4dcce;background:#fdfbf7}.ec{font-size:.78rem;font-weight:800;padding:3px 10px;border-radius:99px;background:#e7dfd2;color:#475569}.tm{height:8px;background:#e7dfd2;border-radius:9px;overflow:hidden;margin-bottom:12px}#tb{height:100%;width:100%;background:#d97706}
+#app{padding:18px}h2{font-size:1.35rem;margin-bottom:6px}.d{color:#64748b;margin-bottom:14px}
+.tag{display:inline-block;background:#fef3c7;color:#b45309;border-radius:99px;padding:2px 12px;font-size:.8rem;font-weight:800;margin-bottom:8px}
+.sn{background:#fdfbf7;border:1.5px solid #e4dcce;border-radius:12px;padding:14px;margin-bottom:12px;font-weight:600}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #e4dcce;border-radius:12px;padding:12px 14px;margin-bottom:8px;font:inherit;font-weight:600;cursor:pointer}
+.fb{border-radius:12px;padding:12px 14px;margin:10px 0;border:1.5px solid}.fb.ok{background:#d1fae5;border-color:#059669}.fb.bad{background:#fee2e2;border-color:#dc2626}.fb.nt{background:#eff6ff;border-color:#93c5fd}
+.nx{background:#d97706;color:#fff;border:0;border-radius:12px;padding:12px 24px;font:inherit;font-weight:800;cursor:pointer;margin:6px 6px 0 0}.nx:disabled{opacity:.4;cursor:not-allowed}.nx.g{background:#64748b}
+.b2{border:2px solid #e4dcce;background:#fff;border-radius:8px;padding:5px 11px;font:inherit;font-weight:800;cursor:pointer}
+input,select{width:100%;padding:10px;border:2px solid #e4dcce;border-radius:10px;font:inherit;margin-bottom:10px;background:#fff}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fdfbf7;border:1.5px solid #e4dcce;border-radius:12px;padding:8px 14px;margin-bottom:6px}
+.big{font-size:2.2rem;font-weight:800;color:#b45309;text-align:center}.note{font-size:.9rem;color:#475569}
+</style></head><body>
+<div class="box"><div class="hd"><span>🐎 Türk Kervanı</span><span><span id="st">Giriş</span> &nbsp; <span id="hr">❤️❤️❤️</span> &nbsp; 🪙 <b id="gd">0</b></span></div><div class="era" id="era"></div><div id="mw"><svg id="gm" viewBox="0 -20 800 340" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6ecd0"/><stop offset="1" stop-color="#e9d9ae"/></linearGradient></defs>
+<rect x="-300" y="-300" width="1400" height="900" fill="url(#pg)"/><g fill="#9ecbe8" stroke="#6aa6cf" stroke-width="1.5"><ellipse cx="65" cy="97" rx="70" ry="36"/><ellipse cx="225" cy="127" rx="28" ry="76"/><ellipse cx="320" cy="80" rx="22" ry="18"/><ellipse cx="30" cy="305" rx="95" ry="80"/></g>
+<g font-size="9" fill="#3b7aa6" font-style="italic" text-anchor="middle"><text x="65" y="100">Karadeniz</text><text x="225" y="130">Hazar D.</text><text x="320" y="83">Aral</text><text x="40" y="272">Akdeniz</text></g>
+<g font-size="18" text-anchor="middle"><text x="600" y="22">⛰️</text><text x="520" y="124">⛰️</text><text x="455" y="200">⛰️</text></g><g font-size="9" fill="#8a6d3b" text-anchor="middle" font-weight="700"><text x="600" y="34">Altay Dağları</text><text x="520" y="136">Tanrı Dağları</text><text x="455" y="212">Hindukuş</text></g>
+<text x="650" y="95" font-size="12" fill="#b39a62" font-style="italic" text-anchor="middle">Orta Asya Bozkırları</text><g id="lyr"></g><g id="car"><text y="-12" font-size="26" text-anchor="middle">🐎</text></g></svg><div class="mnote">Gri kesikli alanlar: o dönemde çevredeki devletler (yaklaşık). Abbasiler: Abbasi Halifeliği</div></div><div id="app"></div></div>
+<script>
+// Google Apps Script adresini buraya yapıştır (apps-script.gs). Sayfa adresinde kod varsa (?tasokul) sonuç sınıfa göre kaydedilir, yoksa kaydedilmez.
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbxjGQRAwRn3hsPFug5W5fMTx-tN3j0K4mB9II8xQiP0lW7icGJFBLvcMCh6bk3oVbC8/exec";
+const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get("kod")||"").trim();if(!k){for(const x of p.keys()){if(x!=="kod"){k=x.trim();break}}}return k})();
+const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const PL={"Orhun Vadisi":[47.5,102.8],"Talas":[42.9,71.4],"Kaşgar":[39.5,76],"Gazne":[33.55,68.4],"Nişabur":[36.2,58.8],"Bağdat":[33.3,44.4],"Malazgirt":[39.15,42.54],"Konya":[37.87,32.49]};
+// Kart: o[0] doğru cevap (y:"ord" kartında o doğru sıradır). Her durakta zorlukları geç; yanlış ya da süre aşımı bir kalp götürür.
+const ERA=[{n:"İslamiyet Öncesi",c:"#d97706",t:"Türkler Orta Asya bozkırlarında büyük devletler kurdu. Haritada turuncu daire, Türklerin eski yurdunu gösteriyor."},
+{n:"İslamiyet'in Kabulü",c:"#0d9488",t:"Türkler İslamiyet'i kabul etmeye başladı. Türk devletlerinin merkezleri Orta Asya'dan çıkıp güneye ve batıya doğru kaymaya başladı."},
+{n:"Türk-İslam Kültürü",c:"#7c3aed",t:"Türkler İslam medeniyetinin bilim ve kültürüne katkı yaptı, sonra Anadolu'ya yöneldi. Eski yurt haritada solukluyor."}];
+const ST=[
+{n:"Orhun Vadisi",era:0,s:"Kervanın yolculuğu Orhun Vadisi'nde başlıyor. Hazır mısın?",cs:[
+{t:"Göktürkler",s:"'Türk' adını devlet adı olarak kullanan ve Orhun Yazıtları'nı bırakan devlet hangisidir?",o:["Göktürkler","Uygurlar","Asya Hun Devleti"],e:"Göktürkler Türk adıyla kurulan ilk devlettir; Orhun Yazıtları'nı bırakmışlardır."},
+{t:"Mete Han",s:"Orduyu onlu sisteme göre düzenleyen Mete Han hangi devletin hükümdarıdır?",o:["Asya Hun Devleti","Uygurlar","Göktürkler"],e:"Mete Han Asya Hun hükümdarıdır; ordusunu onluk, yüzlük, binlik ve tümen olarak düzenlemiştir."},
+{t:"Ötüken",s:"Göktürklerin başkenti olan ve Türklerin kutsal yurdu sayılan yer neresidir?",o:["Ötüken","Balasagun","Gazne"],e:"Ötüken, Orhun Vadisi çevresindeki kutsal Türk yurdudur ve Göktürklerin başkentidir."},
+{t:"Ordubalık",s:"Uygur Devleti'nin başkenti hangisidir?",o:["Ordubalık","Kaşgar","Bağdat"],e:"Uygurların başkenti Ordubalık'tır; Orhun Nehri kıyısında kurulmuştur."},
+{t:"Uygurlar",s:"Yerleşik hayata geçip tarım yapan, şehirler kuran ve kendi alfabesini kullanan devlet hangisidir?",o:["Uygurlar","Asya Hun Devleti","Göktürkler"],e:"Uygurlar yerleşik hayata geçen ilk Türk devletlerindendir."},
+{t:"Kurultay",s:"Savaş, barış ve hakan seçimi gibi önemli devlet işlerinin görüşüldüğü toplantıya ne ad verilir?",o:["Kurultay","Töre","Kurgan"],e:"Kurultay, devlet yönetiminde danışma ve karar toplantısıdır."},
+{t:"Kazı: altın zırh",s:"KAZI: Bir kurganda altın zırh ve kılıç buldun. Ne çıkarırsın?",o:["Mezardaki kişi güçlü bir savaşçı ya da yüksek rütbeli bir liderdir","Bu insanlar savaşla hiç ilgilenmemiştir","Bu toplum metal işlemeyi bilmiyordu"],e:"Değerli silah ve zırh askerî gücü, yüksek konumu ve gelişmiş metal işçiliğini gösterir."},
+{t:"Kazı: at takımı ve çadır",s:"KAZI: Kurganda at koşum takımları ve çadır parçaları çıktı. Yaşam tarzı hakkında ne söylersin?",o:["At önemlidir; hayvancılığa dayalı, hareketli bir yaşam sürmüşlerdir","Tek yerde yaşayıp balıkçılık yapmışlardır","Hiç hayvan beslememişlerdir"],e:"Çadır ve at takımı, hayvancılığa dayalı göçebe yaşamın izleridir."}]},
+{n:"Talas",era:1,s:"Kervan ikinci durağa ulaştı.",cs:[
+{t:"Talas'ın müttefiki",s:"751'de Türkler, Çinlilere karşı hangi toplulukla birlikte savaştı?",o:["Araplar","Bizanslılar","Hunlar"],e:"751'de Türk ve Arap orduları Çinlileri yendi."},
+{t:"Talas'ın sonucu",s:"Bu savaşın Türkler açısından önemli sonucu hangisidir?",o:["Türk boylarının kitleler hâlinde Müslüman olması hızlandı","Türkler Anadolu'ya yerleşmeye başladı","Çin, Türkleri yönetmeye başladı"],e:"Savaştan sonra Türk boyları kitleler hâlinde İslamiyet'i kabul etmeye başladı."},
+{t:"Talas'ın yılı",s:"Türk ve Arap ordularının Çinlileri yendiği Talas Savaşı hangi yılda yapılmıştır?",o:["751","1040","1071"],e:"Talas Savaşı 751 yılında yapılmıştır."},
+{t:"Kazı: cami kalıntısı",s:"KAZI: Bir Türk yerleşiminde cami ve medrese kalıntıları bulundu. Ne çıkarırsın?",o:["Bu Türk topluluğu İslamiyet'i kabul etmiştir","Bu topluluk eski inancını hiç değiştirmemiştir","Burada hiç kimse yaşamamıştır"],e:"Cami ve medrese kalıntıları, İslamiyet'in kabulünün izleridir."}]},
+{n:"Kaşgar",era:1,shop:1,s:"Kervan bir ticaret kentine vardı. Burada pazar kurulu!",cs:[
+{t:"Karahanlılar",s:"İslamiyet'i devlet olarak kabul eden ilk Türk devleti hangisidir?",o:["Karahanlılar","Göktürkler","Asya Hun Devleti"],e:"Karahanlılar İslamiyet'i kabul eden ilk Türk devletidir."},
+{t:"Balasagun",s:"Karahanlı Devleti'nin başkentlerinden biri hangisidir?",o:["Balasagun","Ordubalık","Konya"],e:"Karahanlı başkentleri Balasagun ve Kaşgar'dır; merkezler artık Ötüken'den uzaklaşmıştır."},
+{t:"Satuk Buğra Han",s:"Karahanlıların İslamiyet'i kabul eden hükümdarı kimdir?",o:["Satuk Buğra Han","Mete Han","Tuğrul Bey"],e:"Karahanlılar, Satuk Buğra Han döneminde Müslüman oldu."},
+{t:"Kazı: ipek kumaş",s:"KAZI: Kurganda uzak bir bölgede üretilen ipek kumaş parçası çıktı. Ne anlaşılır?",o:["Bu toplumun komşu halklarla ticareti ve ilişkisi vardı","Kumaş orada kendiliğinden oluşmuştur","Toplum kimseyle iletişim kurmamıştır"],e:"Uzak yerlerin ürünleri, ticaret ve kültürel ilişkilerin kanıtıdır."}]},
+{n:"Gazne",era:1,shop:1,s:"Kervan yorgun, ama yol uzun.",cs:[
+{t:"Gazneliler",s:"Merkezi Gazne olan Türk-İslam devleti hangisidir?",o:["Gazneliler","Karahanlılar","Anadolu Selçukluları"],e:"Gazneliler, merkezi Gazne şehri olan Türk-İslam devletidir."},
+{t:"Gazneli komşusu",s:"Selçuklular hangi devleti yenerek yükselişe geçti?",o:["Gazneliler","Uygurlar","Asya Hun Devleti"],e:"Selçuklular, Gazneliler'i yenerek Horasan'da güçlendi."},
+{t:"Gazneli Mahmud",s:"Hindistan seferleriyle Gazneli Devleti'ni en geniş sınırlarına ulaştıran hükümdar kimdir?",o:["Gazneli Mahmud","Alparslan","Tuğrul Bey"],e:"Gazneli Mahmud, Gazneli Devleti'ni en geniş sınırlarına ulaştırmıştır."}]},
+{n:"Nişabur",era:1,shop:1,s:"Kervan batıya doğru yoluna devam ediyor.",cs:[
+{t:"Dandanakan",s:"Büyük Selçuklu Devleti hangi savaşla kuruldu?",o:["Dandanakan Savaşı (1040)","Malazgirt Savaşı (1071)","Talas Savaşı (751)"],e:"Selçuklular, Gazneliler'i Dandanakan'da yenerek Büyük Selçuklu Devleti'ni kurdu."},
+{t:"Tuğrul Bey",s:"Büyük Selçuklu Devleti'nin kurucusu ve ilk sultanı kimdir?",o:["Tuğrul Bey","Alparslan","Mete Han"],e:"Büyük Selçuklu Devleti'nin kurucusu Tuğrul Bey'dir."},
+{t:"İlk başkent",s:"Büyük Selçuklu Devleti'nin ilk başkenti hangisidir?",o:["Nişabur","Ötüken","Konya"],e:"İlk başkent Nişabur'dur; sonra başkent Rey ve İsfahan'a taşındı."}]},
+{n:"Bağdat",era:2,shop:1,s:"Kervan büyük bir bilim ve kültür şehrine ulaştı. Burada pazar kurulu!",cs:[
+{t:"Nizamiye",s:"Büyük Selçuklu döneminde Nizamülmülk'ün kurdurduğu ünlü medreseler hangisidir?",o:["Nizamiye Medreseleri","Enderun Mektebi","Dârülfünun"],e:"Nizamiye Medreseleri, Türk-İslam dünyasının önemli eğitim kurumlarıdır."},
+{t:"Kutadgu Bilig",s:"Karahanlı döneminde Yusuf Has Hacib'in Türkçe yazdığı, devlet yönetimi öğütleri içeren eser hangisidir?",o:["Kutadgu Bilig","Divanü Lügati't-Türk","Siyasetname"],e:"Kutadgu Bilig, Karahanlılar döneminde yazılmış Türkçe bir eserdir."},
+{t:"Divanü Lügati't-Türk",s:"Kaşgarlı Mahmud'un Türkçeyi Araplara öğretmek için yazdığı ilk Türkçe sözlük hangisidir?",o:["Divanü Lügati't-Türk","Kutadgu Bilig","Siyasetname"],e:"Divanü Lügati't-Türk, Türkçenin ilk sözlüğüdür."},
+{t:"İbn-i Sina",s:"Tıp alanında 'el-Kanun fi't-Tıb' adlı eseri yazan İslam medeniyeti bilim insanı kimdir?",o:["İbn-i Sina","Mete Han","Alparslan"],e:"İbn-i Sina, tıp bilimine katkılarıyla insanlığın ortak mirasına katkı sağlamıştır."},
+{t:"Harezmî",s:"Matematikte cebir biliminin temelini atan ve adı 'algoritma' sözcüğüne kaynaklık eden İslam bilim insanı kimdir?",o:["Harezmî","Kaşgarlı Mahmud","Yusuf Has Hacib"],e:"Harezmî, cebir ve matematik alanındaki çalışmalarıyla ortak mirasa katkı yapmıştır."}]},
+{n:"Malazgirt",era:2,s:"Kervan yolculuğun en önemli duraklarından birine geldi.",cs:[
+{t:"Alparslan",s:"Malazgirt'te Bizans ordusunu yenen Selçuklu sultanı kimdir?",o:["Alparslan","Mete Han","Satuk Buğra Han"],e:"Alparslan, 1071'de Bizans'ı yenmiştir."},
+{t:"Malazgirt'in yılı",s:"Malazgirt Savaşı hangi yılda yapılmıştır?",o:["1071","1040","751"],e:"Malazgirt Savaşı 1071 yılında yapılmıştır."},
+{t:"Malazgirt'in sonucu",s:"Malazgirt Zaferi'nin sonuçlarından biri hangisidir?",o:["Anadolu'nun kapıları Türklere açıldı, Türk-İslam eserleri yapılmaya başlandı","Türkler Orta Asya'ya geri çekildi","Bizans Anadolu'da daha da güçlendi"],e:"Zaferle Anadolu'da Türk-İslam tarihi başladı."},
+{t:"İslamiyet'in etkisi",s:"Türklerin İslamiyet'i kabulüyle yaşamda hangi değişim görüldü?",o:["Cami ve medrese gibi yeni yapılar yaygınlaştı","Türkçe tamamen unutuldu","Göçebe yaşam bir anda tamamen bitti"],e:"Cami, medrese gibi kurumlar gelişti; Türkçe de eserlerde yaşadı."}]},
+{n:"Konya",era:2,s:"Son durak!",cs:[
+{t:"Anadolu Selçuklu",s:"Anadolu'yu yurt edinen Türklerin kurduğu ve Konya'yı uzun süre başkent yapan devlet hangisidir?",o:["Anadolu Selçuklu Devleti","Gazneliler","Karahanlılar"],e:"Anadolu Selçukluları XII. ve XIII. yüzyıllarda Anadolu'da Türk yurdunu kalıcı kıldı."},
+{t:"İznik",s:"Anadolu Selçuklu Devleti'nin ilk başkenti hangisidir?",o:["İznik","Konya","Nişabur"],e:"Anadolu Selçuklu Devleti'nin ilk başkenti İznik'tir; sonra başkent Konya olmuştur."},
+{t:"Kervansaray",s:"Anadolu Selçukluları, ticareti geliştirmek için yol üzerine kervanların konakladığı hangi yapıları inşa etmiştir?",o:["Kervansaraylar","Kurganlar","Medreseler"],e:"Kervansaraylar, tüccarlara güvenli konaklama sağlayarak ticareti geliştirmiştir."},
+{y:"ord",t:"Zaman şeridi",s:"Son görev: Yolculuğun olaylarını eskiden yeniye doğru sırala.",o:["Talas Savaşı (751)","Karahanlıların İslamiyet'i kabulü (X. yüzyıl)","Dandanakan Savaşı ve Büyük Selçuklu Devleti (1040)","Malazgirt Zaferi (1071)"],e:"Olaylar bu sırayla gerçekleşti."}]}];
+const TOT=ST.reduce((a,s)=>a+s.cs.length,0);
+const S={cd:{},caps:[],note:"",ph:"login",st:0,ci:0,h:3,gold:0,cor:0,res:null,opts:[],ord:[],wrong:[],over:0,t0:0,tq:0,sent:0,pend:null},me={kod:LINK_KOD};
+let tm=null,tEnd=0,tDur=20000;
+const pt=()=>Math.round(S.cor*100/TOT),cur=()=>ST[S.st].cs[S.ci];
+function stopT(){if(tm){clearInterval(tm);tm=null}}
+function startT(sec){stopT();tDur=sec*1000;tEnd=Date.now()+tDur;S.tq=Date.now();tm=setInterval(()=>{const l=tEnd-Date.now(),b=$("#tb");if(b)b.style.width=Math.max(0,l/tDur*100)+"%";if(l<=0){stopT();finish(false,"Süre doldu")}},100)}
+const CAP=[{n:"Ötüken–Ordubalık",d:"Göktürk ve Uygur",p:[47.5,102.8],at:0},{n:"Balasagun",d:"Karahanlı",p:[42.75,75.2],at:2},{n:"Kaşgar",d:"Karahanlı",p:[39.5,76],at:2},{n:"Gazne",d:"Gazneli",p:[33.55,68.4],at:3},{n:"Nişabur",d:"Büyük Selçuklu, ilk başkent",p:[36.2,58.8],at:4},{n:"İznik",d:"Anadolu Selçuklu, ilk başkent",p:[40.43,29.72],at:7},{n:"Konya",d:"Anadolu Selçuklu",p:[37.87,32.49],at:7}];
+// Oyun haritası: gerçek harita değil, şematik SVG. Sis, ulaşılmayan yerleri gizler; daireler etki alanını gösterir.
+// Komşu devletler (şematik, yaklaşık konum): [ad, enlem, boylam, yarıçapX, yarıçapY]. Dönem değişince liste değişir.
+const NB=[
+[["Çin",37,108,75,40],["Sasaniler",33,54,60,48],["Bizans",39.5,27,40,34],["Hint",27,78,65,24]],
+[["Çin (Tang)",37,108,75,40],["Abbasiler",33,46,65,40],["Samanoğulları",39.5,61.5,48,26],["Bizans",39.5,27,40,34],["Tibet",32,88,55,28]],
+[["Çin",37,108,75,40],["Abbasiler",33,44.4,60,36],["Bizans",40,25,40,34],["Gürcüler",42,44,28,18],["Fatımiler",30,31,48,22]]];
+const Q=l=>[(l[1]-28)*10,(50-l[0])*15],P=n=>Q(PL[n]);let vis=[],vSeen=0,cSeen=0,sig="",fog=true,vt=null,VB={x:0,y:-20,w:800,h:340},TV={x:0,y:-20,w:800,h:340};
+function applyVB(){const g=$("#gm");if(g.setAttribute)g.setAttribute("viewBox",VB.x+" "+VB.y+" "+VB.w+" "+VB.h);g.style.aspectRatio=VB.w+"/"+VB.h}
+// Görünüm, ulaşılan yerlere göre yakınlaşır (oyun sürerken); sonuçta tüm harita görünür.
+function fitView(full){if(full)TV={x:-110,y:-80,w:1100,h:480};else{const cs=P(ST[Math.min(S.st,ST.length-1)].n),nbp=NB[ST[Math.min(S.st,ST.length-1)].era].map(b=>Q([b[1],b[2]])).filter(q=>Math.hypot(q[0]-cs[0],q[1]-cs[1])<330),a=vis.map(i=>P(ST[i].n)).concat(S.caps.map(c=>Q(c.p)),nbp),xs=a.map(q=>q[0]),ys=a.map(q=>q[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),A=400/260,w=Math.max(480,x1-x0+330,(y1-y0+220)*A),h=w/A;TV={x:(x0+x1)/2-w/2,y:(y0+y1)/2-h/2,w,h}}
+const s={...VB};let n=0;clearInterval(vt);vt=setInterval(()=>{n++;const t=Math.min(1,n/22),e=t*t*(3-2*t);for(const q in TV)VB[q]=s[q]+(TV[q]-s[q])*e;applyVB();if(t>=1)clearInterval(vt)},30)}
+function drawMap(){const o=[],ce=ST[Math.min(S.st,ST.length-1)].era,fs=TV.w/36,sw=fs/3;
+if(fog)o.push(`<mask id="fg"><rect x="-300" y="-300" width="1400" height="900" fill="#fff"/>${vis.map(i=>{const[x,y]=P(ST[i].n);return `<circle cx="${x}" cy="${y}" r="${ST[i].era===0?150:105}" fill="#000"/>`}).join("")}${NB[ce].map(b=>{const[x,y]=Q([b[1],b[2]]);return `<ellipse cx="${x}" cy="${y}" rx="${b[3]+10}" ry="${b[4]+10}" fill="#000"/>`}).join("")}</mask><rect x="-300" y="-300" width="1400" height="900" fill="#1e293b" fill-opacity=".62" mask="url(#fg)"/>`);
+vis.forEach((i,j)=>{const s=ST[i],e=ERA[s.era],[x,y]=P(s.n),old=s.era<ce;o.push(`<circle class="${j>=vSeen?"pop":""}" cx="${x}" cy="${y}" r="${s.era===0?110:70}" fill="${e.c}" fill-opacity="${old?.1:.3}" stroke="${e.c}" stroke-opacity="${old?.3:.8}" stroke-width="2"/>`)});
+vis.forEach(i=>{if(i>0){const a=P(ST[i-1].n),b=P(ST[i].n);o.push(`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${ERA[ST[i].era].c}" stroke-width="${sw}" stroke-dasharray="${sw} ${sw*2.5}"/>`)}});
+if(S.caps.length>1)o.push(`<polyline points="${S.caps.map(c=>Q(c.p).join(",")).join(" ")}" fill="none" stroke="#b91c1c" stroke-width="${sw*1.3}" stroke-linejoin="round" opacity=".85"/>`);
+const T=(x,y,t,c)=>`<text x="${x}" y="${y}" font-size="${fs}" font-weight="800" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="${fs/4}" fill="${c||"#1e293b"}">${t}</text>`;
+if(fog)vis.forEach(i=>{const n=ST[i].n,[x,y]=P(n),cp=S.caps.some(c=>c.n===n||(n==="Orhun Vadisi"&&c.n[0]==="Ö"));o.push(`<circle cx="${x}" cy="${y}" r="${fs/2}" fill="${ERA[ST[i].era].c}" stroke="#fff" stroke-width="${sw}"/>`+(cp?"":T(x,y-fs,n)))});
+S.caps.forEach((c,j)=>{const[x,y]=Q(c.p),up=c.n==="İznik";o.push(`<g class="${j>=cSeen?"pop":""}"><text x="${x}" y="${y+fs*.5}" font-size="${fs*2}" text-anchor="middle">🏛️</text>${T(x,up?y-fs*1.5:y+fs*2.1,(j+1)+". "+c.n,"#7f1d1d")}</g>`)});
+NB[ce].forEach(([n,la,lo,rx,ry])=>{const[x,y]=Q([la,lo]);o.push(`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#6b7280" fill-opacity=".12" stroke="#6b7280" stroke-opacity=".5" stroke-width="${sw*.6}" stroke-dasharray="${sw} ${sw}"/><text x="${x}" y="${y+fs*.3}" font-size="${fs*.7}" font-style="italic" font-weight="700" text-anchor="middle" paint-order="stroke" stroke="#f6ecd0" stroke-width="${fs/5}" fill="#4b5563">${n}</text>`)});
+vSeen=vis.length;cSeen=S.caps.length;$("#lyr").innerHTML=o.join("")}
+function moveCar(){const[x,y]=P(ST[Math.min(S.st,ST.length-1)].n);$("#car").style.transform=`translate(${x}px,${y}px) scale(${TV.w/400})`}
+function mapUp(){fog=true;const g=S.st+"|"+S.caps.length;if(g!==sig){sig=g;if(!vis.includes(S.st))vis.push(S.st);fitView(false);drawMap()}moveCar()}
+function endMap(){if(sig!=="end"){fog=false;sig="end";fitView(true);drawMap();moveCar()}}
+// Bir durağın görevleri bitince o durakta başkent değiştiyse haritaya eklenir (cevabı önceden göstermemek için sonra).
+function revealCaps(i){if(S.cd[i])return;S.cd[i]=1;const add=CAP.filter(c=>c.at===i);if(!add.length)return;S.caps.push(...add);
+S.note="🏛️ Başkent yolu güncellendi: "+add.map(c=>c.n+" ("+c.d+")").join(" ve ")+". "+(i===0?"Türklerin başkenti Orta Asya'da, Orhun Vadisi'ndedir.":i<=4?"Başkentler artık Orta Asya'dan güneye ve batıya doğru kayıyor.":"Başkent Anadolu'ya ulaştı.")}
+function R(top){const y=scrollY,inG=["stop","card","shop"].includes(S.ph),showMap=inG||S.ph==="end";$("#gd").textContent=S.gold;$("#hr").textContent="❤️".repeat(S.h)+"🖤".repeat(3-S.h);
+$("#st").textContent=S.ph==="login"?"Giriş":S.ph==="end"?"Sonuç":"Durak "+Math.min(S.st+1,ST.length)+" / "+ST.length;
+const ce=inG?ST[S.st].era:-1;$("#era").style.display=inG?"flex":"none";$("#era").innerHTML=ERA.map((e,i)=>`<span class="ec" style="${i===ce?"background:"+e.c+";color:#fff":""}">${i+1}. ${e.n}</span>`).join("");
+$("#app").innerHTML={login:loginH,stop:stopH,card:cardH,shop:shopH,end:endH}[S.ph]();$("#mw").style.display=showMap?"block":"none";if(showMap){if(inG)mapUp();else endMap()}
+if(S.ph==="stop"||S.ph==="shop")S.note="";
+scrollTo(0,top?0:y);if(S.ph==="end"&&!S.sent){S.sent=1;stopT();send()}}
+function loginH(){return `<h2>Türk Kervanı</h2><p class="d">Orta Asya'dan Anadolu'ya uzanan yolculukta kervanı sen yöneteceksin. Oyun haritasındaki sis, ilerledikçe açılacak ve Türklerin yayılışını göreceksin. 3 kalbin var; yanlış cevap ya da süre aşımı bir kalp götürür. Doğru cevap altın kazandırır, hızlı cevap ek altın verir. Pazarda altınla erzak (kalp) alabilirsin.</p><input id="ia" placeholder="Ad Soyad"><input id="in" placeholder="Okul numarası"><select id="is"><option>6-A</option><option>6-B</option><option>6-C</option></select><button class="nx" onclick="begin()">Yola Çık →</button>`}
+function begin(){const a=$("#ia").value.trim();if(!a){alert("Adını ve soyadını yaz.");return}me.a=a;me.kod=me.kod||LINK_KOD;me.n=$("#in").value.trim()||"-";me.s=$("#is").value;S.t0=Date.now();S.ph="stop";R(1)}
+function stopH(){const nt=S.note?`<div class="fb ok">${S.note}</div>`:"";const s=ST[S.st],e=ERA[s.era],first=S.st===0||ST[S.st-1].era!==s.era;return `${nt}${first?`<div class="fb nt"><b>${["①","②","③"][s.era]} ${e.n}</b><br>${e.t}</div>`:""}<span class="tag">Durak ${S.st+1} / ${ST.length}</span><h2>${s.n}</h2><p class="d">${s.s}</p><button class="nx" onclick="goStop()">Zorlukları Geç →</button>`}
+function goStop(){S.ph="card";S.ci=0;enter()}
+function enter(){const c=cur();S.res=null;if(c.y==="ord"){let o=sh(c.o.map((_,i)=>i));if(o.every((v,k)=>v==k))o.reverse();S.ord=o}else S.opts=sh(c.o);startT(c.y?40:20);R(1)}
+function cardH(){const c=cur(),s=ST[S.st];let h=`<span class="tag">Görev ${S.ci+1} / ${s.cs.length}${S.res?" • "+c.t:""}</span>`;
+if(!S.res){h+=`<div class="tm"><div id="tb"></div></div><div class="sn">${c.s}</div>`;
+if(c.y==="ord"){h+=S.ord.map((v,k)=>`<div class="row"><span>${c.o[v]}</span><span><button class="b2" ${k?"":"disabled"} onclick="mv(${k},-1)">▲</button> <button class="b2" ${k<c.o.length-1?"":"disabled"} onclick="mv(${k},1)">▼</button></span></div>`).join("")+`<button class="nx" onclick="chk()">Sırayı Onayla</button>`}
+else h+=S.opts.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join("");return h}
+const r=S.res,right=c.y==="ord"?c.o.map((x,k)=>(k+1)+") "+x).join(" → "):c.o[0];
+return h+`<div class="sn">${c.s}</div><div class="fb ${r.ok?"ok":"bad"}">${r.ok?"✓ Doğru! +"+(r.fast?2:1)+" 🪙"+(r.fast?" (hızlı cevap bonusu)":""):"✗ "+r.sel+". Doğrusu: <b>"+right+"</b>"}<br>${c.e}${r.ok?"":"<br>💔 Bir kalp kaybettin."}</div><button class="nx" onclick="nxt()">${S.over?"Sonucu Gör":"Devam →"}</button>`}
+function pick(k){if(S.res)return;stopT();const c=cur();finish(S.opts[k]===c.o[0],S.opts[k])}
+function mv(k,d){[S.ord[k],S.ord[k+d]]=[S.ord[k+d],S.ord[k]];R()}
+function chk(){stopT();const c=cur();finish(S.ord.every((v,k)=>v==k),S.ord.map(v=>c.o[v]).join(" → "))}
+function finish(ok,sel){if(S.res)return;const c=cur(),fast=ok&&Date.now()-S.tq<=8000;
+if(ok){S.cor++;S.gold+=fast?2:1}else{S.h--;if(S.h<=0)S.over=1;S.wrong.push({k:ST[S.st].n+": "+c.t,sel,r:c.y==="ord"?c.o.join(" → "):c.o[0]})}S.res={ok,sel,fast};R()}
+function nxt(){if(S.over){S.ph="end";R(1);return}S.ci++;if(S.ci>=ST[S.st].cs.length){revealCaps(S.st);if(ST[S.st].shop){S.ph="shop";R(1)}else adv()}else enter()}
+function adv(){S.st++;if(S.st>=ST.length){S.ph="end"}else S.ph="stop";R(1)}
+function shopH(){const can=S.gold>=3&&S.h<3;return `${S.note?`<div class="fb ok">${S.note}</div>`:""}<span class="tag">Pazar • ${ST[S.st].n}</span><h2>Erzak Pazarı</h2><p class="d">Elinde <b>${S.gold} 🪙</b> ve <b>${S.h} ❤️</b> var. 3 altına bir kalp (erzak) alabilirsin${S.h>=3?" ama kalpların zaten dolu":S.gold<3?" ama altının yetmiyor":""}.</p><button class="nx" ${can?"":"disabled"} onclick="buy()">Erzak Al (−3 🪙, +1 ❤️)</button><button class="nx g" onclick="adv()">Yola Devam →</button>`}
+function buy(){if(S.gold>=3&&S.h<3){S.gold-=3;S.h++}adv()}
+function endH(){const p=pt(),won=!S.over&&S.st>=ST.length,t=won?(p>=80?["🏅","Kervanbaşı"]:["🐎","Konya'ya Ulaşan Kervan"]):["🏜️","Kervan Yolda Kaldı"];
+return `<div style="text-align:center"><div style="font-size:3.4rem">${t[0]}</div><h2>${t[1]}</h2><p class="d">${me.a.replace(/</g,"&lt;")} • ${me.s}${won?"":" • "+ST[Math.min(S.st,ST.length-1)].n+" durağında kaldı"}</p><div class="big">${p} / 100</div></div>
+<div class="row"><span>Doğru cevap</span><b>${S.cor} / ${TOT}</b></div><div class="row"><span>Kalan ❤️ / Altın</span><b>${S.h} / ${S.gold} 🪙</b></div>
+<h3 style="margin:12px 0 6px">Türklerin başkent yolu</h3><div class="fb nt">${S.caps.length?S.caps.map((c,i)=>(i+1)+". <b>"+c.n+"</b> ("+c.d+")").join(" → "):"Başkent yolu bu kez açılamadı."}</div>
+<h3 style="margin:12px 0 6px">Tekrar etmen gerekenler (${S.wrong.length})</h3>${S.wrong.length?S.wrong.map(w=>`<div class="fb bad"><b>${w.k}</b><div class="note">Senin cevabın: ${w.sel}<br>Doğrusu: ${w.r}</div></div>`).join(""):"<p>Hepsi doğru, harika! 🎉</p>"}
+<p id="msg" class="note" style="margin:10px 0"></p><button class="nx" onclick="location.reload()">Yeniden Oyna</button>`}
+function send(){const sn=Math.round((Date.now()-S.t0)/1000),won=!S.over&&S.st>=ST.length;S.pend={kayitId:Date.now().toString(36)+Math.random().toString(36).slice(2,8),adSoyad:me.a,okulNo:me.n,sube:me.s,oyun:"Türk Kervanı"+(won?" (Konya'ya ulaştı)":" (kalpler bitti: "+ST[Math.min(S.st,ST.length-1)].n+")"),seviye:"6. Sınıf Ortak Mirasımız",turSayisi:1,puan:pt(),dogruSayisi:S.cor,toplamSoru:TOT,gecenSure:Math.floor(sn/60)+" dk "+sn%60+" sn",gecenSureSn:sn,yanlisTiklama:S.wrong.length,hataliIller:S.wrong.map(w=>w.k).join(", "),yanlisDetay:S.wrong.map(w=>w.k+": "+w.sel+" → doğrusu "+w.r).join(" | "),ad:me.a,sinif:me.s,no:me.n,okulKodu:me.kod,sekme:"Türk Kervanı",b:[S.cor,S.wrong.length],yanlis:S.wrong.length,liste:"Süre "+Math.floor(sn/60)+" dk "+sn%60+" sn | Doğru "+S.cor+"/"+TOT+" | Yanlış: "+S.wrong.map(w=>w.k).join(", ")};post()}
+async function post(){const m=$("#msg");if(!me.kod||!S.pend)return;if(!SCRIPT_URL){m.textContent="ℹ️ Kayıt bağlantısı henüz yapılmadı.";return}
+m.style.color="#64748b";m.textContent="⏳ Sonuçların kaydediliyor...";
+try{await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({...S.pend,kod:me.kod})});m.style.color="#059669";m.textContent="✓ Sonuçların öğretmenine gönderildi."}
+catch(e){m.style.color="#b45309";m.innerHTML='⚠️ Sonuç gönderilemedi. <button onclick="post()" style="padding:3px 10px;border-radius:8px;border:1px solid #b45309;background:#fff;font-weight:800;cursor:pointer">Tekrar dene</button>'}}
+R();
+</script></body></html>
