@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zaman Yolcuları | 5. Sınıf Ortak Mirasımız</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#e6f4e9;--panel:#fff;--soft:#f2faf4;--line:#b7dcc1;--ink:#173225;--a:#e8890c;--b:#2f9e57;--c:#6366f1;--map:#b9e394}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Fredoka','Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.bin .chip{pointer-events:none}
+</style></head><body>
+<header class="top"><a class="back" href="index.html">← Kütüphane</a><div class="brand"><span>⏳</span>Zaman Yolcuları (5. Sınıf)</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk5-oyun-3";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzCvRY9YlaUl_7OfV8QipBa4HjfXxA9t2DEiAwkJ_stvpx1o52tRUor6bHQx4Ok9vc4/exec";const OYUN="5. Sınıf 3. Ünite Oyunu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Zaman Makinesi", "e": "⏳", "x": 36.1, "y": 21.2, "sub": "Ortak miras nedir?", "intro": "Zaman makineni çalıştırdın! Önce 'ortak miras' nedir öğrenelim, sonra geçmişe yolculuk başlıyor.", "c": [["🌍", "Ortak miras", "İnsanlığın nesiller boyu aktardığı maddi ve manevi değerlerdir. Tüm insanlığa aittir, korunması için ülkeler iş birliği yapar."], ["🏛️", "UNESCO", "Dünya mirasını koruyan Birleşmiş Milletler kuruluşudur. Ülkemizde Kültür ve Turizm Bakanlığı, müzeler ve vakıflar da mirasımızı korur."], ["🌿", "Doğal ve tarihî miras", "Doğal miras insan eli değmeden oluşan yerlerdir (Pamukkale, Salda Gölü). Tarihî miras insan yapımıdır (Ayasofya, Efes)."], ["🎭", "Somut olmayan miras", "Gelenek ve görenekler de mirastır: Karagöz, çay kültürü, kuş dili ve Nasreddin Hoca fıkraları gibi."]], "t": [{"k": "sort", "q": "Bu yerler doğal miras mı, tarihî miras mı?", "bins": [["Doğal miras", "🌿"], ["Tarihî miras", "🏛️"]], "items": [["Pamukkale", 0], ["Salda Gölü", 0], ["Ölüdeniz", 0], ["Düden Şelalesi", 0], ["Ayasofya", 1], ["Aspendos Tiyatrosu", 1], ["Sümela Manastırı", 1], ["Celsus Kütüphanesi", 1]]}, {"k": "match", "q": "Mirası türüyle eşleştir.", "pairs": [["Karagöz gölge oyunu", "Somut olmayan miras"], ["Kız Kulesi", "Taşınamayan tarihî eser"], ["Kaşıkçı Elması", "Taşınabilir tarihî nesne"], ["Efes Antik Kenti", "Tarihî mekân"]]}], "r": ["Miras Bekçisi", "Ortak miras tüm insanlığındır ve hep birlikte korunur."]}, {"n": "Göbeklitepe", "e": "🗿", "x": 60.9, "y": 42.7, "sub": "Şanlıurfa • MÖ 10.000", "intro": "Zaman makinesi MÖ 10.000'e geldi! Şanlıurfa'dayız. Burada insanlar yazıyı bile bilmeden dev taşlar dikmiş.", "c": [["🗿", "T biçimli dikili taşlar", "Üzerlerinde hayvan ve insan figürleri vardır. Bu figürler sanatın ve inancın göstergesidir."], ["🛕", "En eski inanç merkezi", "Göbeklitepe, bilinen en eski inanç (ibadet) merkezidir. Avcı-toplayıcılar tarafından yapıldı."], ["🌾", "Tarıma geçiş ipuçları", "Burada öğütme taşları ve yabani tahıl tohumları bulundu. Bunlar tarıma geçişin ilk işaretleridir."], ["🌍", "UNESCO (2018)", "Göbeklitepe 2018'de UNESCO Dünya Mirası Listesi'ne girdi."]], "t": [{"k": "pick", "rounds": [{"q": "Göbeklitepe'yi kimler yapmıştır?", "o": ["Avcı-toplayıcılar", "Çiftçi köylüler", "Deniz tüccarları"], "a": 0, "w": "Göbeklitepe'yi avcı-toplayıcılar yaptı.", "h": "Henüz yerleşik hayata geçmemiş topluluklar..."}, {"q": "Öğütme taşları ve yabani tahıl tohumları neyi gösterir?", "o": ["Tarıma geçişin ilk işaretlerini", "Denizciliğin gelişmesini", "Madeni paranın icadını"], "a": 0, "w": "Bu buluntular tarıma geçişin ilk ipuçlarıdır.", "h": "Tahıl neyle ilgilidir?"}, {"q": "T biçimli taşlardaki hayvan ve insan figürleri neyin göstergesidir?", "o": ["Sanatın ve inancın", "Ticaretin", "Yazının"], "a": 0, "w": "Figürler sanatı ve inancı gösterir.", "h": "Taşlara bakınca ne anlarsın?"}]}, {"k": "match", "q": "Göbeklitepe bilgilerini eşleştir.", "pairs": [["Şanlıurfa", "Bulunduğu il"], ["MÖ 10.000", "Yapıldığı dönem"], ["T biçimli taşlar", "Hayvan ve insan figürleri"], ["2018", "UNESCO listesine girdiği yıl"]]}], "r": ["Kazı Başkanı", "Göbeklitepe, bilinen en eski inanç merkezidir."]}, {"n": "Çayönü", "e": "🌾", "x": 65.3, "y": 34.1, "sub": "Diyarbakır • MÖ 8200", "intro": "Şimdi MÖ 8200! Çayönü'nde insanlar göçebelikten yerleşik köy hayatına geçiyor.", "c": [["🏠", "Yerleşik köy hayatı", "Çayönü, göçebelikten yerleşik ve üretici hayata (tarıma) geçilen ilk yerlerdendir."], ["🧱", "Evler gelişiyor", "Önce yuvarlak kulübeler, sonra nemi önlemek için taş temelli ızgara planlı evler, en sonunda 2 katlı ve kilerli evler yapıldı."], ["🌾", "Tarım ve hayvancılık", "Buğday, mercimek ve bezelye yetiştirildi. Hayvan boynuzundan orak sapı, deriden eşya yapıldı."], ["⚒️", "Bakır ve ticaret", "Bakırdan levha, iğne ve boncuk yapıldı. Bingöl'den obsidiyen, Akdeniz'den deniz kabuğu getirildi."]], "t": [{"k": "order", "q": "Çayönü'nde evlerin gelişimini eskiden yeniye sırala.", "steps": ["Yuvarlak kulübeler", "Izgara planlı taş temelli evler", "İki katlı, kilerli evler"]}, {"k": "match", "q": "Çayönü'ndeki işi, yapıldığı alanla eşleştir.", "pairs": [["Buğday, mercimek, bezelye", "Tarım"], ["Deri eşya yapımı", "Hayvancılık"], ["Bakır levha ve iğne", "Madencilik"], ["Bingöl'den obsidiyen getirmek", "Ticaret"]]}], "r": ["Köy Kurucusu", "Çayönü'nde insanlar yerleşik, üretici hayata geçti."]}, {"n": "Çatalhöyük ve Hacılar", "e": "🏘️", "x": 36.0, "y": 39.1, "sub": "Konya • MÖ 7400 | Burdur • MÖ 7200", "intro": "MÖ 7400! Çatalhöyük'te sokak yok, evlerin kapısı bile yok. Eve nasıl gireceksin?", "c": [["🏘️", "İlk şehir yerleşmesi", "Evler kerpiçten ve birbirine bitişik. Sokak yok, ulaşım damlardan yapılırdı."], ["🪜", "Tavandan giriş", "Güvenlik için eve tavandaki delikten tahta merdivenle girilirdi. Delik aynı zamanda baca ve penceredir."], ["🎨", "Evin içi", "İç duvarlar beyaz sıvalı ve av sahneleriyle süslüdür. Ölüler ev tabanına eşyalarıyla gömülürdü (ölümden sonraki yaşam inancı)."], ["🌋", "Obsidiyen ve ticaret", "Hasan Dağı'ndan obsidiyen ve tuz çıkarılıp satıldı. Dokuma keten kumaş da ticaret malıydı. Çatalhöyük 2012'de UNESCO listesine girdi."], ["🐝", "Arıcılık", "Çömleklerde balmumu kalıntısı bulundu. Bu, arıcılığın kanıtıdır."], ["🏺", "Hacılar (Burdur)", "Batı Anadolu'nun en eski yerleşimidir. Tek odalı, avlulu, kırmızı boyalı evler ve testere dişi biçimli savunma surları vardı."]], "t": [{"k": "pick", "rounds": [{"q": "Çatalhöyük'te insanlar evlerine nereden girerdi?", "o": ["Tavandaki delikten, merdivenle", "Büyük kapıdan", "Pencereden"], "a": 0, "w": "Evlere güvenlik için tavandan girilirdi.", "h": "Sokak yoktu..."}, {"q": "Çatalhöyük'te evler bitişik olduğu için ulaşım nasıl sağlanırdı?", "o": ["Damlardan", "Sokaklardan", "Nehirden"], "a": 0, "w": "Evler bitişik olduğundan damlar yol gibi kullanılırdı.", "h": "Sokak yok demiştik."}, {"q": "Hacılar'da savunma için ne yapılmıştır?", "o": ["Testere dişi biçimli surlar", "Ziggurat", "Karum"], "a": 0, "w": "Hacılar'ı çevreleyen testere dişi biçimli sur savunma içindir.", "h": "Etrafı çeviren bir yapı..."}]}, {"k": "sort", "q": "Bu özellik hangi yerleşime ait?", "bins": [["Çatalhöyük", "🏘️"], ["Hacılar", "🏺"]], "items": [["Eve tavandan giriş", 0], ["Ev tabanına gömme", 0], ["Hasan Dağı obsidiyeni", 0], ["Kırmızı boyalı evler", 1], ["Testere dişi surlar", 1], ["Tek odalı, avlulu evler", 1]]}], "r": ["İlk Şehirli", "Çatalhöyük ilk şehir yerleşmesi, Hacılar Batı Anadolu'nun en eski yerleşimidir."]}, {"n": "Mezopotamya", "e": "🏺", "x": 82.4, "y": 76.2, "sub": "Sümer • Babil • Asur", "intro": "Fırat ve Dicle arasındayız! Burası 'Bereketli Hilal' diye anılır. Yazının icadıyla tarihî çağlar başlıyor.", "c": [["🌊", "Mezopotamya", "Fırat ile Dicle nehirleri arasındaki verimli topraklardır. 'Münbit Hilal' (Bereketli Hilal) denir."], ["📝", "Sümerler: yazı", "Depodaki ürünleri kaydetmek için kil tabletlere semboller çizdiler: çivi yazısı doğdu. Yazının icadıyla tarihî çağlar başladı."], ["🛕", "Site ve ziggurat", "Sümerler 'site' adlı şehir devletleri kurdu (Ur, Uruk, Lagaş, Kiş). Çok katlı tapınakları ziggurattır. 60'lık sayı sistemini de onlar kullandı."], ["⚖️", "Babilliler", "Başkentleri Babil'dir. 282 maddelik Hammurabi Kanunları ('göze göz, dişe diş'), İştar Kapısı ve Babil'in Asma Bahçeleri bunlardandır."], ["🏺", "Asurlular", "Başkentleri Ninova'dır. Anadolu'da 'karum' denen ticaret pazarları kurup çivi yazısını Anadolu'ya taşıdılar. Asurbanipal'ın kütüphanesi ünlüdür."]], "t": [{"k": "match", "q": "Medeniyeti eserle eşleştir.", "pairs": [["Sümerler", "Çivi yazısı"], ["Babilliler", "Hammurabi Kanunları"], ["Asurlular", "Karum (ticaret pazarı)"], ["Ziggurat", "Çok katlı tapınak"]]}, {"k": "sort", "q": "Bu eser hangi medeniyete ait?", "bins": [["Sümer", "📝"], ["Babil", "⚖️"], ["Asur", "🏺"]], "items": [["Çivi yazısı", 0], ["60'lık sayı sistemi", 0], ["Hammurabi Kanunları", 1], ["İştar Kapısı", 1], ["Karum pazarları", 2], ["Asurbanipal'ın kütüphanesi", 2]]}, {"k": "pick", "rounds": [{"q": "Mezopotamya hangi iki nehrin arasındadır?", "o": ["Fırat ve Dicle", "Nil ve Kızılırmak", "Seyhan ve Ceyhan"], "a": 0, "w": "Mezopotamya, Fırat ile Dicle arasındaki topraktır.", "h": "Bereketli Hilal'i düşün."}, {"q": "Tarihî çağlar hangi olayla başlamıştır?", "o": ["Yazının icadıyla", "Tekerleğin icadıyla", "Madeni paranın icadıyla"], "a": 0, "w": "Yazının icadı (MÖ 3500) tarihî çağları başlatır.", "h": "Sümerler ne icat etti?"}]}], "r": ["Çivi Yazısı Ustası", "Mezopotamya'da yazının icadıyla tarihî çağlar başladı."]}, {"n": "Hititler", "e": "🦁", "x": 43.2, "y": 20.5, "sub": "Hattuşa • Çorum", "intro": "Anadolu'ya döndük! Hititlerin başkenti Hattuşa'dayız. Burada tarihin ilk yazılı antlaşması yapılmış.", "c": [["🏰", "Başkent Hattuşa", "Çorum'dadır ve 1986'da UNESCO listesine girdi. Surlar, Aslanlı Kapı ve Kral Kapısı ünlüdür."], ["👑", "Kral ve kraliçe", "Kral aynı anda başkomutan, başyargıç ve başrahiptir. Kraliçeye 'Tavananna' denir ve yönetimde etkilidir. Danışma meclisi Pankuş'tur."], ["📜", "Tarafsız tarih yazıcılığı", "Tanrılara hesap vereceklerine inandıkları için zaferleri ve yenilgileri birlikte yazdılar (Anal)."], ["🤝", "Kadeş Antlaşması", "MÖ 1280'de Mısır'la yapıldı. Bilinen ilk yazılı antlaşmadır."], ["☀️", "Hitit Güneş Kursu", "Hititler madenciliği geliştirdi. Hitit Güneş Kursu tunçtan yapılmıştır."]], "t": [{"k": "pick", "rounds": [{"q": "Bilinen ilk yazılı antlaşma hangisidir?", "o": ["Kadeş Antlaşması", "Hammurabi Kanunları", "Kral Yolu"], "a": 0, "w": "Kadeş Antlaşması (MÖ 1280) bilinen ilk yazılı antlaşmadır.", "h": "Hititler ve Mısır..."}, {"q": "Hitit kraliçesine ne ad verilir?", "o": ["Tavananna", "Semiramis", "Artemis"], "a": 0, "w": "Hitit kraliçesine Tavananna denir.", "h": "T harfiyle başlar."}, {"q": "Hititler zaferleri ve yenilgileri neden birlikte yazmıştır?", "o": ["Tanrılara hesap vereceklerine inandıkları için", "Para kazanmak için", "Başka ülkelere göstermek için"], "a": 0, "w": "Tanrılara hesap vereceklerine inandıkları için tarafsız yazdılar.", "h": "İnanç ile ilgili."}]}, {"k": "match", "q": "Hitit bilgisini eşleştir.", "pairs": [["Hattuşa", "Hitit başkenti"], ["Pankuş", "Danışma meclisi"], ["Kadeş", "İlk yazılı antlaşma"], ["Anal", "Yıllık (tarih yazıcılığı)"]]}], "r": ["Hattuşa Elçisi", "Hititler, bilinen ilk yazılı antlaşmayı yapan Anadolu uygarlığıdır."]}, {"n": "Lidya ve İyonya", "e": "🪙", "x": 14.7, "y": 34.9, "sub": "Sardes • Efes", "intro": "Son durak Batı Anadolu! Ticaretin ve özgür düşüncenin doğduğu yerdeyiz.", "c": [["🪙", "Lidyalılar: madeni para", "Başkent Sardes'tir. Takas yerine madeni parayı icat ettiler, ticaret hızlandı."], ["🛡️", "İlk sigorta", "Ticareti güvenceye almak için tarihte ilk sigortacılık sistemini uyguladılar."], ["🛣️", "Kral Yolu", "Efes'ten Mezopotamya'ya uzanan ticaret yoludur. Doğu ve Batı kültürlerinin karşılaşmasını sağladı."], ["⛵", "İyonyalılar", "'Polis' adlı şehir devletleri kurdular (Efes, Milet, Foça, İzmir). Deniz ticareti yaptılar."], ["🧠", "Bilim ve özgür düşünce", "Tıpta Hipokrat, tarihte Herodot, matematikte Tales ve Pisagor, coğrafyada Hekataios İyonyalıdır."], ["🗿", "Heykel ve yapılar", "Tanrılarını insan biçiminde düşündükleri için heykelcilik gelişti. Celsus Kütüphanesi ve Efes Tiyatrosu İyonya'dadır."]], "t": [{"k": "sort", "q": "Bu özellik hangi uygarlığa ait?", "bins": [["Lidyalılar", "🪙"], ["İyonyalılar", "🧠"]], "items": [["Madeni para", 0], ["İlk sigortacılık", 0], ["Kral Yolu", 0], ["Polis (şehir devleti)", 1], ["Hipokrat", 1], ["Celsus Kütüphanesi", 1]]}, {"k": "pick", "rounds": [{"q": "Madeni parayı ilk kullanan uygarlık hangisidir?", "o": ["Lidyalılar", "Sümerler", "Hititler"], "a": 0, "w": "Lidyalılar madeni parayı icat etti.", "h": "Başkent Sardes'ti."}, {"q": "Tales ve Pisagor hangi uygarlıkta yaşayan bilim insanlarıdır?", "o": ["İyonyalılar", "Asurlular", "Babilliler"], "a": 0, "w": "İyonya'da özgür düşünce bilimi geliştirdi.", "h": "Efes ve Milet..."}, {"q": "Efes'ten Mezopotamya'ya uzanan ticaret yoluna ne ad verilir?", "o": ["Kral Yolu", "İpek Yolu", "Baharat Yolu"], "a": 0, "w": "Kral Yolu Doğu ile Batı'yı bağladı.", "h": "Lidyalılar zenginleştiği yol."}]}], "r": ["Zaman Yolcusu", "Anadolu'nun geçmişini keşfettin: miras hepimizin, onu korumak da hepimizin görevi!"]}];
+const G={title:"Zaman Yolcuları",story:"Zaman makineni çalıştırdın! Haritadaki durakları sırayla gez: Anadolu'nun ilk yerleşimlerinden Mezopotamya ve Anadolu uygarlıklarına uzanan yolculuğa çık. Kartları aç, görevleri tamamla.",end:["Zaman yolculuğu tamamlandı!","Göbeklitepe'den İyonya'ya kadar Anadolu ve Mezopotamya uygarlıklarını tanıdın: sen gerçek bir Zaman Yolcususun!"],map:d=>`<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="100" height="60" fill="#bfe3f5"/><path d="M-4.1 -9.0 L16.3 -9.0 L16.3 3.0 L9.6 4.1 L8.4 8.9 L2.4 8.3 L0.0 9.0 L-2.9 11.4 L-5.7 10.0 L-4.5 15.2 L-1.6 20.9 L-4.1 23.3 L-4.9 29.0 L-8.2 27.6 L-8.2 12.4Z" fill="#efe3bb" stroke="#d9c88f" stroke-width=".25"/><path d="M71.4 5.5 L71.8 -9.0 L102.0 -9.0 L102.0 64.7 L40.8 64.7 L42.0 53.8 L44.9 46.6 L46.9 41.4 L48.8 31.9 L51.0 29.5Z" fill="#efe3bb" stroke="#d9c88f" stroke-width=".25"/><path d="M16.3 3.0 L15.9 -4.3 L24.5 -16.2 L71.8 -16.2 L71.8 5.5 L67.3 7.6 L64.1 7.6 L56.7 7.7 L50.2 6.2 L45.3 2.7 L39.6 3.0 L34.7 3.6 L31.8 5.5 L30.2 6.3 L24.5 7.0 L20.8 6.7Z" fill="#bfe3f5"/><path d="M33.9 35.7 L36.7 34.5 L40.8 33.8 L43.2 32.8 L40.4 36.2 L36.7 37.8 L34.3 36.7Z" fill="#efe3bb" stroke="#d9c88f" stroke-width=".25"/><path d="M20.8 6.7 L24.5 7.0 L30.2 6.3 L31.8 5.5 L34.7 3.6 L39.6 3.0 L45.3 2.7 L47.7 4.8 L50.2 6.2 L54.3 6.9 L56.7 7.7 L58.8 8.1 L64.1 7.6 L67.3 7.6 L71.4 5.5 L75.5 5.2 L79.2 7.1 L80.0 10.9 L82.8 14.8 L83.6 20.0 L84.9 25.2 L80.4 26.2 L74.7 26.2 L69.4 27.1 L65.3 27.6 L60.4 28.1 L53.4 28.3 L51.0 30.5 L49.0 31.9 L49.8 28.6 L46.5 28.8 L43.2 27.6 L35.9 31.1 L32.6 29.0 L27.3 27.4 L22.8 30.5 L20.8 28.6 L17.1 27.6 L13.9 26.7 L13.5 24.8 L13.1 22.6 L11.0 20.0 L9.4 18.8 L11.4 16.7 L11.0 15.7 L11.4 14.5 L8.4 14.9 L9.8 11.7 L16.2 10.7 L20.0 10.6 L21.0 10.3 L24.1 8.8 L20.4 7.6Z" fill="#d6e5a0" stroke="#9fb35a" stroke-width=".4" stroke-linejoin="round"/><path d="M9.6 4.1 L14.3 2.9 L16.3 3.0 L20.8 6.7 L20.4 7.6 L17.1 7.6 L14.3 7.8 L11.8 9.8 L8.9 12.2 L10.6 9.8 L8.4 8.9 L9.8 8.1 L10.4 4.4Z" fill="#d6e5a0" stroke="#9fb35a" stroke-width=".4" stroke-linejoin="round"/><g fill="none" stroke="#9fd06a" stroke-width="5" stroke-linecap="round" opacity=".45"><path d="M57.1 26.7 Q61.2 31.7 63.6 33.7 Q66.1 35.7 68.7 37.4 Q71.4 39.0 74.1 40.9 Q76.7 42.8 78.9 44.5 Q81.2 46.2 82.2 47.4 Q83.2 48.6 85.1 50.5 Q86.9 52.4 88.9 53.8 Q91.0 55.2 93.2 55.9 L95.5 56.6"/><path d="M74.3 25.2 Q77.9 29.8 79.6 34.9 Q81.2 40.0 82.2 42.1 Q83.2 44.3 86.1 46.2 Q88.9 48.1 91.6 49.6 Q94.2 51.2 95.5 53.7 L96.7 56.2"/></g><g fill="#bfe3f5" stroke="#7fb6d6" stroke-width=".25"><ellipse cx="38.4" cy="18.3" rx="2.6" ry="1.3"/><ellipse cx="77.3" cy="18.8" rx="3" ry="1.7"/></g><g fill="none" stroke="#4da3e6" stroke-width=".7" stroke-linecap="round" stroke-linejoin="round"><path d="M69.4 12.9 Q63.2 17.1 61.8 17.9 Q60.4 18.6 58.8 21.4 Q57.1 24.3 57.1 25.5 Q57.1 26.7 59.2 29.2 Q61.2 31.7 63.6 33.7 Q66.1 35.7 68.7 37.4 Q71.4 39.0 74.1 40.9 Q76.7 42.8 78.9 44.5 Q81.2 46.2 82.2 47.4 Q83.2 48.6 85.1 50.5 Q86.9 52.4 88.9 53.8 Q91.0 55.2 93.2 55.9 L95.5 56.6"/><path d="M66.1 21.9 Q71.0 23.3 72.6 24.3 Q74.3 25.2 76.1 27.5 Q77.9 29.8 79.6 34.9 Q81.2 40.0 82.2 42.1 Q83.2 44.3 86.1 46.2 Q88.9 48.1 91.6 49.6 Q94.2 51.2 95.5 53.7 L96.7 56.2"/></g><g fill="none" stroke="#6bb6ea" stroke-width=".45" stroke-linecap="round"><path d="M53.0 13.6 Q49.0 15.2 46.9 16.4 Q44.9 17.6 43.2 16.4 Q41.6 15.2 41.4 13.3 Q41.2 11.4 42.6 9.8 Q44.1 8.1 46.3 6.3 L48.6 4.5"/><path d="M24.1 20.0 Q18.4 22.4 16.1 22.8 L13.9 23.3"/></g><g fill="#b59a63" stroke="#8d7442" stroke-width=".2" opacity=".9"><path d="M26.5 27.0L27.7 25.3L28.9 27.0Z"/><path d="M30.6 28.0L31.8 26.3L33.0 28.0Z"/><path d="M35.5 28.0L36.7 26.3L37.9 28.0Z"/><path d="M40.4 26.6L41.6 24.9L42.8 26.6Z"/><path d="M45.3 24.6L46.5 22.9L47.7 24.6Z"/><path d="M50.2 23.2L51.4 21.5L52.6 23.2Z"/><path d="M65.7 9.4L66.9 7.7L68.1 9.4Z"/><path d="M69.0 10.4L70.2 8.7L71.4 10.4Z"/><path d="M60.0 11.8L61.2 10.1L62.4 11.8Z"/><path d="M74.3 23.2L75.5 21.5L76.7 23.2Z"/><path d="M85.3 34.6L86.5 32.9L87.7 34.6Z"/><path d="M88.2 38.9L89.4 37.2L90.6 38.9Z"/><path d="M91.0 43.2L92.2 41.5L93.4 43.2Z"/><path d="M93.5 47.0L94.7 45.3L95.9 47.0Z"/><path d="M89.8 30.4L91.0 28.7L92.2 30.4Z"/><path d="M86.5 27.5L87.7 25.8L88.9 27.5Z"/><path d="M44.9 20.6L46.7 18.1L48.5 20.6Z"/><path d="M80.9 15.2L82.8 12.4L84.7 15.2Z"/></g><g fill="#5b4b2a" font-family="Nunito,sans-serif" font-weight="700"><circle cx="20.3" cy="7.5" r=".55"/><text x="21.2" y="8.0" font-size="1.45">İstanbul</text><circle cx="12.8" cy="19.9" r=".55"/><text x="13.7" y="20.4" font-size="1.45">İzmir</text><circle cx="36.1" cy="12.7" r=".55"/><text x="37.0" y="13.2" font-size="1.45">Ankara</text><circle cx="83.2" cy="44.3" r=".55"/><text x="84.1" y="44.8" font-size="1.45">Bağdat</text><circle cx="97.1" cy="57.6" r=".55"/><text x="92.1" y="57.8" font-size="1.45">Basra</text><circle cx="50.2" cy="43.3" r=".55"/><text x="51.1" y="43.8" font-size="1.45">Şam</text><circle cx="53.7" cy="30.5" r=".55"/><text x="54.6" y="31.0" font-size="1.45">Halep</text><circle cx="77.9" cy="29.8" r=".55"/><text x="78.8" y="30.3" font-size="1.45">Musul</text></g><g font-family="Nunito,sans-serif" font-weight="800" fill="#5f7a2a" opacity=".5" text-anchor="middle"><text x="37.5" y="15.5" font-size="3.4" >ANADOLU</text></g><g font-family="Nunito,sans-serif" font-weight="800" fill="#9a7b22" opacity=".55" text-anchor="middle"><text x="75.1" y="38.1" font-size="2.9" >MEZOPOTAMYA</text></g><g font-family="Nunito,sans-serif" font-weight="700" font-style="italic" fill="#2c6f92" opacity=".85"><text x="36.7" y="-1.9" font-size="2" >Karadeniz</text><text x="26.5" y="35.7" font-size="2" >Akdeniz</text><text x="1.6" y="19.0" font-size="1.5" >Ege</text><text x="56.7" y="22.8" font-size="1.3" >Fırat</text><text x="85.3" y="38.1" font-size="1.3" >Dicle</text><text x="40.8" y="10.2" font-size="1.2" >Kızılırmak</text></g><g font-family="Nunito,sans-serif" font-weight="700" fill="#8a7a50" opacity=".8"><text x="0.4" y="4.8" font-size="1.3" >Bulgaristan</text><text x="0.4" y="15.2" font-size="1.3" >Yunanistan</text><text x="52.6" y="35.2" font-size="1.5" >Suriye</text><text x="67.7" y="50.5" font-size="1.7" >Irak</text><text x="93.8" y="22.8" font-size="1.7" >İran</text><text x="78.3" y="1.9" font-size="1.3" >Gürcistan</text></g>${ST.map((s,i)=>i&&d[i-1]?`<path d="M${ST[i-1].x} ${ST[i-1].y*.6}Q${(ST[i-1].x+s.x)/2} ${(ST[i-1].y+s.y)*.3-6} ${s.x} ${s.y*.6}" fill="none" stroke="#7c3aed" stroke-width=".7" stroke-dasharray="1.5 1.2"/>`:"").join("")}${Object.keys(d).length>=ST.length?'<g font-size="4"><text x="10" y="8">🎉</text><text x="50" y="6">✨</text><text x="88" y="8">🎉</text><text x="62" y="30">🎊</text></g>':""}</svg>`};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 5-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>
