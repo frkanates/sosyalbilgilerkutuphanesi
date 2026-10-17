@@ -479,6 +479,7 @@
 </head>
 <body>
 
+  <!-- ÜST BAR -->
   <header>
     <div class="nav-container">
       <a href="index.html" class="brand">
@@ -491,6 +492,7 @@
     </div>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="ecosystem-badge">
       ⚡ YENİ NESİL ÖĞRENME EKOSİSTEMİ
@@ -501,6 +503,7 @@
     </p>
   </section>
 
+  <!-- KADEMELER -->
   <div class="tabs-wrapper">
     <div class="tabs">
       <button class="tab-btn active" id="tab-btn-5" onclick="switchGrade(5)">5. Sınıf ●</button>
@@ -512,7 +515,7 @@
   <main class="main-content">
 
     <!-- ========================================== -->
-    <!-- 5. SINIF ÖĞRENME ALANLARI -->
+    <!-- 5. SINIF ÖĞRENME ALANLARI (5-sinif/ KLASÖRÜ) -->
     <!-- ========================================== -->
     <div id="grade-5-content" class="grade-view active">
       <div class="accordion-header-title">5. Sınıf Öğrenme Alanları</div>
@@ -627,8 +630,8 @@
           </div>
         </div>
 
-        <!-- 5. Sınıf - 4. Alan -->
-        <div class="acc-item">
+        <!-- 5. Sınıf - 4. Alan (YENİ EKLENEN AKTİF BÖLÜM) -->
+        <div class="acc-item has-content open">
           <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
             <div class="acc-trigger-left">
               <span class="unit-num-badge">4. Öğrenme Alanı</span>
@@ -644,20 +647,20 @@
           <div class="acc-body">
             <div class="acc-content">
               <div class="action-grid">
-                <div class="action-card disabled">
+                <a href="5-sinif/5sinif-unite4-quiz.html" class="action-card quiz">
                   <div class="card-left">
                     <span>⚡</span>
                     <span>Yaşayan Demokrasimiz Keşif Quizi</span>
                   </div>
-                  <span class="badge-label">Yakında</span>
-                </div>
-                <div class="action-card disabled">
+                  <span class="badge-label">Başlat ➜</span>
+                </a>
+                <a href="5-sinif/5sinif-demokrasi-sehri.html" class="action-card game">
                   <div class="card-left">
                     <span>🏛️</span>
-                    <span>Oyun: Katılımcı Vatandaş</span>
+                    <span>Oyun: Demokrasi Şehri</span>
                   </div>
-                  <span class="badge-label">Yakında</span>
-                </div>
+                  <span class="badge-label">Oyunu Başlat ➜</span>
+                </a>
               </div>
             </div>
           </div>
@@ -739,7 +742,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 6. SINIF ÖĞRENME ALANLARI (FOTOĞRAFTAKİ TAM DOSYA İSİMLERİ) -->
+    <!-- 6. SINIF ÖĞRENME ALANLARI (6-sinif/ KLASÖRÜ) -->
     <!-- ========================================== -->
     <div id="grade-6-content" class="grade-view">
       <div class="accordion-header-title">6. Sınıf Öğrenme Alanları</div>
@@ -842,7 +845,7 @@
                   </div>
                   <span class="badge-label">Başlat ➜</span>
                 </a>
-                <a href="6-sinif/bozkirdan-anadoluya.html" class="action-card game">
+                <a href="6-sinif/bozkırdan-anadoluya.html" class="action-card game">
                   <div class="card-left">
                     <span>🗺️</span>
                     <span>Oyun: Bozkırdan Anadolu'ya</span>
@@ -914,19 +917,19 @@
           <div class="acc-body">
             <div class="acc-content">
               <div class="action-grid">
-                <a href="6-sinif/5-unite-quiz.html" class="action-card quiz">
-                  <div class="card-left">
-                    <span>⚡</span>
-                    <span>Hayatımızdaki Ekonomi Keşif Quizi</span>
-                  </div>
-                  <span class="badge-label">Başlat ➜</span>
-                </a>
                 <a href="6-sinif/harita-kasifi-ekonomi.html" class="action-card game">
                   <div class="card-left">
                     <span>🏭</span>
                     <span>Oyun: Ekonomi Kâşifleri</span>
                   </div>
                   <span class="badge-label">Simülasyon ➜</span>
+                </a>
+                <a href="6-sinif/5-unite-quiz.html" class="action-card quiz">
+                  <div class="card-left">
+                    <span>⚡</span>
+                    <span>Hayatımızdaki Ekonomi Keşif Quizi</span>
+                  </div>
+                  <span class="badge-label">Başlat ➜</span>
                 </a>
               </div>
             </div>
@@ -974,6 +977,7 @@
 
   </main>
 
+  <!-- FOOTER -->
   <footer>
     <div class="footer-container">
       <div class="footer-left">
