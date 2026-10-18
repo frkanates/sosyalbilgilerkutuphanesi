@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bereket Vadisi | 5. Sınıf Hayatımızdaki Ekonomi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#fbf1d6;--panel:#fff;--soft:#fff8e5;--line:#e4cf93;--ink:#3b2a0b;--a:#d9480f;--b:#2f9e57;--c:#e0a100;--map:#cfe9f7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Fredoka','Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header class="top"><a class="back" href="index.html">← Kütüphane</a><div class="brand"><span>🌾</span>Bereket Vadisi (5. Sınıf)</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk5-oyun-5";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzCvRY9YlaUl_7OfV8QipBa4HjfXxA9t2DEiAwkJ_stvpx1o52tRUor6bHQx4Ok9vc4/exec";const OYUN="5. Sınıf 5. Ünite Oyunu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Kaynak Dağı", "e": "⛰️", "x": 13, "y": 30, "sub": "Doğal kaynaklar", "intro": "Bereket Vadisi'ne hoş geldin! İlk durak, doğal kaynakların başladığı dağ.", "c": [["🌿", "Doğal kaynak", "Doğada kendiliğinden bulunan, insan yapımı olmayan zenginliklerdir."], ["♻️", "Yenilenebilir", "Güneş, rüzgâr, su, toprak, orman ve jeotermal kaynaklar yenilenebilirdir."], ["⛽", "Yenilenemeyen", "Kömür, petrol, doğal gaz ve madenler yenilenemez. Fosil yakıtlar çevreye zarar verir."], ["🌲", "Orman ve maden", "Orman; kereste, mobilya, kâğıt, ilaç ve kozmetiğe ham madde olur. Madenler demir-çelik, otomotiv, elektronik ve kimya sanayisinin ham maddesidir."]], "t": [{"k": "sort", "q": "Kaynağı doğru sepete koy.", "bins": [["Yenilenebilir", "♻️"], ["Yenilenemeyen", "⛽"]], "items": [["Güneş", 0], ["Rüzgâr", 0], ["Su", 0], ["Orman", 0], ["Kömür", 1], ["Petrol", 1], ["Doğal gaz", 1], ["Maden", 1]]}, {"k": "pick", "rounds": [{"q": "Ormanda piknik yaptın ve yemek bitti. Ateşi ne yaparsın?", "o": ["Tamamen söndürürüm", "Kendi kendine sönsün diye bırakırım", "Üstüne kuru dal atarım", "Kimseye söylemeden giderim"], "a": 0, "w": "Piknik ateşinin söndürülmesi, orman yangınlarını önler.", "h": "Orman yangını riskini düşün."}]}], "r": ["Kaynak Bekçisi", "Yenilenebilir kaynakları doğru kullanırsak tükenmez; yenilenemeyenleri idareli kullanmalıyız."]}, {"n": "Verimli Tarla", "e": "🌾", "x": 30, "y": 64, "sub": "Toprağı koruyalım", "intro": "Toprak, ekonomimizin temelidir. Onu nasıl koruruz?", "c": [["🌱", "Toprağın değeri", "Tarım, hayvancılık ve sanayinin (seramik, çimento, tuğla, cam, çömlek) ham maddesidir."], ["⏳", "Çok yavaş oluşur", "1 santimetre toprak yaklaşık 1000 yılda oluşur."], ["🛡️", "Koruma yolları", "Tarım alanlarını yerleşime açmamak, erozyona karşı ağaçlandırmak, kimyasal yerine doğal gübre kullanmak, atık pilleri toprağa atmamak."]], "t": [{"k": "sort", "q": "Toprağı koruyor mu, zarar mı veriyor?", "bins": [["Toprağı korur", "🛡️"], ["Toprağa zarar verir", "⚠️"]], "items": [["Erozyona karşı ağaçlandırma", 0], ["Doğal gübre kullanmak", 0], ["Tarım alanlarını korumak", 0], ["Atık pilleri toplama kutusuna atmak", 0], ["Tarım alanlarını yerleşime açmak", 1], ["Atık pilleri toprağa atmak", 1], ["Aşırı kimyasal gübre kullanmak", 1], ["Ağaçları kesip toprağı çıplak bırakmak", 1]]}], "r": ["Toprak Dostu", "Toprak çok değerli ve çok yavaş oluşur: onu korumak hepimizin görevi."]}, {"n": "Baraj Gölü", "e": "💧", "x": 52, "y": 26, "sub": "Su verimliliği", "intro": "Baraj gölünde suyun değerini öğreneceksin: azalt, yeniden kullan, değiştir!", "c": [["💧", "Su çok değerli", "Dünyadaki suyun yalnızca %0,3'ü içilebilir ve kullanılabilir. Ulaşım, turizm, hidroelektrik enerji, temizlik ve tarımda kullanılır."], ["🔻", "Azalt", "Kısa duş almak, diş fırçalarken musluğu kapatmak, makineyi tam doldurmak."], ["🔁", "Yeniden kullan", "Gri su sistemi, yağmur suyu toplamak, sebze yıkama suyunu çiçeklere dökmek."], ["🔧", "Değiştir", "Sensörlü musluk, çift kademeli sifon, damla sulama sistemi."]], "t": [{"k": "sort", "q": "Su tasarrufu davranışını doğru basamağa koy.", "bins": [["Azalt", "🔻"], ["Yeniden kullan", "🔁"], ["Değiştir", "🔧"]], "items": [["Kısa duş almak", 0], ["Fırçalarken musluğu kapatmak", 0], ["Makineyi tam doldurmak", 0], ["Yağmur suyu toplamak", 1], ["Gri su sistemi kullanmak", 1], ["Sebze yıkama suyunu çiçeğe dökmek", 1], ["Damla sulama kurmak", 2], ["Sensörlü musluk takmak", 2], ["Çift kademeli sifon kullanmak", 2]]}], "r": ["Su Kahramanı", "Azalt, yeniden kullan, değiştir: üç adımda su tasarrufu."]}, {"n": "Sıfır Atık Tesisi", "e": "♻️", "x": 55, "y": 60, "sub": "Geri dönüşüm", "intro": "Atıklar çöp değil, kaynak olabilir! Tesisimizde neler dönüşüyor?", "c": [["🗑️", "Atık madde", "Kullanılmış, istenmeyen zararlı maddedir."], ["✅", "Geri dönüşenler", "Kâğıt, cam, metal, plastik, pil, bitkisel yağ ve elektronik atık. Kâğıdı dönüştürmek ormanları korur."], ["❌", "Dönüşmeyenler", "Porselen, seramik, ıslak mendil ve strafor dönüşmez."], ["📅", "30 Mart", "Birleşmiş Milletler kararıyla Uluslararası Sıfır Atık Günü. Sıfır Atık Projesi israfı önler."], ["5️⃣", "5D modeli", "Düşün, daha az tüket, değerlendir, değiştir, dönüştür."]], "t": [{"k": "sort", "q": "Atık geri dönüşür mü, dönüşmez mi?", "bins": [["Geri dönüşür", "✅"], ["Geri dönüşmez", "❌"]], "items": [["Kâğıt", 0], ["Cam", 0], ["Pil", 0], ["Bitkisel yağ", 0], ["Porselen", 1], ["Seramik", 1], ["Islak mendil", 1], ["Strafor", 1]]}, {"k": "order", "q": "5D modelinin sırasını kur.", "steps": ["Düşün, gerekli değilse tüketme", "Daha az tüket", "Değerlendir, yeniden kullan", "Değiştir, farklı amaçla kullan", "Dönüştür, doğaya kazandır"]}], "r": ["Sıfır Atık Elçisi", "Düşün, azalt, yeniden kullan, değiştir, dönüştür: atık yerine kaynak!"]}, {"n": "Bütçe Çarşısı", "e": "🛒", "x": 14, "y": 72, "sub": "İhtiyaç ve istek", "intro": "Çarşıda akıllı alışverişin sırrını öğreneceksin.", "c": [["🍞", "İhtiyaç", "Yaşamı sürdürmek için zorunludur: beslenme, barınma, giyinme, eğitim, sağlık, elektrik ve su faturası. Harcamada önceliklidir."], ["🎮", "İstek", "Karşılanmasa da hayati tehlike olmaz ama hayatı konforlu kılar: çikolata, dondurma, oyun konsolu, sinema, lüks ayakkabı. Kişiden kişiye değişir."], ["⏱️", "10 saniye kuralı", "Alışverişte dürtüsel davranmamak için dur ve sor: Gerçekten ihtiyaç mı? Bütçemde yer var mı? Bundan kaç tane var? Parasına değer mi?"]], "t": [{"k": "sort", "q": "İhtiyaç mı, istek mi?", "bins": [["İhtiyaç", "🍞"], ["İstek", "🎮"]], "items": [["Su", 0], ["Barınma", 0], ["Sağlık hizmeti", 0], ["Kışlık mont", 0], ["Oyun konsolu", 1], ["Dondurma", 1], ["Konser bileti", 1], ["Bisiklet", 1]]}, {"k": "pick", "rounds": [{"q": "Vitrinde yeni bir oyun konsolu gördün ve hemen almak istiyorsun. 10 saniye kuralına göre ne yaparsın?", "o": ["Dururum: Gerçekten ihtiyaç mı? Bütçemde yeri var mı? diye sorarım", "Hemen alırım", "Arkadaşlarım aldı diye alırım", "Borç alıp alırım"], "a": 0, "w": "10 saniye durup sormak, gereksiz harcamayı önler.", "h": "Dur ve düşün."}]}], "r": ["Akıllı Alışverişçi", "Önce ihtiyaç, sonra istek; alışverişte önce dur ve düşün!"]}, {"n": "Tasarruf Bankası", "e": "🏦", "x": 30, "y": 86, "sub": "Bütçe ve tasarruf", "intro": "Bankada bütçenin ve tasarrufun inceliklerini öğren.", "c": [["📒", "Bütçe", "Gelecek dönem için gelir ve giderlerin tahmin edildiği plandır. Amaç gelir-gider dengesidir."], ["⚖️", "Bütçe dengesi", "Gelir = gider: denk bütçe. Gelir > gider: bütçe fazlası (tasarrufa ayrılır). Gelir < gider: bütçe açığı (önce istek harcamaları kısılır)."], ["🐷", "Tasarruf", "Parayı idareli kullanmak, gereksiz harcamadan kaçınmak, beklenmedik durumlar (hastalık, arıza, kaza) için pay ayırmaktır."], ["📜", "Atasözleri", "\"Ayağını yorganına göre uzat\", \"Damlaya damlaya göl olur\", \"Ak akçe kara gün içindir\"."]], "t": [{"k": "match", "q": "Durumu bütçe türüyle eşleştir.", "pairs": [["Gelir = Gider", "Denk bütçe"], ["Gelir > Gider", "Bütçe fazlası"], ["Gelir < Gider", "Bütçe açığı"]]}, {"k": "match", "q": "Atasözünü anlamıyla eşleştir.", "pairs": [["Ayağını yorganına göre uzat", "Gelirine göre harca"], ["Damlaya damlaya göl olur", "Küçük birikimler büyür"], ["Ak akçe kara gün içindir", "Zor günler için para biriktir"]]}], "r": ["Bütçe Ustası", "Gelirini ve giderini bilen, dengeyi kuran kişi bütçesini yönetir."]}, {"n": "Üretim Bölgesi", "e": "🏭", "x": 78, "y": 44, "sub": "Ekonomik faaliyetler", "intro": "Fabrikaların olduğu bölgede, ekonomik faaliyetlerin neden bazı yerlerde geliştiğini öğren.", "c": [["🧭", "Faaliyet ve faktörler", "İhtiyaçları karşılamak ve para kazanmak için yapılan işlerdir. Yeryüzü şekilleri, iklim, bitki örtüsü, su ve yer altı kaynakları, ulaşım ve nüfus yoğunluğu etkiler."], ["🌾", "Tarım", "Düz arazi, verimli toprak, sulama ister: Çukurova, Konya Ovası, Bafra-Çarşamba."], ["🐄", "Hayvancılık", "Büyükbaş: Erzurum, Kars, Ardahan. Koyun: İç ve Güneydoğu Anadolu. Kıl keçisi: Toroslar. Arıcılık: dağlık, çiçekli yaylalar. Kümes: büyük şehir çevresi."], ["⛏️", "Madencilik ve sanayi", "Zonguldak taş kömürü, Karabük ve Ereğli demir-çelik; Batman petrolü. Fabrikalar ham maddeye yakın kurulur: zeytinyağı (Ege), şeker pancarı (İç Anadolu), et-süt kombinası (Doğu Anadolu)."]], "t": [{"k": "match", "q": "Faaliyeti yeriyle eşleştir.", "pairs": [["Büyükbaş hayvancılık", "Erzurum, Kars, Ardahan"], ["Kıl keçisi", "Toroslar"], ["Demir-çelik sanayisi", "Karabük ve Ereğli"], ["Şeker pancarı fabrikası", "İç Anadolu"], ["Tarım", "Çukurova ve Konya Ovası"]]}, {"k": "pick", "rounds": [{"q": "Zonguldak'ta taş kömürü çıkarılıyor. Yakınındaki Karabük ve Ereğli'de hangi sanayi gelişmiştir?", "o": ["Demir-çelik", "Zeytinyağı", "Şeker", "Tekstil"], "a": 0, "w": "Taş kömürü, demiri eritmek için demir-çelik fabrikalarında kullanılır.", "h": "Taş kömürünü kim kullanır?"}]}], "r": ["Üretim Mühendisi", "Bir yerin yeryüzü şekilleri, iklimi ve kaynakları ekonomik faaliyetini belirler."]}, {"n": "Turizm Koyu", "e": "🏖️", "x": 86, "y": 76, "sub": "Turizm ve hizmet", "intro": "Koyda yazın tatilciler, kışın kayakçılar var! Turizm ve hizmet sektörünü öğren.", "c": [["☀️", "Yaz turizmi", "Akdeniz ve Ege kıyıları."], ["⛷️", "Kış turizmi", "Uludağ, Palandöken, Erciyes."], ["🏛️", "Kültür ve tarih turizmi", "İstanbul, Kapadokya."], ["🏥", "Hizmet ve ulaşım", "Nüfusun kalabalık olduğu şehirlerde eğitim, sağlık, bankacılık, ticaret ve lojistik gelişir."]], "t": [{"k": "match", "q": "Turizmi yerleriyle eşleştir.", "pairs": [["Yaz turizmi", "Akdeniz ve Ege kıyıları"], ["Kış turizmi", "Uludağ, Palandöken, Erciyes"], ["Kültür turizmi", "İstanbul ve Kapadokya"], ["Hizmet sektörü", "Kalabalık şehirler"]]}], "r": ["Turizm Rehberi", "Turizm; iklimi, tarihi ve doğal güzellikleri ekonomiye kazandırır."]}, {"n": "Sektör Kulesi", "e": "🏢", "x": 88, "y": 20, "sub": "Ekonominin sektörleri", "intro": "Son durak: ekonomiyi beş kata ayıran Sektör Kulesi.", "c": [["🌾", "Birincil", "Doğrudan doğadan: tarım, hayvancılık, ormancılık, madencilik, balıkçılık. Çiftçi, çoban, maden işçisi, balıkçı."], ["🏭", "İkincil", "İşleme ve üretim: sanayi, inşaat, enerji. Fabrika işçisi, inşaat mühendisi, tekstilci."], ["🛎️", "Üçüncül", "Hizmet: ticaret, ulaşım, eğitim, sağlık, turizm, güvenlik, bankacılık. Öğretmen, doktor, pilot, turist rehberi, polis."], ["💻", "Dördüncül", "Bilgi ve teknoloji: yazılım, bilişim, AR-GE, grafik tasarım. Yazılımcı, grafik tasarımcı, AR-GE uzmanı."], ["👔", "Beşincil", "En üst düzey karar ve yönetim: bakan, belediye başkanı, CEO, genel müdür."]], "t": [{"k": "sort", "q": "Faaliyeti sektörüne yerleştir.", "bins": [["Birincil", "🌾"], ["İkincil", "🏭"], ["Üçüncül", "🛎️"]], "items": [["Tarım", 0], ["Madencilik", 0], ["Fabrikada üretim", 1], ["İnşaat", 1], ["Turizm", 2], ["Bankacılık", 2]]}, {"k": "match", "q": "Mesleği sektörüyle eşleştir.", "pairs": [["Çiftçi", "Birincil"], ["Fabrika işçisi", "İkincil"], ["Doktor", "Üçüncül"], ["Yazılımcı", "Dördüncül"], ["Belediye başkanı", "Beşincil"]]}], "r": ["Sektör Ustası", "Ekonomi beş katlı bir kule gibidir: doğadan yönetime her katın bir görevi var."]}];
+const G={title:"Bereket Vadisi",story:"Bereket Vadisi'nde kaynaklar, tarlalar, fabrikalar ve çarşı seni bekliyor! Haritadaki yerlere dokun, kartları aç, görevleri tamamla. Her görevle vadi daha da bereketlenecek.",end:["Bereket Vadisi bereketlendi!", "Doğal kaynaklardan bütçeye, ekonomik faaliyetlerden sektörlere: hayatımızdaki ekonomiyi baştan sona öğrendin."],map:d=>`<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd8f5"/><stop offset="1" stop-color="#e6f6ff"/></linearGradient>
+<radialGradient id="gl"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+<rect width="100" height="60" fill="url(#sky)"/>
+<g fill="#fff" opacity=".9"><ellipse cx="22" cy="4" rx="6" ry="1.6"><animate attributeName="cx" values="22;30;22" dur="24s" repeatCount="indefinite"/></ellipse><ellipse cx="72" cy="3.5" rx="7" ry="1.7"/><ellipse cx="46" cy="6" rx="4" ry="1.1"/></g>
+<path d="M0 22L10 8L18 16L28 6L40 20L46 14L56 22V30H0Z" fill="#8fa8b8"/><path d="M10 8L8 11L12 11ZM28 6L25.5 10L30.5 10Z" fill="#fff"/>
+<path d="M0 22Q20 18 40 21T80 20T100 22V60H0Z" fill="#9ed36a"/><path d="M0 36Q25 30 50 34T100 32V60H0Z" fill="#8cc85b"/>
+<path d="M62 60Q69 44 84 41.5Q96 40.5 100 44V60Z" fill="#f4dea4"/><path d="M66 60Q72 47 84 45Q96 44 100 47V60Z" fill="#3d9bd8"/>
+<path d="M72 54q2-1 4 0t4 0M84 57q2-1 4 0t4 0" stroke="#fff" fill="none" stroke-width=".4"/>
+<path d="M60 16C64 24 58 30 66 36S74 42 76 46" fill="none" stroke="#5ab0e8" stroke-width="1.8" stroke-linecap="round"/>
+<ellipse cx="50" cy="15.6" rx="8" ry="3.3" fill="#5ab0e8" stroke="#3d8fcb" stroke-width=".3"/><rect x="57.5" y="13.2" width="2.2" height="4.8" fill="#9aa7b0"/>
+<g fill="#2f7d3a"><path d="M3 25l1.6-3.6 1.6 3.6zM7 27l1.6-3.6 1.6 3.6zM22 26l1.6-3.6 1.6 3.6zM26 24l1.6-3.6 1.6 3.6z"/></g>
+<path d="M9 21v-4a4 4 0 0 1 8 0v4z" fill="#3b2f2f"/><rect x="18" y="19.6" width="3" height="1.6" fill="#7a5230"/>
+<g><rect x="20" y="33" width="7" height="6" fill="#e9c46a"/><rect x="27.5" y="33" width="7" height="6" fill="#8ac926"/><rect x="35" y="33" width="7" height="6" fill="#c9a227"/><rect x="20" y="39.5" width="7" height="6" fill="#6a994e"/><rect x="27.5" y="39.5" width="7" height="6" fill="#e9c46a"/><rect x="35" y="39.5" width="7" height="6" fill="#8ac926"/></g>
+<rect x="43.5" y="40" width="4.5" height="3.4" fill="#c0392b"/><path d="M43 40L45.7 37.6L48.5 40Z" fill="#7a2b1f"/>
+<rect x="50" y="31.5" width="10" height="5.5" fill="#7d8fa3"/><path d="M49 31.5h12l-1-2h-10z" fill="#3aa56b"/><text x="53.6" y="35.8" font-size="3.4">♻️</text>
+<rect x="61" y="34" width="1.6" height="3" fill="#3b82f6"/><rect x="63.2" y="34" width="1.6" height="3" fill="#22c55e"/><rect x="65.4" y="34" width="1.6" height="3" fill="#facc15"/>
+<g><rect x="6" y="42" width="5" height="3.5" fill="#fff"/><path d="M5.5 42h6l-.5-2h-5z" fill="#e63946"/><rect x="12" y="42" width="5" height="3.5" fill="#fff"/><path d="M11.5 42h6l-.5-2h-5z" fill="#facc15"/><rect x="18" y="42" width="5" height="3.5" fill="#fff"/><path d="M17.5 42h6l-.5-2h-5z" fill="#3b82f6"/></g>
+<rect x="26" y="48.5" width="8" height="4.5" fill="#f1e7d0"/><path d="M25 48.5L30 45.2L35 48.5Z" fill="#b08a4a"/><path d="M27.4 48.5v4.5M30 48.5v4.5M32.6 48.5v4.5" stroke="#b08a4a" stroke-width=".7"/>
+<rect x="72" y="24" width="13" height="7" fill="#9aa7b0"/><path d="M72 24l3-2.4v2.4l3-2.4v2.4l3-2.4v2.4l3-2.4v2.4z" fill="#7d8fa3"/><rect x="74" y="16.5" width="1.7" height="7.5" fill="#6b7280"/><rect x="78.6" y="18" width="1.7" height="6" fill="#6b7280"/>
+<g fill="#fff" opacity=".85"><circle cx="74.8" cy="15" r="1.4"><animate attributeName="cy" values="15;12;15" dur="4s" repeatCount="indefinite"/></circle><circle cx="79.4" cy="16.4" r="1.2"><animate attributeName="cy" values="16.4;13.4;16.4" dur="5s" repeatCount="indefinite"/></circle></g>
+<rect x="85" y="4" width="6" height="17" fill="#6b7fd7"/><path d="M88 4V1.4" stroke="#555" stroke-width=".4"/><g fill="#fff6c9"><rect x="86" y="6" width="1.4" height="1.4"/><rect x="88.6" y="6" width="1.4" height="1.4"/><rect x="86" y="10" width="1.4" height="1.4"/><rect x="88.6" y="10" width="1.4" height="1.4"/><rect x="86" y="14" width="1.4" height="1.4"/><rect x="88.6" y="14" width="1.4" height="1.4"/></g>
+<path d="M88 46L88 52L92 52Z" fill="#fff"/><path d="M86 53h8l-1.5 1.8h-5z" fill="#8a5a3c"/><path d="M78 43v-3.6" stroke="#8a5a3c" stroke-width=".4"/><path d="M75.8 40a2.2 1.3 0 0 1 4.4 0z" fill="#e63946"/>
+<path d="M13 18C20 26 24 30 30 38S48 40 55 36S70 30 78 26M30 38C24 44 18 44 14 43M30 38L30 51M78 26L88 12M78 26C80 34 84 40 86 46" fill="none" stroke="#c9a56a" stroke-width="1" stroke-dasharray="2 1.4" opacity=".7"/>
+${ST.map((s,i)=>d[i]?`<circle cx="${s.x}" cy="${s.y*.6}" r="6" fill="url(#gl)"/><text x="${s.x+2.5}" y="${s.y*.6-2.5}" font-size="3">🪙</text>`:'').join('')}
+${Object.keys(d).length>=ST.length?'<g font-size="4"><text x="8" y="7">🎉</text><text x="46" y="5">💰</text><text x="92" y="7">🎉</text></g>':''}</svg>`};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 5-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>

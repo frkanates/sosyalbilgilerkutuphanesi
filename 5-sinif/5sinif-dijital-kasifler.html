@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dijital Kâşifler | 5. Sınıf Teknoloji ve Sosyal Bilimler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#e6f4e9;--panel:#fff;--soft:#f2faf4;--line:#b7dcc1;--ink:#173225;--a:#e8890c;--b:#2f9e57;--c:#6366f1;--map:#b9e394}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Fredoka','Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.bin .chip{pointer-events:none}
+</style></head><body>
+<header class="top"><a class="back" href="index.html">← Kütüphane</a><div class="brand"><span>🤖</span>Dijital Kâşifler (5. Sınıf)</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk5-oyun-6";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzCvRY9YlaUl_7OfV8QipBa4HjfXxA9t2DEiAwkJ_stvpx1o52tRUor6bHQx4Ok9vc4/exec";const OYUN="5. Sınıf 6. Ünite Oyunu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Ulaşım", "e": "🚆", "x": 14, "y": 30, "sub": "Metro, tren, navigasyon", "intro": "Akıllı şehre hoş geldin! İlk durağımız ulaşım istasyonu. Teknoloji yolculuklarımızı nasıl değiştirdi?", "c": [["🚇", "Hızlı ve konforlu yolculuk", "Metro ve hızlı trenle işe, okula ya da başka şehirlere kolayca gidilir."], ["🧭", "Navigasyon", "Bilinmeyen yerlere en hızlı ve uygun rotadan gidilmesini sağlar."], ["🚢", "Otonom araçlar ve gemiler", "Otonom araçlar ve yük gemileri taşımacılıkta kullanılır."]], "t": [{"k": "match", "q": "Teknolojik aracı katkısıyla eşleştir.", "pairs": [["Metro", "Hızlı ve konforlu yolculuk"], ["Navigasyon", "En uygun rota"], ["Hızlı tren", "Şehirler arası yolculuk"], ["Otonom araç", "Taşımacılıkta yeni teknoloji"]]}, {"k": "pick", "rounds": [{"q": "Metro ve hızlı tren, teknolojinin hangi alandaki katkısıdır?", "o": ["Ulaşım", "Eğitim", "Kültür"], "a": 0, "w": "Metro ve hızlı tren ulaşım alanındadır.", "h": "Yolculuk ile ilgili."}, {"q": "Bilinmeyen bir yere en uygun rotadan gitmemizi ne sağlar?", "o": ["Navigasyon", "Garanti belgesi", "Telekonferans"], "a": 0, "w": "Navigasyon en uygun rotayı gösterir.", "h": "Harita gibi çalışır."}]}], "r": ["Yol Bulucu", "Ulaşım teknolojileri yolculuğu hızlı ve konforlu yapar."]}, {"n": "İletişim", "e": "📡", "x": 38, "y": 30, "sub": "Görüntülü görüşme, yalan haber", "intro": "İletişim kulesindeyiz! Uzaktaki biriyle konuşmak artık çok kolay, ama dikkat etmemiz gereken şeyler de var.", "c": [["📱", "Görüntülü görüşme", "Uzaktaki akrabalarla akıllı telefondan görüntülü görüşülebilir."], ["💻", "Telekonferans", "İş toplantıları uzaktan, telekonferansla yapılabilir."], ["📰", "Yalan haber riski", "Sosyal medyada yalan haberler yanlış kamuoyu oluşturabilir. Haberi doğrulamak gerekir."]], "t": [{"k": "sort", "q": "Bunlar fayda mı, risk mi?", "bins": [["Fayda", "👍"], ["Risk", "⚠️"]], "items": [["Görüntülü görüşme", 0], ["Telekonferans", 0], ["Uzaktan toplantı", 0], ["Yalan haber yayılması", 1], ["Yanlış kamuoyu oluşması", 1], ["Doğrulanmamış haber paylaşmak", 1]]}, {"k": "pick", "rounds": [{"q": "Sosyal medyada şaşırtıcı bir haber gördün. Ne yapmalısın?", "o": ["Güvenilir kaynaktan doğrulamalıyım", "Hemen herkese iletmeliyim", "Yalnızca başlığa bakıp inanmalıyım"], "a": 0, "w": "Haberi güvenilir kaynaktan doğrulamak gerekir.", "h": "Önce araştır."}]}], "r": ["Haber Dedektifi", "Yalan haberlere karşı doğrulama en iyi savunmadır."]}, {"n": "Sağlık", "e": "🏥", "x": 62, "y": 30, "sub": "Tanı, protez, e-Nabız", "intro": "Sağlık merkezine geldik! Teknoloji tıpta hayat kurtarıyor, ama yanlış kullanım riskleri de var.", "c": [["🩻", "Hızlı tanı", "MR, ultrason, tomografi ve röntgenle hastalıklar hızlı teşhis edilir."], ["♿", "Hayata katılım", "Akülü sandalye ve protez eller özel gereksinimli bireylerin hayata katılmasını kolaylaştırır."], ["⚠️", "Dikkat: riskler", "Bozuk bir tansiyon aleti yanlış ölçüm yapabilir. Görüntüleme cihazları aşırı ışın (radyasyon) yayabilir."], ["📲", "e-Nabız", "Sağlık Bakanlığı'nın kişisel sağlık geçmişimizi gösteren uygulamasıdır."]], "t": [{"k": "match", "q": "Sağlık teknolojisini katkısıyla eşleştir.", "pairs": [["MR, ultrason, röntgen", "Hızlı tanı"], ["Akülü sandalye", "Hayata katılım"], ["Bozuk tansiyon aleti", "Yanlış ölçüm riski"], ["e-Nabız", "Kişisel sağlık geçmişi"]]}, {"k": "pick", "rounds": [{"q": "Sağlık Bakanlığı'nın kişisel tıbbi geçmişi yönettiği uygulama hangisidir?", "o": ["e-Nabız", "Güvenli Web", "EBA"], "a": 0, "w": "Kişisel sağlık geçmişi e-Nabız'da yer alır.", "h": "Nabız ile başlar."}]}], "r": ["Sağlık Elçisi", "Sağlık teknolojileri hayat kurtarır, doğru ve dikkatli kullanılmalıdır."]}, {"n": "Ekonomi", "e": "🏭", "x": 86, "y": 30, "sub": "Tarım, fabrika, e-ticaret", "intro": "Çiftlik ve fabrika bölgesindeyiz! Teknoloji üretimi hızlandırıyor ve fiyatları etkiliyor.", "c": [["🚁", "Tarımda teknoloji", "Dronla ilaçlama ve biçerdöverle hasat işi hızlandırır."], ["🏭", "Fabrika otomasyonu", "Seri üretim sayesinde ürün fiyatları ucuzlayabilir."], ["🛒", "E-ticaret riskleri", "Sipariş ettiğimizden farklı bir ürün gelebilir veya kişisel veriler çalınabilir."]], "t": [{"k": "sort", "q": "Bunlar fayda mı, risk mi?", "bins": [["Fayda", "👍"], ["Risk", "⚠️"]], "items": [["Dronla ilaçlama", 0], ["Seri üretimle ucuz ürün", 0], ["Biçerdöverle hızlı hasat", 0], ["Siparişten farklı ürün gelmesi", 1], ["Kişisel verilerin çalınması", 1]]}, {"k": "pick", "rounds": [{"q": "Fabrikalarda otomasyon ve seri üretimin ürün fiyatlarına etkisi nedir?", "o": ["Fiyatlar ucuzlayabilir", "Fiyatlar hep yükselir", "Fiyatlar hiç değişmez"], "a": 0, "w": "Seri üretimle ürünler daha ucuza üretilebilir.", "h": "Çok ürün, düşük maliyet."}]}], "r": ["Üretim Ustası", "Teknoloji üretimi hızlandırır ama e-ticarette dikkatli olmak gerekir."]}, {"n": "Eğitim", "e": "🏫", "x": 86, "y": 70, "sub": "Okul, EBA, dengeli kullanım", "intro": "Okula geldik! Teknoloji öğrenmeyi kolaylaştırıyor, ama dengeli kullanmak çok önemli.", "c": [["🧑‍🏫", "Etkileşimli tahta", "Derslerde etkileşimli tahta ve projeksiyon kullanılır."], ["🏠", "Uzaktan eğitim", "Salgın döneminde öğrenciler EBA ve uzaktan eğitimle ders yaptı."], ["⏰", "Dengeli kullanım", "Sosyal medyada aşırı vakit geçirmek dersleri aksatır. Uzun süre bilgisayar başında kalmak boyun ağrısı, iskelet ve göz sorunlarına yol açabilir."], ["💚", "Yeşilay", "Madde bağımlılığının yanında teknoloji bağımlılığıyla da mücadele eder."]], "t": [{"k": "match", "q": "Eğitim bilgisini eşleştir.", "pairs": [["EBA", "Uzaktan eğitim"], ["Etkileşimli tahta", "Derste kullanılan teknoloji"], ["Aşırı sosyal medya", "Dersi ihmal riski"], ["Yeşilay", "Bağımlılıkla mücadele"]]}, {"k": "pick", "rounds": [{"q": "Uzun süre bilgisayar başında kalmak neye yol açabilir?", "o": ["Boyun ağrısı ve göz sorunlarına", "Daha güçlü kaslara", "Daha iyi uykuya"], "a": 0, "w": "Hareketsiz ekran süresi sağlığı olumsuz etkiler.", "h": "Vücudumuz hareket ister."}, {"q": "Teknoloji bağımlılığıyla da mücadele eden kuruluş hangisidir?", "o": ["Yeşilay", "e-Nabız", "RTÜK"], "a": 0, "w": "Yeşilay teknoloji bağımlılığıyla da mücadele eder.", "h": "Yeşil rengiyle bilinir."}]}], "r": ["Dengeli Kullanıcı", "Teknoloji öğrenmeyi kolaylaştırır; ölçülü kullanmak sağlığı korur."]}, {"n": "Kültür", "e": "🏛️", "x": 62, "y": 70, "sub": "Müze kart, sanal tur", "intro": "Müzedeyiz! Teknoloji geçmişi ve kültürümüzü herkese ulaştırıyor.", "c": [["🎫", "Dijital müze kart", "Müzelere kolayca girmeyi sağlar."], ["🕶️", "Sanal tur", "Anıtkabir gibi yerler internetten 360 derece gezilebilir."], ["🎧", "Sesli rehber", "Müzelerde farklı dillerde eser bilgisi dinlenebilir."]], "t": [{"k": "match", "q": "Kültür teknolojisini katkısıyla eşleştir.", "pairs": [["Dijital müze kart", "Kolay müze girişi"], ["Sanal tur", "İnternetten 360 derece gezi"], ["Sesli rehber", "Farklı dillerde eser bilgisi"]]}, {"k": "pick", "rounds": [{"q": "Anıtkabir'i internetten 360 derece gezmeye ne denir?", "o": ["Sanal tur", "Telekonferans", "Otomasyon"], "a": 0, "w": "İnternetten 360 derece gezmeye sanal tur denir.", "h": "Gerçek gibi ama ekranda."}, {"q": "Müzelerde farklı dillerde eser bilgisi veren sistem hangisidir?", "o": ["Sesli rehber", "Navigasyon", "Dron"], "a": 0, "w": "Sesli rehber farklı dillerde bilgi verir.", "h": "Kulaklıkla dinlenir."}]}], "r": ["Kültür Elçisi", "Teknoloji kültürümüzü herkese ulaştırır."]}, {"n": "Güvenli İnternet", "e": "🔐", "x": 38, "y": 70, "sub": "Ayak izi, şifre, linkler", "intro": "Güvenli İnternet Merkezi'ndeyiz! Burada dijital ayak izimizi, şifrelerimizi ve şüpheli linkleri öğreneceğiz.", "c": [["👣", "Dijital ayak izi", "Genel ağda gezinirken arkada bıraktığımız veri izleridir. Bisiklet aradıktan sonra bisiklet reklamı görmek buna örnektir."], ["🔑", "Güçlü şifre", "Tahmin edilmesi zor, karmaşık şifreler seçilmelidir. Doğum tarihi ve sıralı sayılar kullanılmamalıdır."], ["🚫", "Şüpheli linkler", "Tanınmayan kişilerden gelen 'Hakkında şikâyet var' gibi linkli iletilere tıklanmamalıdır."], ["🛡️", "Güvenli kurumlar", "RTÜK, Akıllı İşaretler ve Medya Okuryazarlığı projelerini yürütür. Güvenli Web ve Güvenli Çocuk platformları güvenli kullanımı öğretir."]], "t": [{"k": "sort", "q": "Bu davranış güvenli mi, riskli mi?", "bins": [["Güvenli davranış", "✅"], ["Riskli davranış", "❌"]], "items": [["Karmaşık şifre seçmek", 0], ["Linke tıklamadan silmek", 0], ["Kişisel bilgileri paylaşmamak", 0], ["Şifrede doğum tarihi kullanmak", 1], ["Tanımadığın linke tıklamak", 1], ["Fotoğrafları herkese açık paylaşmak", 1]]}, {"k": "order", "q": "Şüpheli bir iletiye karşı yapılacakları sırala.", "steps": ["Linke tıklamadan dur", "Gönderen tanınmıyorsa iletiyi sil", "Bir yetişkine haber ver"]}, {"k": "match", "q": "Kavramı açıklamasıyla eşleştir.", "pairs": [["RTÜK", "Akıllı İşaretler projesi"], ["Güvenli Çocuk", "Çocuklara güvenli internet"], ["Dijital ayak izi", "Gezinti veri izleri"], ["Dijital okuryazarlık", "Medya mesajlarını değerlendirme"]]}], "r": ["Siber Koruyucu", "Güçlü şifre, şüpheli linklerden uzak durmak ve ayak izine dikkat: güvenli internet!"]}, {"n": "Bilinçli Tüketici", "e": "🛒", "x": 14, "y": 70, "sub": "Kılavuz, garanti, tasarruf", "intro": "Son durak Bilinçli Tüketici Pazarı! Teknolojik ürünleri doğru kullanmayı ve tasarruf etmeyi öğreneceğiz.", "c": [["📘", "Kullanım kılavuzu", "Ürünü doğru, güvenli ve verimli kullanma adımlarını gösterir."], ["🧾", "Fiş, fatura ve garanti", "Fatura ve garanti belgesi haklarımızı korur. Üretim hatasında ücretsiz tamir, değişim veya iade hakkı verir."], ["💡", "Enerji tasarrufu", "LED ampuller akkor ampullere göre %80'e varan enerji tasarrufu sağlar."], ["🍽️", "Su tasarrufu", "Bulaşık makinesi 4 kişilik bir ailede yılda 40 ton su tasarrufu sağlar. Ön yıkama yapmak gereksizdir."]], "t": [{"k": "order", "q": "Yeni aldığın ürünü bilinçli kullanma adımlarını sırala.", "steps": ["Kullanım kılavuzunu oku", "Ürünü kılavuza göre kullan", "Fiş ve garanti belgesini sakla"]}, {"k": "pick", "rounds": [{"q": "Üretim hatasında ücretsiz tamir hakkı veren belge hangisidir?", "o": ["Garanti belgesi", "Kullanım kılavuzu", "Reklam broşürü"], "a": 0, "w": "Garanti belgesi ücretsiz tamir, değişim veya iade hakkı verir.", "h": "Üreticinin güvencesi."}, {"q": "LED ampuller enerji tasarrufunda nasıldır?", "o": ["Akkor ampullere göre çok tasarruflu", "Daha çok enerji harcar", "Hiç fark yaratmaz"], "a": 0, "w": "LED ampuller %80'e varan tasarruf sağlar.", "h": "Isıya değil ışığa dönüşür."}, {"q": "Bilinçli tüketici alışverişte neyi almalıdır?", "o": ["Fiş veya fatura", "Ambalaj kâğıdı", "Reklam broşürü"], "a": 0, "w": "Fiş ve fatura haklarımızı korur.", "h": "Hakkımızı ispatlar."}]}], "r": ["Dijital Kâşif", "Bilinçli tüketici, ürünü doğru kullanır, haklarını bilir ve tasarruf eder!"]}];
+const G={title:"Dijital Kâşifler",story:"Akıllı şehri keşfet! Ulaşımdan eğitime, kültürden güvenli internete kadar 8 durağı sırayla gez. Teknolojinin faydalarını ve risklerini öğren, kartları aç, görevleri tamamla.",end:["Akıllı şehir turu tamamlandı!","Teknolojinin faydalarını ve risklerini öğrendin, bilinçli kullanmayı biliyorsun: sen gerçek bir Dijital Kâşifsin!"],map:d=>`<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="100" height="60" fill="#dff3e4"/>
+<g fill="#c3e6cb"><rect x="3" y="3" width="94" height="8" rx="2"/><rect x="3" y="49" width="94" height="8" rx="2"/></g>
+<rect x="22" y="24" width="56" height="12" rx="3" fill="#cdeccf" stroke="#9fd0a7" stroke-width=".4"/><text x="50" y="31.6" font-size="3.4" font-weight="800" fill="#2f7a46" text-anchor="middle">AKILLI ŞEHİR</text>
+<g font-size="3.2"><text x="8" y="8">🏢</text><text x="30" y="8">🏬</text><text x="52" y="8">🏢</text><text x="74" y="8">🏬</text><text x="8" y="55">🌳</text><text x="30" y="55">🏢</text><text x="52" y="55">🌳</text><text x="74" y="55">🏢</text></g>
+<polyline points="14,18 86,18 86,42 14,42" fill="none" stroke="#9aa5ad" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><polyline points="14,18 86,18 86,42 14,42" fill="none" stroke="#fff" stroke-width=".5" stroke-dasharray="1.5 1.5" stroke-linejoin="round"/>
+${ST.map((s,i)=>i&&d[i-1]?`<line x1="${ST[i-1].x}" y1="${ST[i-1].y*.6}" x2="${s.x}" y2="${s.y*.6}" stroke="#7c3aed" stroke-width="1.2" stroke-linecap="round"/>`:'').join('')}
+<g font-size="2.2" font-weight="800" text-anchor="middle" fill="#27493a">${ST.map((s,i)=>`<text x="${s.x}" y="${s.y*.6+(i<4?-7.4:8.4)}">${s.n}</text>`).join('')}</g>
+${Object.keys(d).length>=ST.length?'<g font-size="4"><text x="12" y="14">🎉</text><text x="50" y="14">✨</text><text x="88" y="14">🎉</text><text x="50" y="45">🎊</text></g>':''}</svg>`};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 5-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>
