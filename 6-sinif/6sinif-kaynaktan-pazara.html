@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kaynaktan Pazara | 6. Sınıf Hayatımızdaki Ekonomi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#0f2d33;--panel:#17414a;--soft:#1e505b;--line:#2f6a76;--ink:#f4efdf;--a:#e9a23b;--b:#5fc9a8;--c:#ff7a59;--map:#1b6a7a;--onb:#20262b;--onok:#06231c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Fredoka','Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.bin .chip{pointer-events:none}
+</style></head><body>
+<header class="top"><a class="back" href="index.html">← Kütüphane</a><div class="brand"><span>💼</span>Kaynaktan Pazara</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk-oyun-5";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbxjetuSfY4GtAfYpGWRXeYORBd1JWhIVu8roPaSFiUGLVDxpwee16ROfTpRZ2aG-DgXIQ/exec";const OYUN="5. Ünite Oyunu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Ekonominin Temelleri", "e": "💼", "x": 39, "y": 40.0, "sub": "Kaynak • Faaliyet • Meslek • Döngü", "intro": "Ankara'dan yola çıkıyoruz! Önce ekonominin temel kavramlarını öğrenelim: kaynak, faaliyet, meslek ve ekonomik döngü.", "c": [["🌍", "Doğal kaynak", "Doğada kendiliğinden bulunan ve insan ihtiyaçlarını karşılamak için kullanılan yeryüzü ve yer altı zenginlikleridir."], ["💼", "Ekonomik faaliyet", "İnsanların hayatlarını sürdürmek ve gelir elde etmek için yaptıkları işlerin tamamıdır."], ["🔄", "Ekonomik döngü", "Üretim (buğday ekmek, un ve ekmek yapmak), dağıtım (tır, tren, gemiyle marketlere ulaştırmak) ve tüketim (ürünü ihtiyaç için kullanmak) birbirini izler."], ["👷", "Meslek", "Belli bir eğitim, bilgi ve beceriye dayalı, kurallı ve gelir getiren sürekli uğraştır."]], "t": [{"k": "sort", "q": "Bu durum ekonomik döngünün hangi aşamasıdır?", "bins": [["Üretim", "🏭"], ["Dağıtım", "🚚"], ["Tüketim", "🛍️"]], "items": [["Buğday ekmek", 0], ["Un ve ekmek yapmak", 0], ["Ürünü tırla marketlere ulaştırmak", 1], ["Ürünü gemiyle başka şehre taşımak", 1], ["Ekmeği satın alıp yemek", 2], ["Ürünü ihtiyaç için kullanmak", 2]]}, {"k": "match", "q": "Kavramı tanımıyla eşleştir.", "pairs": [["Doğal kaynak", "Doğada kendiliğinden bulunan zenginlik"], ["Ekonomik faaliyet", "Gelir elde etmek için yapılan işler"], ["Meslek", "Eğitim ve beceriye dayalı sürekli iş"]]}], "r": ["Ekonomi Çırağı", "Kaynaklar, faaliyetler ve meslekler birbirine bağlıdır."]}, {"n": "Toprak ve Tarım", "e": "🌾", "x": 36, "y": 64.2, "sub": "Konya • Tekirdağ • Rize • Urfa • Malatya", "intro": "Konya ovasındayız! Toprak ve iklim, hangi ürünün nerede yetişeceğini belirler.", "c": [["🌾", "Konya", "Geniş düz ovalarda buğday ve arpa üretilir. Un, bisküvi ve makarna fabrikalarının hammaddesidir."], ["🌻", "Tekirdağ", "Ayçiçeği üretimi sıvı yağ sanayisine hammadde olur."], ["🍵", "Rize", "Bol yağışlı iklimde çay tarımı yapılır; çay işleme fabrikaları kurulmuştur."], ["🧵", "Şanlıurfa ve Adana", "Sulama ve sıcaklıkla pamuk yetişir; tekstil ve dokuma sanayisine hammadde olur."], ["🍑", "Malatya, Aydın, Kütahya", "Malatya'da kayısı (meyve suyu, kurutma ve paketleme), Aydın'da incir, zeytin ve kestane (zeytinyağı tesisleri) yetişir. Kütahya'da toprak, çini, seramik ve porselen sanayisinde işlenir."]], "t": [{"k": "match", "q": "İli ürünü ve sanayisiyle eşleştir.", "pairs": [["Konya", "Buğday → un, makarna"], ["Tekirdağ", "Ayçiçeği → sıvı yağ"], ["Rize", "Çay → çay fabrikaları"], ["Şanlıurfa ve Adana", "Pamuk → tekstil"], ["Malatya", "Kayısı → kurutma, meyve suyu"]]}, {"k": "pick", "rounds": [{"q": "Geniş düz ovalarda hangi tarım ürünleri yetişir?", "o": ["Buğday ve arpa", "Çay", "Kayısı"], "a": 0, "w": "Konya gibi geniş ovalarda tahıl üretilir.", "h": "Un ve makarna hammaddesi."}, {"q": "Kütahya'da toprak hangi sanayinin hammaddesidir?", "o": ["Çini, seramik ve porselen", "Tekstil", "Sıvı yağ"], "a": 0, "w": "Kütahya'da toprak çini ve seramikte işlenir.", "h": "Toprak kaplara dönüşür."}]}], "r": ["Tarım Uzmanı", "Toprak ve iklim, tarım ürününü ve sanayiyi belirler."]}, {"n": "Su Kaynakları", "e": "💧", "x": 66.2, "y": 66.5, "sub": "Trabzon • Denizli • Atatürk Barajı • Çoruh • Van", "intro": "Şanlıurfa'dayız! Atatürk Barajı burada. Su kaynakları enerjiden ulaşıma kadar birçok faaliyete olanak verir.", "c": [["🐟", "Karadeniz ve Trabzon", "Zengin deniz suyu balıkçılığı geliştirir."], ["♨️", "Denizli-Sarayköy", "Yeraltı sıcak suları jeotermal enerji santralinde kullanılır."], ["⚡", "Atatürk Barajı", "Fırat Nehri üzerinde hidroelektrik enerji üretilir."], ["🛶", "Artvin ve Çoruh Nehri", "Hızlı akan akarsu rafting ve su sporlarına olanak verir."], ["⛴️", "Van Gölü", "Gölde feribot taşımacılığı (ulaşım) yapılır."]], "t": [{"k": "sort", "q": "Bu faaliyet hangi alana girer?", "bins": [["Enerji", "⚡"], ["Spor / turizm", "🛶"], ["Ulaşım", "⛴️"]], "items": [["Atatürk Barajı'nda elektrik üretmek", 0], ["Denizli'de jeotermal santral", 0], ["Çoruh'ta rafting", 1], ["Kanyonda su sporları", 1], ["Van Gölü'nde feribot işletmek", 2], ["Gölde araç ve yolcu taşımak", 2]]}, {"k": "pick", "rounds": [{"q": "Fırat Nehri üzerindeki Atatürk Barajı'nda ne üretilir?", "o": ["Hidroelektrik enerji", "Jeotermal enerji", "Rüzgâr enerjisi"], "a": 0, "w": "Barajlarda su gücüyle elektrik üretilir.", "h": "Su türbini döndürür."}, {"q": "Karadeniz'in zengin suyu hangi faaliyeti geliştirir?", "o": ["Balıkçılığı", "Madenciliği", "Kerestecilik"], "a": 0, "w": "Zengin deniz suyu balıkçılığı geliştirir.", "h": "Denizde yapılır."}]}], "r": ["Su Mühendisi", "Su kaynakları enerji, spor, ulaşım ve balıkçılıkta kullanılır."]}, {"n": "Hayvancılık", "e": "🐄", "x": 78.1, "y": 38.2, "sub": "Erzurum-Kars • Ordu-Hakkari", "intro": "Erzurum'dayız! Gür meralar ve yaylalar burada hayvancılığı geliştirmiş.", "c": [["🐄", "Erzurum ve Kars", "Yaz yağışlarıyla yeşeren gür meralar büyükbaş hayvancılığı, et-süt kombinalarını ve mandıracılığı geliştirmiştir."], ["🍯", "Ordu ve Hakkari", "Zengin bitki örtüsü ve yaylalar arıcılığı ve bal üretimini geliştirmiştir."], ["🌿", "Ortak kural", "Bitki örtüsü ve iklim, hayvancılığın türünü doğrudan etkiler."]], "t": [{"k": "match", "q": "Bölgeyi hayvancılık faaliyetiyle eşleştir.", "pairs": [["Erzurum ve Kars", "Büyükbaş hayvancılık, mandıra"], ["Ordu ve Hakkari", "Arıcılık ve bal üretimi"], ["Gür meralar", "Et ve süt üretimi"]]}, {"k": "pick", "rounds": [{"q": "Erzurum ve Kars'ta büyükbaş hayvancılığın gelişmesinin sebebi nedir?", "o": ["Yaz yağışlarıyla yeşeren gür çayırlar", "Sıcak ve kurak iklim", "Yoğun maden yatakları"], "a": 0, "w": "Gür mera hayvancılığı geliştirir.", "h": "Hayvanlar otlar."}, {"q": "Zengin bitki örtüsü ve yaylalar hangi faaliyeti geliştirir?", "o": ["Arıcılığı ve bal üretimini", "Madenciliği", "Balıkçılığı"], "a": 0, "w": "Çiçekli yaylalar arıcılığa elverişlidir.", "h": "Arılar çiçek ister."}]}], "r": ["Çiftlik Ustası", "Bitki örtüsü ve iklim, hayvancılığın türünü belirler."]}, {"n": "Orman", "e": "🌲", "x": 44, "y": 24.2, "sub": "Kastamonu • İnegöl • Mersin • Rize", "intro": "Kastamonu ormanlarındayız! Ağaçtan mobilyaya uzanan bir üretim zinciri bizi bekliyor.", "c": [["🌲", "Kastamonu ve Karadeniz", "Geniş orman varlığı kerestecilik, tomruk işleme ve kâğıt fabrikalarını geliştirmiştir."], ["🪑", "Bursa İnegöl", "Ahşap hammaddesi mobilya sanayisini geliştirmiştir."], ["🌿", "Mersin ve Rize", "Orman altı bitkileri ve yaylalar ilaç, kozmetik (kekik, defne) ve doğa turizminde değerlendirilir."]], "t": [{"k": "match", "q": "Bölgeyi orman faaliyetiyle eşleştir.", "pairs": [["Kastamonu", "Kerestecilik, kâğıt fabrikası"], ["Bursa İnegöl", "Mobilya sanayisi"], ["Mersin ve Rize", "İlaç, kozmetik, doğa turizmi"]]}, {"k": "order", "q": "Ormandan mobilyaya giden üretim zincirini sırala.", "steps": ["Ağaçlar kesilip tomruk yapılır", "Tomruk işlenip kereste olur", "Kereste mobilya atölyesinde mobilyaya dönüşür"]}], "r": ["Orman Dostu", "Ormandan çıkan hammadde kereste, kâğıt ve mobilyaya dönüşür."]}, {"n": "Madenler", "e": "⛏️", "x": 30.5, "y": 25.8, "sub": "Zonguldak • Sivas • Elazığ • Batman", "intro": "Zonguldak'tayız! Yerin altındaki zenginlikler sanayinin hammaddesi.", "c": [["⛏️", "Taş kömürü", "Yüksek ısılı enerji kaynağıdır, sadece Zonguldak'ta çıkar. Demir-çelik sanayisinde yakıt olarak kullanılır."], ["⚙️", "Demir", "Sivas ve Malatya'dan çıkarılır; Zonguldak ve Karabük demir-çelik fabrikalarında eritilir."], ["💎", "Bor", "Dünya rezervinin %70'i Türkiye'dedir (Eti Maden). Cam, seramik, temizlik ve roket yakıtında kullanılır."], ["🔌", "Bakır ve krom", "Bakır iletken metaldir: elektrik kablosu, elektronik ve mutfak eşyası yapılır (Artvin, Elazığ, Kastamonu). Krom paslanmaz çelik, otomotiv ve kaplamada kullanılır (Elazığ, Muğla)."], ["🏛️", "Mermer ve petrol", "Mermer inşaat, dekorasyon ve heykelcilikte kullanılır (Afyonkarahisar, Marmara Adası, Denizli). Petrol enerji kaynağıdır; Batman ve çevresinde çıkarılıp rafine edilir."]], "t": [{"k": "match", "q": "Madeni kullanım alanıyla eşleştir.", "pairs": [["Taş kömürü", "Demir-çelikte yakıt"], ["Bor", "Cam, seramik, roket yakıtı"], ["Bakır", "Elektrik kablosu"], ["Krom", "Paslanmaz çelik"], ["Mermer", "İnşaat ve heykelcilik"]]}, {"k": "pick", "rounds": [{"q": "Dünya bor rezervinin yaklaşık yüzde kaçı Türkiye'dedir?", "o": ["%70", "%20", "%5"], "a": 0, "w": "Türkiye bor rezervinde dünya lideridir.", "h": "Rezervin büyük bölümü."}, {"q": "Demir hangi tesislerde eritilir?", "o": ["Zonguldak ve Karabük demir-çelik fabrikalarında", "Rize çay fabrikalarında", "Konya makarna fabrikalarında"], "a": 0, "w": "Demir-çelik fabrikalarında eritilir.", "h": "Çelik üretimi."}]}], "r": ["Maden Mühendisi", "Madenler sanayinin ve enerjinin temel hammaddesidir."]}, {"n": "Meslekler", "e": "👷", "x": 19.1, "y": 26.7, "sub": "Kaybolan ve geleceğin meslekleri", "intro": "İstanbul'dayız! Meslekler teknolojiyle birlikte değişiyor: bazıları kayboluyor, yenileri doğuyor.", "c": [["🔨", "Kaybolan meslekler", "Nalbantlık, semercilik, hallaçlık, arzuhalcilik, kalaycılık ve uyandırıcılık azalmış ya da kaybolmuştur."], ["💡", "Neden kayboluyorlar?", "Motorlu araçlar, çalar saat, sentetik lifler, bilgisayar ve yazıcı gibi teknolojik gelişmeler ve değişen ihtiyaçlar nedeniyle."], ["🤖", "Geleceğin meslekleri", "Yapay zekâ uzmanlığı, drone pilotluğu, veri bilimciliği, sosyal medya uzmanlığı, iklim mühendisliği ve atık yönetimi uzmanlığı."], ["🌐", "Neden doğuyorlar?", "Dijitalleşme, internetin yaygınlaşması, otomasyon ve çevre sorunları yeni meslekler doğurur."]], "t": [{"k": "sort", "q": "Bu meslek kayboluyor mu, geleceğin mesleği mi?", "bins": [["Kaybolan meslek", "📜"], ["Geleceğin mesleği", "🚀"]], "items": [["Nalbantlık", 0], ["Semercilik", 0], ["Kalaycılık", 0], ["Uyandırıcılık", 0], ["Yapay zekâ uzmanlığı", 1], ["Drone pilotluğu", 1], ["Veri bilimciliği", 1], ["İklim mühendisliği", 1]]}, {"k": "match", "q": "Gelişmeyi etkisiyle eşleştir.", "pairs": [["Çalar saat", "Uyandırıcılığı azalttı"], ["Motorlu araçlar", "Nalbantlığı azalttı"], ["İnternet ve dijitalleşme", "Sosyal medya uzmanlığını doğurdu"], ["Çevre sorunları", "Atık yönetimi uzmanlığını doğurdu"]]}], "r": ["Meslek Kâşifi", "Teknoloji ve ihtiyaçlar değiştikçe meslekler de değişir."]}, {"n": "Yatırım ve Pazarlama", "e": "💡", "x": 10.3, "y": 53.5, "sub": "Tasarım • Yatırım • Pazarlama", "intro": "Son durak İzmir! Kendi ürününü tasarlayıp yatırım ve pazarlama planı yapma zamanı.", "c": [["📐", "Tasarım basamakları", "Ürünü belirle, araştır (hedef kitle, maliyet, çevresel etki), hazırla (bütçe, malzeme), uygula (çizim, 3B maket) ve değerlendir (test et, geliştir)."], ["🧪", "Ar-Ge ve inovasyon", "Ar-Ge, yeni ürün veya süreç için yapılan bilimsel araştırma-geliştirmedir. İnovasyon, var olan ürünü geliştirip yenileyerek hayatı kolaylaştırmaktır."], ["🏗️", "Yatırım unsurları", "Sermaye, ham maddeye yakınlık, iş gücü, coğrafi şartlar, enerji kaynağı ve ulaşım ağı."], ["📣", "Pazarlama ilkeleri", "Çekici ambalaj, doğru fiyat, etkili reklam, müşteri geri bildirimi, farkı vurgulama, dürüstlük ve güvenilirlik."], ["📊", "GZFT", "Projenin güçlü ve zayıf yönleri, fırsatları ve tehditleri değerlendirilir."]], "t": [{"k": "order", "q": "Ürün tasarım basamaklarını sırala.", "steps": ["Ürünü belirle", "Araştır", "Hazırla", "Uygula", "Değerlendir"]}, {"k": "match", "q": "Kavramı açıklamasıyla eşleştir.", "pairs": [["Sermaye", "Ana para"], ["Ar-Ge", "Yeni ürün için araştırma-geliştirme"], ["İnovasyon", "Ürünü yenileyip geliştirme"], ["GZFT", "Güçlü-zayıf yön, fırsat-tehdit analizi"]]}, {"k": "pick", "rounds": [{"q": "Pazarlamada dürüstlük ilkesi ne demektir?", "o": ["Üründe olmayan özellikleri varmış gibi anlatmamak", "Her zaman en pahalı fiyatı istemek", "Hiç reklam yapmamak"], "a": 0, "w": "Tüketici güvenini kaybetmemek için dürüst tanıtım şarttır.", "h": "Doğruyu söylemek."}, {"q": "Ar-Ge çalışmaları ne zaman yapılır?", "o": ["Ürün piyasaya çıkmadan önce", "Ürün satıldıktan sonra", "Hiç yapılmaz"], "a": 0, "w": "Ar-Ge, ürün piyasaya çıkmadan önceki araştırma ve geliştirme aşamasıdır.", "h": "Önce araştırma."}]}], "r": ["Girişimci", "İyi tasarlanmış, doğru yatırım ve dürüst pazarlamayla bir fikir ürüne dönüşür."]}];
+const G={title:"Kaynaktan Pazara",story:"Türkiye'nin kaynaklarını ve ekonomik faaliyetlerini keşfet! Her durakta kaynakla faaliyet arasındaki ilişkiyi çözecek, meslekleri tanıyacak ve son durakta kendi ürününün yatırım ve pazarlama planını öğreneceksin.",end:["Kaynaktan pazara yolculuk tamam!","Türkiye'nin kaynaklarını, ekonomik faaliyetleri ve meslekleri çözümledin; bir ürünü fikirden pazara taşımayı öğrendin."],next:["5. Ünite Keşif Quizine geç ➜","5-unite-quiz.html"],
+map:d=>{const P=ST.map(s=>[s.x,+(s.y*.6).toFixed(1)]),NM=["Temeller","Tarım","Su","Hayvancılık","Orman","Maden","Meslekler","Yatırım"],OF=[7.8,7.8,7.8,-7.4,-7.4,-7.4,7.8,7.8];
+const seg=P.slice(0,-1).map((a,k)=>{const b=P[k+1],on=!!d[k],c=on?'#ffd37a':'#fff',mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,ag=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
+return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#0b2a35" stroke-opacity=".5" stroke-width="2.6" stroke-linecap="round"/><line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${c}" stroke-opacity="${on?1:.8}" stroke-width="1.2" stroke-linecap="round"${on?'':' stroke-dasharray="1.7 1.7"'}/><path d="M-1.7 -1.5L1.7 0L-1.7 1.5Z" transform="translate(${mx} ${my}) rotate(${ag})" fill="${c}" stroke="#0b2a35" stroke-width=".4" stroke-linejoin="round"/>`}).join('');
+const lab=P.map((p,i)=>`<text x="${p[0]}" y="${+(p[1]+OF[i]).toFixed(1)}" font-size="2.3" font-weight="800" text-anchor="middle" fill="#fff" stroke="#0b2a35" stroke-width=".55" paint-order="stroke">${NM[i]}</text><circle cx="${+(p[0]+5.3).toFixed(1)}" cy="${+(p[1]-5.3).toFixed(1)}" r="1.9" fill="${d[i]?'#ffd37a':'#0b2a35'}" stroke="#fff" stroke-width=".35"/><text x="${+(p[0]+5.3).toFixed(1)}" y="${+(p[1]-4.5).toFixed(1)}" font-size="2.2" font-weight="800" text-anchor="middle" fill="${d[i]?'#0b2a35':'#fff'}">${i+1}</text>`).join('');
+return `<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f8db0"/><stop offset="1" stop-color="#1a5f7a"/></linearGradient></defs>
+<rect x="-5" y="-5" width="110" height="70" fill="url(#sea)"/>
+<path d="M1.0 -0.1L14.5 -0.1L14.5 10.2L12.1 9.6L7.8 10.0L5.1 11.7L5.1 14.5L5.8 17.0L7.8 18.9L5.8 22.0L1.0 19.2Z" fill="#b9b08f" stroke="#fff" stroke-opacity=".5" stroke-width=".3"/><path d="M72.1 -0.1L78.8 8.0L79.5 12.8L83.6 13.3L87.9 15.4L90.1 17.9L89.4 21.3L91.8 23.8L95.1 24.4L92.7 29.1L93.2 32.2L91.3 35.3L94.2 39.0L92.2 40.2L83.6 40.2L77.8 40.2L72.1 41.2L69.7 42.7L65.8 42.7L62.5 41.8L58.2 43.0L56.2 42.4L53.8 42.7L53.4 45.8L52.2 47.4L52.4 57.0L100.9 57.0L100.9 -0.1Z" fill="#b9b08f" stroke="#fff" stroke-opacity=".5" stroke-width=".3"/>
+<path d="M5.1 11.7L7.8 10.0L12.1 9.6L14.5 10.2L15.4 12.7L19.0 14.7L19.5 15.8L15.7 16.1L12.1 16.2L9.7 18.2L8.2 19.8L5.8 22.0L7.8 18.9L5.8 17.0L5.1 14.5Z" fill="#e9c9a0" stroke="#fff" stroke-width=".5" stroke-linejoin="round"/><path d="M19.8 14.8L21.7 14.8L25.5 15.1L27.4 15.4L30.8 14.2L32.7 13.3L35.6 11.4L39.9 9.9L42.3 9.9L48.1 9.2L50.5 12.0L52.9 11.7L54.3 14.2L57.7 14.8L62.0 16.1L64.4 16.4L70.6 16.1L74.5 15.8L79.5 12.8L83.6 13.3L87.9 15.4L90.1 17.9L89.4 21.3L91.8 23.8L95.1 24.4L92.7 29.1L93.2 32.2L91.3 35.3L94.2 39.0L92.2 40.2L83.6 40.2L77.8 40.2L72.1 41.2L69.7 42.7L65.8 42.7L62.5 41.8L58.2 43.0L56.2 42.4L53.8 42.7L53.4 45.8L52.2 47.4L52.9 44.0L51.0 42.4L49.0 43.3L46.2 42.1L41.8 46.1L37.5 46.8L33.7 43.6L27.4 41.8L24.8 45.2L22.2 45.8L19.8 43.3L15.9 41.8L11.6 42.7L11.6 40.6L12.6 39.3L10.6 37.5L10.6 35.6L8.7 33.4L6.3 30.6L9.0 28.8L8.2 26.6L9.7 25.4L5.1 25.4L5.7 22.4L8.7 20.4L12.1 19.8L16.4 19.8L18.8 18.9L19.3 19.5L21.2 17.6L23.6 17.3L21.2 15.8L19.8 15.1Z" fill="#e9c9a0" stroke="#fff" stroke-width=".5" stroke-linejoin="round"/>
+<ellipse cx="86.0" cy="30.9" rx="2.6" ry="1.6" fill="#2f8db0" stroke="#fff" stroke-width=".25"/>
+<path d="M69.7 23.8L68.2 30.3L64.9 37.8L62.5 42.7M74.5 31.6L73.0 35.3L76.9 39.0L83.1 39.6" fill="none" stroke="#7cc4e6" stroke-width=".5" stroke-linecap="round"/>
+<g font-size="2.1" font-weight="700" text-anchor="middle" fill="#fff" opacity=".92"><text x="62" y="5">Karadeniz</text><text x="3.5" y="30">Ege</text><text x="36.1" y="52">Akdeniz</text></g>
+<g font-size="1.8" font-weight="700" text-anchor="middle" fill="#5b5438" opacity=".7"><text x="6" y="12">YUNANİSTAN</text><text x="12" y="6.5">BULGARİSTAN</text><text x="85.8" y="8">GÜRCİSTAN</text><text x="93.2" y="46">IRAK</text><text x="81.7" y="54">SURİYE</text><text x="95" y="30" transform="rotate(90 95 30)">İRAN</text></g>
+<g font-size="3.4" opacity=".9"><text x="50" y="36">🌾</text><text x="58" y="19">🌲</text><text x="74" y="46">🛢️</text></g>
+<text x="56" y="29.5" font-size="3" font-weight="800" fill="#7a5a2c" opacity=".6" text-anchor="middle">TÜRKİYE</text>
+${seg}${lab}
+<text x="98" y="58" font-size="1.7" fill="#fff" opacity=".9" text-anchor="end" font-weight="700">Altın çizgi: tamamladığın güzergâh</text>
+${Object.keys(d).length>=ST.length?'<g font-size="4"><text x="12" y="9">🎉</text><text x="50" y="9">✨</text><text x="88" y="9">🎉</text></g>':''}</svg>`}};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 6-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>
