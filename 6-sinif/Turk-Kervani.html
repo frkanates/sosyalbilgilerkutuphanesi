@@ -79,7 +79,7 @@ const ST=[
 {t:"Kervansaray",s:"Anadolu Selçukluları, ticareti geliştirmek için yol üzerine kervanların konakladığı hangi yapıları inşa etmiştir?",o:["Kervansaraylar","Kurganlar","Medreseler"],e:"Kervansaraylar, tüccarlara güvenli konaklama sağlayarak ticareti geliştirmiştir."},
 {y:"ord",t:"Zaman şeridi",s:"Son görev: Yolculuğun olaylarını eskiden yeniye doğru sırala.",o:["Talas Savaşı (751)","Karahanlıların İslamiyet'i kabulü (X. yüzyıl)","Dandanakan Savaşı ve Büyük Selçuklu Devleti (1040)","Malazgirt Zaferi (1071)"],e:"Olaylar bu sırayla gerçekleşti."}]}];
 const TOT=ST.reduce((a,s)=>a+s.cs.length,0);
-const S={cd:{},caps:[],note:"",ph:"login",st:0,ci:0,h:3,gold:0,cor:0,res:null,opts:[],ord:[],wrong:[],over:0,t0:0,tq:0,sent:0,pend:null},me={kod:LINK_KOD};
+const S={cd:{},caps:[],note:"",ph:LINK_KOD?"login":"stop",st:0,ci:0,h:3,gold:0,cor:0,res:null,opts:[],ord:[],wrong:[],over:0,t0:Date.now(),tq:0,sent:0,pend:null},me={kod:LINK_KOD,a:"",n:"-",s:""};
 let tm=null,tEnd=0,tDur=20000;
 const pt=()=>Math.round(S.cor*100/TOT),cur=()=>ST[S.st].cs[S.ci];
 function stopT(){if(tm){clearInterval(tm);tm=null}}
@@ -139,7 +139,7 @@ function adv(){S.st++;if(S.st>=ST.length){S.ph="end"}else S.ph="stop";R(1)}
 function shopH(){const can=S.gold>=3&&S.h<3;return `${S.note?`<div class="fb ok">${S.note}</div>`:""}<span class="tag">Pazar • ${ST[S.st].n}</span><h2>Erzak Pazarı</h2><p class="d">Elinde <b>${S.gold} 🪙</b> ve <b>${S.h} ❤️</b> var. 3 altına bir kalp (erzak) alabilirsin${S.h>=3?" ama kalpların zaten dolu":S.gold<3?" ama altının yetmiyor":""}.</p><button class="nx" ${can?"":"disabled"} onclick="buy()">Erzak Al (−3 🪙, +1 ❤️)</button><button class="nx g" onclick="adv()">Yola Devam →</button>`}
 function buy(){if(S.gold>=3&&S.h<3){S.gold-=3;S.h++}adv()}
 function endH(){const p=pt(),won=!S.over&&S.st>=ST.length,t=won?(p>=80?["🏅","Kervanbaşı"]:["🐎","Konya'ya Ulaşan Kervan"]):["🏜️","Kervan Yolda Kaldı"];
-return `<div style="text-align:center"><div style="font-size:3.4rem">${t[0]}</div><h2>${t[1]}</h2><p class="d">${me.a.replace(/</g,"&lt;")} • ${me.s}${won?"":" • "+ST[Math.min(S.st,ST.length-1)].n+" durağında kaldı"}</p><div class="big">${p} / 100</div></div>
+return `<div style="text-align:center"><div style="font-size:3.4rem">${t[0]}</div><h2>${t[1]}</h2><p class="d">${me.a?me.a.replace(/</g,"&lt;")+" • "+me.s:""}${won?"":(me.a?" • ":"")+ST[Math.min(S.st,ST.length-1)].n+" durağında kaldı"}</p><div class="big">${p} / 100</div></div>
 <div class="row"><span>Doğru cevap</span><b>${S.cor} / ${TOT}</b></div><div class="row"><span>Kalan ❤️ / Altın</span><b>${S.h} / ${S.gold} 🪙</b></div>
 <h3 style="margin:12px 0 6px">Türklerin başkent yolu</h3><div class="fb nt">${S.caps.length?S.caps.map((c,i)=>(i+1)+". <b>"+c.n+"</b> ("+c.d+")").join(" → "):"Başkent yolu bu kez açılamadı."}</div>
 <h3 style="margin:12px 0 6px">Tekrar etmen gerekenler (${S.wrong.length})</h3>${S.wrong.length?S.wrong.map(w=>`<div class="fb bad"><b>${w.k}</b><div class="note">Senin cevabın: ${w.sel}<br>Doğrusu: ${w.r}</div></div>`).join(""):"<p>Hepsi doğru, harika! 🎉</p>"}
