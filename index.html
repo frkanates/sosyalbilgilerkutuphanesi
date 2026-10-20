@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sosyal Bilgiler Kütüphanesi | Yeni Nesil Öğrenme Ekosistemi</title>
-  <meta name="description" content="5 ve 6. sınıf Sosyal Bilgiler için harita simülasyonları, etkileşimli oyunlar ve ünite keşif quizleri.">
+  <meta name="description" content="4, 5, 6 ve 7. sınıf Sosyal Bilgiler için harita simülasyonları, etkileşimli oyunlar ve ünite keşif quizleri.">
   <meta name="theme-color" content="#f7f3ea">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -158,7 +158,7 @@
       backdrop-filter: blur(8px);
       padding: 6px;
       border-radius: 16px;
-      max-width: 440px;
+      max-width: 480px;
       margin: 0 auto;
       border: 1.5px solid rgba(217, 119, 6, 0.25);
       box-shadow: var(--shadow-sm);
@@ -179,7 +179,11 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      white-space: nowrap;
+      min-width: 0;
     }
+
+    .tab-btn .dot { font-size: 0.6rem; line-height: 1; }
 
     .tab-btn.active {
       background: #0f172a;
@@ -471,7 +475,9 @@
       .acc-trigger { flex-wrap: nowrap; padding: 16px 18px; }
       .acc-trigger-left { flex-direction: column; align-items: flex-start; gap: 10px; flex: 1 1 auto; }
       .acc-trigger-right { width: auto; }
-      .tab-btn { padding: 10px 6px; font-size: 0.85rem; }
+      .tabs-wrapper { padding: 0 12px; }
+      .tabs { gap: 4px; padding: 5px; }
+      .tab-btn { padding: 10px 2px; font-size: 0.78rem; gap: 4px; }
       .footer-container { flex-direction: column; text-align: center; }
       .footer-signature { width: 100%; justify-content: center; }
     }
@@ -506,13 +512,202 @@
   <!-- KADEMELER (Erişilebilirlik: role="tablist") -->
   <div class="tabs-wrapper">
     <div class="tabs" role="tablist" aria-label="Sınıf Seviyeleri">
-      <button class="tab-btn active" id="tab-btn-5" role="tab" aria-selected="true" aria-controls="grade-5-content" onclick="switchGrade(5)">5. Sınıf ●</button>
-      <button class="tab-btn" id="tab-btn-6" role="tab" aria-selected="false" aria-controls="grade-6-content" onclick="switchGrade(6)">6. Sınıf ●</button>
-      <button class="tab-btn" disabled role="tab" aria-selected="false" title="Geliştirme aşamasında">7. Sınıf 🔒</button>
+      <button class="tab-btn" id="tab-btn-4" role="tab" aria-selected="false" aria-controls="grade-4-content" onclick="switchGrade(4)">4. Sınıf <span class="dot" aria-hidden="true">●</span></button>
+      <button class="tab-btn active" id="tab-btn-5" role="tab" aria-selected="true" aria-controls="grade-5-content" onclick="switchGrade(5)">5. Sınıf <span class="dot" aria-hidden="true">●</span></button>
+      <button class="tab-btn" id="tab-btn-6" role="tab" aria-selected="false" aria-controls="grade-6-content" onclick="switchGrade(6)">6. Sınıf <span class="dot" aria-hidden="true">●</span></button>
+      <button class="tab-btn" id="tab-btn-7" role="tab" aria-selected="false" aria-controls="grade-7-content" onclick="switchGrade(7)">7. Sınıf <span class="dot" aria-hidden="true">●</span></button>
     </div>
   </div>
 
   <main class="main-content">
+
+    <!-- ========================================== -->
+    <!-- 4. SINIF ÜNİTELERİ (4-sinif/ KLASÖRÜ) - 7 ünite -->
+    <!-- ========================================== -->
+    <div id="grade-4-content" class="grade-view" role="tabpanel" aria-labelledby="tab-btn-4">
+      <div class="accordion-header-title">4. Sınıf Üniteleri</div>
+
+      <div class="accordion-list">
+
+        <!-- 4. Sınıf - 1. Ünite -->
+        <div class="acc-item has-content open">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">1. Ünite</span>
+              <div class="unit-title-box">
+                <h3>Birey ve Toplum</h3>
+                <p>Kimliğimiz, yaşam öykümüz, ilgi ve yeteneklerimiz, bireyler arası farklılıklar ve saygı.</p>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <div class="action-grid">
+                <a href="4-sinif/4sinif-unite1-quiz.html" class="action-card quiz">
+                  <div class="card-left">
+                    <span>⚡</span>
+                    <span>Farklıyız, Arkadaşız Keşif Quizi</span>
+                  </div>
+                  <span class="badge-label">Başlat ➜</span>
+                </a>
+                <a href="4-sinif/4sinif-farkliyiz-adasi.html" class="action-card game">
+                  <div class="card-left">
+                    <span>🏝️</span>
+                    <span>Oyun: Farklıyız Adası</span>
+                  </div>
+                  <span class="badge-label">Oyunu Başlat ➜</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Sınıf - 2. Ünite -->
+        <div class="acc-item has-content open">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">2. Ünite</span>
+              <div class="unit-title-box">
+                <h3>Kültür ve Miras</h3>
+                <p>Aile tarihi kaynakları, yerel tarih, millî kültür ögeleri ve Millî Mücadele'den Cumhuriyet'e uzanan yolculuk.</p>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <div class="action-grid">
+                <a href="4-sinif/4sinif-2-unite-quiz.html" class="action-card quiz">
+                  <div class="card-left">
+                    <span>⚡</span>
+                    <span>Geçmişte “Biz” Keşif Quizi</span>
+                  </div>
+                  <span class="badge-label">Başlat ➜</span>
+                </a>
+                <a href="4-sinif/4sinif-2-unite-oyun.html" class="action-card game">
+                  <div class="card-left">
+                    <span>🕰️</span>
+                    <span>Oyun: Geçmişin İzcileri</span>
+                  </div>
+                  <span class="badge-label">Oyunu Başlat ➜</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Sınıf - 3. Ünite -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">3. Ünite</span>
+              <div class="unit-title-box">
+                <h3>İnsanlar, Yerler ve Çevreler</h3>
+                
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu ünitenin etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Sınıf - 4. Ünite -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">4. Ünite</span>
+              <div class="unit-title-box">
+                <h3>Bilim, Teknoloji ve Toplum</h3>
+                
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu ünitenin etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Sınıf - 5. Ünite -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">5. Ünite</span>
+              <div class="unit-title-box">
+                <h3>Üretim, Dağıtım ve Tüketim</h3>
+                
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu ünitenin etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Sınıf - 6. Ünite -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">6. Ünite</span>
+              <div class="unit-title-box">
+                <h3>Etkin Vatandaşlık</h3>
+                
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu ünitenin etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Sınıf - 7. Ünite -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">7. Ünite</span>
+              <div class="unit-title-box">
+                <h3>Küresel Bağlantılar</h3>
+                
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu ünitenin etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <!-- ========================================== -->
     <!-- 5. SINIF ÖĞRENME ALANLARI (5-sinif/ KLASÖRÜ) -->
@@ -996,6 +1191,153 @@
       </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- 7. SINIF ÖĞRENME ALANLARI (7-sinif/ KLASÖRÜ) -->
+    <!-- ========================================== -->
+    <div id="grade-7-content" class="grade-view" role="tabpanel" aria-labelledby="tab-btn-7">
+      <div class="accordion-header-title">7. Sınıf Öğrenme Alanları</div>
+
+      <div class="accordion-list">
+
+        <!-- 7. Sınıf - 1. Alan -->
+        <div class="acc-item has-content open">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">1. Öğrenme Alanı</span>
+              <div class="unit-title-box">
+                <h3>Birlikte Yaşamak</h3>
+                <p>Etkili iletişim, özel gereksinimli bireyler için fırsat eşitliği ve millî meselelerde toplumsal tutum.</p>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <div class="action-grid">
+                <a href="7-sinif/7sinif-unite1-quiz.html" class="action-card quiz">
+                  <div class="card-left">
+                    <span>⚡</span>
+                    <span>Birlikte Yaşamak Keşif Quizi</span>
+                  </div>
+                  <span class="badge-label">Başlat ➜</span>
+                </a>
+                <a href="7-sinif/7sinif-dayanisma-sehri.html" class="action-card game">
+                  <div class="card-left">
+                    <span>🏙️</span>
+                    <span>Oyun: Dayanışma Şehri</span>
+                  </div>
+                  <span class="badge-label">Oyunu Başlat ➜</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Sınıf - 2. Alan -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">2. Öğrenme Alanı</span>
+              <div class="unit-title-box">
+                <h3>Evimiz Dünya</h3>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu öğrenme alanının etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Sınıf - 3. Alan -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">3. Öğrenme Alanı</span>
+              <div class="unit-title-box">
+                <h3>Ortak Mirasımız</h3>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu öğrenme alanının etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Sınıf - 4. Alan -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">4. Öğrenme Alanı</span>
+              <div class="unit-title-box">
+                <h3>Yaşayan Demokrasimiz</h3>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu öğrenme alanının etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Sınıf - 5. Alan -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">5. Öğrenme Alanı</span>
+              <div class="unit-title-box">
+                <h3>Hayatımızdaki Ekonomi</h3>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu öğrenme alanının etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Sınıf - 6. Alan -->
+        <div class="acc-item">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">6. Öğrenme Alanı</span>
+              <div class="unit-title-box">
+                <h3>Teknoloji ve Sosyal Bilimler</h3>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <p style="padding:6px 4px;color:var(--text-muted);font-weight:600;">🛠️ Bu öğrenme alanının etkinlikleri hazırlanıyor.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </main>
 
   <!-- FOOTER -->
@@ -1051,11 +1393,8 @@
     window.addEventListener('DOMContentLoaded', () => {
       let saved = null;
       try { saved = localStorage.getItem('sbk_grade'); } catch(e){}
-      if (location.hash === '#grade-6' || saved === '6') {
-        switchGrade(6, false);
-      } else {
-        switchGrade(5, false);
-      }
+      const g = location.hash.indexOf('#grade-') === 0 ? location.hash.slice(7) : saved;
+      switchGrade(['4', '6', '7'].indexOf(g) > -1 ? Number(g) : 5, false);
 
       document.querySelectorAll('.acc-trigger').forEach(function (t) {
         t.setAttribute('aria-expanded', t.closest('.acc-item').classList.contains('open'));
