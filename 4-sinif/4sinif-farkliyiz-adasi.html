@@ -53,7 +53,7 @@ main{max-width:980px;margin:0 auto;padding:14px}
 </main>
 <div class="modal" id="modal" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
 <script>
-const SCRIPT_URL=""; // Google Apps Script adresini buraya yapıştır
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbz5UFkeyHjo5BSG8fJBQK1QxEADZQFx1kH6YmovVp15cb8zfE6SKhxCYC8Rs6xIJsk6/exec"; // Google Apps Script adresini buraya yapıştır
 const KEY="sbk4-oyun-1",OYUN="4. Sınıf 1. Ünite Oyunu";
 const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
 const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
