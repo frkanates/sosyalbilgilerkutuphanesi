@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Akıllı Tüketici | 4. Sınıf 5. Ünite Quizi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;background:#fff5e0;color:#1e293b;padding:14px;display:flex;justify-content:center}
+.box{width:100%;max-width:820px;background:#fff;border:3px solid #f1d08a;border-radius:22px;overflow:hidden}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 18px;background:#fffaf0;border-bottom:3px solid #f1d08a;font-weight:800}
+.sc{background:#fff3c4;color:#a16207;border-radius:99px;padding:4px 14px}
+.rail{height:9px;background:#f6e3b5}#pf{height:100%;width:0;background:#e0801a;transition:width .3s}
+#app{padding:20px 18px}h2{font-size:1.45rem;margin-bottom:4px}.d{color:#475569;margin-bottom:14px}
+.pool,.bank{display:flex;flex-wrap:wrap;gap:10px;padding:12px;background:#fffbf3;border:2px solid #f1d08a;border-radius:14px;margin-bottom:14px;min-height:56px}
+.pill,.w{background:#fff;border:2.5px solid #f1d08a;border-radius:99px;padding:9px 18px;font-weight:800;cursor:pointer}
+.on{background:#e0801a;color:#fff;border-color:#e0801a}.w.pl{opacity:.35;pointer-events:none}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bk{border:3px dashed #e6bd66;border-radius:14px;padding:14px;min-height:150px;cursor:pointer;background:#fffaf0}.bk h3{font-size:1.05rem;margin-bottom:10px}
+.chip{display:inline-block;background:#fff;border:2px solid #f1d08a;border-radius:99px;padding:4px 12px;margin:3px;font-weight:800;font-size:.92rem}.chip b{color:#dc2626;cursor:pointer}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fffbf3;border:2px solid #f1d08a;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.b2{border:2.5px solid #f1d08a;background:#fff;border-radius:10px;padding:8px 14px;font:inherit;font-weight:800;cursor:pointer;min-height:44px}
+.t{background:#d1fae5;border-color:#059669;color:#047857}.f{background:#fee2e2;border-color:#dc2626;color:#b91c1c}
+.slot{display:inline-block;min-width:110px;border-bottom:3px dashed #e0801a;background:#ffedd2;border-radius:6px;padding:1px 8px;margin:0 3px;text-align:center;font-weight:800;color:#b35f0a;cursor:pointer}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2.5px solid #f1d08a;border-radius:14px;padding:13px 15px;margin-bottom:10px;font:inherit;font-weight:700;cursor:pointer}
+.opt.on{background:#ffedd2;border-color:#e0801a;color:inherit}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:2px solid #f1d08a}
+.nx{background:#e0801a;color:#fff;border:0;border-radius:14px;padding:14px 26px;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #b35f0a}.nx:disabled{opacity:.4;cursor:not-allowed}
+.rv{border:2px solid;border-radius:14px;padding:10px 14px;margin-bottom:10px}.ok{background:#d1fae5;border-color:#059669}.bad{background:#fee2e2;border-color:#dc2626}
+.note{font-size:.93rem;color:#475569;margin-top:4px}
+input{width:100%;padding:12px;border:2.5px solid #f1d08a;border-radius:12px;font:inherit;margin-bottom:10px}
+.big{font-size:2.3rem;font-weight:800;color:#b35f0a}
+@media(max-width:600px){.g2{grid-template-columns:1fr}.row{flex-direction:column;align-items:stretch}.bar{flex-direction:column;align-items:stretch}}
+</style></head><body>
+<div class="box"><div class="hd"><span>🛒 4. Sınıf Sosyal Bilgiler • Akıllı Tüketici</span><span><span id="st">Giriş</span> &nbsp;<span class="sc">★ <span id="sc">0</span></span></span></div>
+<div class="rail"><div id="pf"></div></div><div id="app"></div></div>
+<script>
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyCJVu7_rkU4BY1WOj2i2WWhWpDQhw22CqDR1prGPAg0gNyZd3lfw5kagA-3qQinoBZbA/exec"; // Google Apps Script adresini buraya yapıştır
+
+// URL'den kodu yakala (?tasokul veya ?kod=tasokul)
+const URL_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const key of p.keys()){if(key!=='kod'){k=key.trim();break}}}return k})();
+
+const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+
+const SORT=[["Temiz su içmek","i"],["Kışın mont giymek","i"],["Ders için defter almak","i"],["Sağlıklı beslenmek","i"],["Son model tablet","k"],["Fazladan çanta","k"],["Yeni bir oyuncak","k"],["Süslü eşyalar","k"]];
+
+const TF=[["Alışverişe çıkmadan önce liste hazırlamak gereksiz harcamaları önler.",true,"Listede önce ihtiyaçlar, sonra istekler yer alır."],["İstek ve ihtiyaçlar arasında seçim yaparken isteklerimize öncelik veririz.",false,"Önce ihtiyaçlarımızı seçmeliyiz. İstekler ertelenebilir."],["Her istediğini satın almak bilinçli tüketici davranışıdır.",false,"Bu bilinçsiz tüketiciliktir ve bütçeyi sarsar."],["Her birey kendi bütçesini oluşturmaktan sorumludur.",true,"Gelirimize göre gider planı yapmalıyız."],["Gelir, ihtiyaçlar için harcanan paradır.",false,"İhtiyaçlar için harcanan paraya gider denir. Gelir kazanılan paradır."],["Ürünlerin tüketicilere ulaştırılması dağıtım aşamasıdır.",true,"Taşıma, nakliye ve pazarlama dağıtımdır."],["Son kullanma tarihi geçmiş gıdalar indirimliyse alınabilir.",false,"Bilinçli tüketici tarihi geçmiş ürünü almaz."],["Damlatan bozuk musluklar tamir edilmelidir.",true,"Damlayan musluk su israfına yol açar."],["Kullanılmayan cihazlar bekleme modunda da elektrik harcar.",true,"Kullanılmayan cihazların fişi prizden çekilmelidir."],["Zaman, geri getirilebilen bir kaynaktır.",false,"Geri getirilemeyen tek kaynak zamandır."]];
+
+const FILL=[["Karşılanması zorunlu olan gereksinimlere {} denir.","ihtiyaç"],["Karşılanması zorunlu olmayan ama bizi mutlu eden taleplere {} denir.","istek"],["Yapılan iş karşılığında kazanılan paraya {} denir.","gelir"],["İstek ve ihtiyaçlar için harcanan paraya {} denir.","gider"],["Gelir ve giderlerin dengeli şekilde planlanmasına {} denir.","bütçe"],["Pamuğun tarlada yetiştirilmesi ekonomik faaliyetlerin {} aşamasıdır.","üretim"],["Ürünlerin tüketicilere taşınması ekonomik faaliyetlerin {} aşamasıdır.","dağıtım"],["Para, zaman ve emeğin gereksiz yere harcanmasına {} denir.","israf"],["Harçlığın bir kısmını kumbarada biriktirmeye {} denir.","tasarruf"],["Ürünün ülkemizdeki kalite standartlarına uygun olduğunu gösteren işaret {} işaretidir.","TSE"]];
+const BANK=["ihtiyaç","istek","gelir","gider","bütçe","üretim","dağıtım","israf","tasarruf","TSE","tüketim","sınırlı","fatura"];
+
+const MCQ=[["Aşağıdakilerden hangisi bilinçli tüketicinin özelliği değildir?","Yalnızca ucuz ürünleri tercih eder",["Alışveriş listesi hazırlar","Son kullanma tarihine bakar","Satış fişini saklar"],"Bilinçli tüketici ucuzluğa değil, ihtiyaca ve kaliteye bakar."],
+["Yeni aldığı bilgisayarda sorun yaşayan Neslihan Hanım öncelikle ne yapmalıdır?","Faturasıyla satın aldığı yere başvurmalıdır",["Bilgisayarı çöpe atmalıdır","Hiçbir şey yapmamalıdır","Bilgisayarı kendisi açmalıdır"],"Fatura, tüketicinin hakkını aramasını sağlar."],
+["Zonguldak'ta kömür çıkarılması hangi ekonomik faaliyete örnektir?","Madencilik",["Tarım","Hayvancılık","Turizm"],"Yer altından maden çıkarmak madenciliktir."],
+["Ankara'da fabrikada otobüs üretilmesi hangi ekonomik faaliyete örnektir?","Sanayi",["Tarım","Ormancılık","Turizm"],"Fabrikalarda yapılan üretim sanayidir."],
+["Bayramda aldığı pantolon yırtık çıkan ve mağaza tarafından geri alınmayan Barış ne yapmalıdır?","Tüketici Hakem Heyetine başvurmalıdır",["Pantolonu çöpe atmalıdır","Mağazaya bir daha gitmemelidir","Hiçbir şey yapmamalıdır"],"Tüketici haklarını kullanarak Tüketici Hakem Heyetine başvurabilir."],
+["Harçlığını bitirip zor durumda kalmamak için Veli ne yapmalıydı?","Kendine ait bir bütçe oluşturmalıydı",["Daha çok istekte bulunmalıydı","Her gün alışveriş yapmalıydı","Harçlığı hemen harcamalıydı"],"Bütçe, gelir ve gideri dengeli planlamamızı sağlar."],
+["Para, zaman ve emeğin gereksiz yere harcanmasına ne denir?","İsraf",["Tasarruf","Üretim","Gelir"],"İsraf kaynakların boşa harcanmasıdır."],
+["Aşağıdaki atasözlerinden hangisi tutumlulukla ilgili değildir?","Davulun sesi uzaktan hoş gelir",["Damlaya damlaya göl olur","Ak akçe kara gün içindir","Sakla samanı, gelir zamanı"],"Diğer atasözleri tasarrufu ve tutumluluğu anlatır."],
+["Aşağıdakilerden hangisi doğal kaynakların korunmasına yardımcı olmaz?","Duşta uzun süre kalmak",["Dişleri fırçalarken musluğu kapatmak","Gereksiz lambaları söndürmek","Atıkları geri dönüşüme vermek"],"Uzun duş su israfıdır."],
+["Ürünün insana ve çevreye zarar vermeyeceğini, Avrupa güvenlik standartlarına uygun olduğunu gösteren işaret hangisidir?","CE işareti",["Satış fişi","Barkod numarası","Garanti belgesi"],"CE işareti güvenlik uygunluğunu gösterir."]];
+
+const ORD=[["Pamuğun yolculuğu",["Pamuk tarlada yetiştirilir","Giysiler tırlarla mağazaya taşınır","Giysi satın alınıp giyilir"]],["Bilinçli alışveriş",["Alışveriş listesi hazırlanır","Ürünün son kullanma tarihine bakılır","Fiş veya fatura saklanır"]],["Çocuğun bütçesi",["Harçlık alınır","Temel okul ihtiyaçları karşılanır","Kalan para kumbarada biriktirilir"]]];
+
+const MAX=[16,20,20,20,24],NM=["İstek mi, İhtiyaç mı?","Doğru / Yanlış","Kelime Sandığı","Çoktan Seçmeli","Sıralama"];
+let sec=-1,score=0,me={},sc=[],W=[],rev=null,sent=0;
+
+const S={p:{},s:null,items:sh(SORT.map((x,i)=>({i,t:x[0],c:x[1]})))};
+const T={a:{},items:sh(TF.map((x,i)=>({i,t:x[0],v:x[1],e:x[2]})))};
+const F={p:{},s:null,items:sh(FILL.map((x,i)=>({i,t:x[0],r:x[1]}))),bank:sh(BANK)};
+const M={i:0,a:{},rows:[],qs:MCQ.map(q=>({q:q[0],r:q[1],o:sh([q[1],...q[2]]),e:q[3]}))};
+const O={i:0,rows:[],e:0,st:ORD.map(s=>{let o=sh(s[1].map((_,i)=>i));if(o.every((v,k)=>v==k))o.reverse();return{t:s[0],it:s[1],o}})};
+const bar=(m,on,fn,l="Bölümü Tamamla →")=>`<div class="bar"><b>${m}</b><button class="nx" ${on?"":"disabled"} onclick="${fn}">${l}</button></div>`;
+const esc=s=>String(s).replace(/</g,"&lt;");
+
+function R(top){
+  const y=scrollY;
+  $("#sc").textContent=score;
+  $("#st").textContent=sec<0?"Giriş":sec<5?`Bölüm ${sec+1} / 5`:"Sonuç";
+  $("#pf").style.width=Math.max(0,sec)*20+"%";
+  $("#app").innerHTML=rev?revH():[startH,sortH,tfH,fillH,mcqH,ordH,endH][sec+1]();
+  scrollTo(0,top?0:y);
+  if(sec==5&&!rev&&!sent){sent=1;send()}
+}
+function fin(rows,e){score+=e;sc[sec]=e;rows.forEach(r=>{if(!r.ok)W.push(r)});rev={rows,e};R(1)}
+function go(){rev=null;sec++;R(1)}
+function revH(){
+  return `<h2>Bölüm ${sec+1} sonucu: +${rev.e} / ${MAX[sec]} puan</h2><p class="d">Yanlışlarını incele, doğrusunu öğren.</p>
+  ${rev.rows.map(r=>`<div class="rv ${r.ok?"ok":"bad"}">${r.ok?"✓":"✗"} ${r.t}${r.ok?"":`<div class="note">${r.n}</div>`}</div>`).join("")}
+  ${bar("",1,"go()",sec==4?"Sonucu Gör 🏁":"Sonraki Bölüm →")}`;
+}
+function startH(){
+  return `<h2>🛒 Akıllı Tüketici Quizi</h2>
+  <p class="d">İstek ve ihtiyaç, üretim ve tüketim, bütçe, bilinçli tüketici ve israf… Hazır mısın? Toplam 100 puan!</p>
+  <input id="ia" placeholder="Ad Soyad"><input id="is" placeholder="Sınıf (örn. 4-A)"><input id="in" placeholder="Okul numarası (bilmiyorsan boş bırak)">
+  ${bar("",1,"st0()","Başla →")}`;
+}
+function st0(){
+  const a=$("#ia").value.trim(),s=$("#is").value.trim();
+  if(!a||!s){alert("Ad soyad ve sınıfı yaz.");return}
+  me={a,s,n:$("#in").value.trim()||"-",k:URL_KOD};sec=0;R(1);
+}
+function sortH(){
+  const un=S.items.filter(x=>!S.p[x.i]),
+  bk=c=>S.items.filter(x=>S.p[x.i]==c).map(x=>`<span class="chip">${x.t} <b onclick="event.stopPropagation();delete S.p[${x.i}];R()">×</b></span>`).join("")||"<small>Buraya dokun</small>";
+  return `<h2>Bölüm 1: İstek mi, İhtiyaç mı?</h2>
+  <p class="d">Bir ifade seç, sonra doğru sepete dokun.</p>
+  <div class="pool">${un.map(x=>`<div class="pill ${S.s===x.i?"on":""}" onclick="S.s=${x.i};R()">${x.t}</div>`).join("")||"✓ Hepsi yerleşti"}</div>
+  <div class="g2">
+    <div class="bk" onclick="drop('i')"><h3>🍞 İhtiyaç</h3>${bk("i")}</div>
+    <div class="bk" onclick="drop('k')"><h3>🧸 İstek</h3>${bk("k")}</div>
+  </div>
+  ${bar(`Kalan: ${un.length}`,!un.length,"doneS()")}`;
+}
+function drop(c){if(S.s==null)return;S.p[S.s]=c;S.s=null;R()}
+function doneS(){
+  const rows=S.items.map(x=>({ok:S.p[x.i]==x.c,t:x.t,n:`Doğrusu: ${x.c=="i"?"İhtiyaç":"İstek"}`}));
+  fin(rows,rows.filter(r=>r.ok).length*2);
+}
+function tfH(){
+  const n=Object.keys(T.a).length;
+  return `<h2>Bölüm 2: Doğru mu, Yanlış mı?</h2><p class="d">10 cümleyi işaretle.</p>
+  ${T.items.map(x=>`<div class="row"><span>${x.t}</span><span style="display:flex;gap:8px"><button class="b2 ${T.a[x.i]===true?"t":""}" onclick="T.a[${x.i}]=true;R()">✓ DOĞRU</button><button class="b2 ${T.a[x.i]===false?"f":""}" onclick="T.a[${x.i}]=false;R()">✕ YANLIŞ</button></span></div>`).join("")}
+  ${bar(`Cevaplanan: ${n} / 10`,n==10,"doneT()")}`;
+}
+function doneT(){
+  const rows=T.items.map(x=>({ok:T.a[x.i]===x.v,t:x.t,n:`Senin cevabın: ${T.a[x.i]?"Doğru":"Yanlış"}. Doğrusu: <b>${x.v?"Doğru":"Yanlış"}</b>. ${x.e}`}));
+  fin(rows,rows.filter(r=>r.ok).length*2);
+}
+function fillH(){
+  const u=Object.values(F.p),n=u.length;
+  return `<h2>Bölüm 3: Kelime Sandığı</h2>
+  <p class="d">Bir kelime seç, sonra boşluğa dokun. Dolu boşluğa dokunursan kelime geri alınır.</p>
+  ${F.items.map(x=>`<div class="row" style="display:block;line-height:2.1">${x.t.replace("{}",`<span class="slot" onclick="setSlot(${x.i})">${F.p[x.i]||"dokun"}</span>`)}</div>`).join("")}
+  <div class="bank">${F.bank.map((w,k)=>`<div class="w ${F.s===w?"on":""} ${u.includes(w)?"pl":""}" onclick="pickW(${k})">${w}</div>`).join("")}</div>
+  ${bar(`Doldurulan: ${n} / 10`,n==10,"doneF()")}`;
+}
+function pickW(k){const w=F.bank[k];F.s=(F.s===w)?null:w;R()}
+function setSlot(i){if(F.s){F.p[i]=F.s;F.s=null}else delete F.p[i];R()}
+function doneF(){
+  const rows=F.items.map(x=>({ok:F.p[x.i]==x.r,t:x.t.replace("{}",`<u>${F.p[x.i]}</u>`),n:`Doğrusu: <b>${x.r}</b>`}));
+  fin(rows,rows.filter(r=>r.ok).length*2);
+}
+function mcqH(){
+  const q=M.qs[M.i],a=M.a[M.i],l=M.i==M.qs.length-1;
+  return `<h2>Bölüm 4: Çoktan Seçmeli</h2><p class="d">Soru ${M.i+1} / ${M.qs.length}</p>
+  <p style="font-weight:800;margin-bottom:12px">${q.q}</p>
+  ${q.o.map((o,i)=>`<button class="opt ${a===i?"on":""}" onclick="M.a[M.i]=${i};R()">${"ABCD"[i]}) ${o}</button>`).join("")}
+  ${bar(a===undefined?"Bir seçenek işaretle":"Seçim yapıldı",a!==undefined,"nextM()",l?"Bölümü Bitir →":"Sonraki Soru →")}`;
+}
+function nextM(){
+  const q=M.qs[M.i],y=q.o[M.a[M.i]];
+  M.rows.push({ok:y==q.r,t:q.q,n:`Senin cevabın: ${y}<br>Doğru cevap: <b>${q.r}</b><br>${q.e}`});
+  if(M.i<M.qs.length-1){M.i++;R(1)}else fin(M.rows,M.rows.filter(r=>r.ok).length*2);
+}
+function ordH(){
+  const s=O.st[O.i];
+  return `<h2>Bölüm 5: Sıralama</h2>
+  <p class="d"><b>${s.t}</b> (${O.i+1} / 3) — okları kullanarak doğru sıraya diz.</p>
+  ${s.o.map((v,k)=>`<div class="row"><span>${s.it[v]}</span><span style="display:flex;gap:6px"><button class="b2" ${k?"":"disabled"} onclick="mv(${k},-1)">▲</button><button class="b2" ${k<2?"":"disabled"} onclick="mv(${k},1)">▼</button></span></div>`).join("")}
+  ${bar("",1,"okO()",O.i<2?"Sırayı Onayla →":"Quizi Bitir 🏁")}`;
+}
+function mv(k,d){const o=O.st[O.i].o;[o[k],o[k+d]]=[o[k+d],o[k]];R()}
+function okO(){
+  const s=O.st[O.i],ok=s.o.every((v,k)=>v==k);
+  O.rows.push({ok,t:s.t,n:"Doğru sıra: "+s.it.map((x,k)=>`${k+1}) ${x}`).join(" → ")});
+  if(ok)O.e+=8;
+  if(O.i<2){O.i++;R(1)}else fin(O.rows,O.e);
+}
+function endH(){
+  const t=score>=85?["🏅","Akıllı Tüketici Şampiyonu"]:score>=65?["🌟","Bilinçli Tüketici"]:["🌱","Meraklı Kaşif"];
+  return `<div style="text-align:center"><div style="font-size:3.5rem">${t[0]}</div><h2>${t[1]}</h2><p class="d">${esc(me.a)} • ${esc(me.s)}</p><div class="big">${score} / 100</div></div>
+  <h3 style="margin:14px 0 8px">Bölüm puanların</h3>${NM.map((n,i)=>`<div class="row"><span>${i+1}. ${n}</span><b>${sc[i]} / ${MAX[i]}</b></div>`).join("")}
+  <h3 style="margin:14px 0 8px">Tekrar etmen gerekenler (${W.length})</h3>${W.length?W.map(r=>`<div class="rv bad">${r.t}<div class="note">${r.n}</div></div>`).join(""):"<p>Hepsi doğru, harika! 🎉</p>"}
+  <p id="msg" class="note" style="margin:12px 0;display:none;font-weight:700"></p>${bar("",1,"location.reload()","Yeniden Başla")}`;
+}
+async function send(){
+  if(!me.k||!SCRIPT_URL)return;
+  const m=$("#msg");
+  if(m){m.style.display="block";m.style.color="#64748b";m.textContent="⏳ Sonuçların öğretmenine gönderiliyor…"}
+  try{
+    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({kod:me.k,okulKodu:me.k,oyun:"4. Sınıf 5. Ünite Quizi",ad:me.a,sinif:me.s,no:me.n,puan:score,b:sc,yanlis:W.length,liste:W.map(r=>r.t.replace(/<[^>]+>/g,"")).join(" | ").slice(0,1500)})});
+    if(m){m.style.color="#059669";m.textContent="✓ Sonucun öğretmenine gönderildi!"}
+  }catch(e){
+    if(m){m.style.color="#dc2626";m.textContent="⚠️ Sonuç gönderilemedi. İnternet bağlantını kontrol et."}
+  }
+}
+R();
+</script></body></html>

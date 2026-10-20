@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zaman Makinesi Tamircisi | 4. Sınıf 4. Ünite Oyunu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#0f1033;--panel:#1b1c4f;--ink:#f1f5ff;--line:#3b3f94;--a:#ffcb3d;--b:#38e8a6;--c:#7c8cff;--bad:#ff6b8a;--on:#1b1c4f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 'Nunito',system-ui,sans-serif;min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}h1,h2,.top b{font-family:'Baloo 2','Nunito',sans-serif;margin:0;line-height:1.15}h1{font-size:clamp(1.6rem,5vw,2.3rem)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5;font-weight:800}
+main{max-width:760px;margin:0 auto;padding:14px}.lead{margin:6px 0 12px}
+.parts{display:flex;gap:8px;font-size:1.6rem;margin:0 0 14px;padding:8px 12px;background:var(--panel);border:3px solid var(--line);border-radius:16px;align-items:center}.parts small{font:800 .85rem 'Nunito';margin-right:auto}
+.rail{display:grid;gap:10px}.nd{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:12px 14px;border-radius:18px;background:var(--panel);border:3px solid var(--line)}
+.nd:disabled{opacity:.45;cursor:not-allowed}.nd.nx{border-color:var(--a);box-shadow:0 0 0 5px color-mix(in srgb,var(--a) 28%,transparent)}.nd.dn{border-color:var(--b)}
+.ic{font-size:30px}.tx{flex:1}.tx small{display:block;opacity:.75}.ss{color:var(--a);font-size:1.1rem}
+.pn{background:var(--panel);border:3px solid var(--line);border-radius:22px;padding:16px;margin-top:8px}
+.hd{display:flex;gap:12px;align-items:center}.hd h2{font-size:1.5rem}.hd small{opacity:.75}.x{margin-left:auto;background:none;border:0;font-size:1.4rem}
+.facts p{background:var(--bg);border-radius:14px;padding:9px 12px;margin:8px 0}.rule{font-weight:800}
+.btn{background:var(--a);color:var(--on);border:0;border-radius:14px;padding:13px 24px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.35);margin-top:8px}
+.ph{display:flex;justify-content:space-between;font-weight:800;margin-bottom:6px}
+.pg,.tb{height:9px;background:var(--line);border-radius:9px;overflow:hidden;margin:6px 0}.pg i{display:block;height:100%;background:var(--b);transition:width .3s}.tb i{display:block;height:100%;background:var(--a);animation:sh linear forwards}@keyframes sh{from{width:100%}to{width:0}}
+.card{font:800 1.6rem 'Baloo 2','Nunito';text-align:center;background:var(--bg);border:3px solid var(--c);border-radius:18px;padding:26px 12px;margin:14px 0}.card.sm{font-size:1.15rem;padding:16px}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.bin,.opt,.pc,.hole{border:3px solid var(--line);background:var(--bg);border-radius:14px;padding:12px;font-weight:800}.bin{border-color:var(--c);font-size:1.05rem}
+.opt{display:block;width:100%;text-align:left;margin-bottom:9px}.opt.ok{border-color:var(--b);opacity:.7}.q{font-weight:800;margin:10px 0}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}.pc{min-height:84px;font-size:.85rem;padding:6px}.pc.op{border-color:var(--a)}.pc.ok{border-color:var(--b);opacity:.7}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.hole{min-height:96px;font-size:.92rem;padding:6px}.hole.pop{border-color:var(--a);background:var(--panel);transform:scale(1.04)}
+.fb{min-height:28px;font-weight:800;margin-top:8px}.fb.g{color:var(--b)}.fb.r{color:var(--bad)}
+.res{text-align:center}.big{font-size:4rem}.stars{font-size:2rem;color:var(--a)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;z-index:20;padding:16px}
+input{width:100%;max-width:340px;padding:11px;margin:4px;border:2.5px solid var(--line);border-radius:12px;font:inherit;background:#fff;color:#222}
+@media(max-width:520px){.pgrid{grid-template-columns:repeat(3,1fr)}}
+body{background:radial-gradient(circle at 20% 0%,#2a2b7a,#0f1033 60%) fixed}.rail{border-left:4px dashed var(--c);padding-left:12px}.nd{box-shadow:0 0 14px rgba(124,140,255,.25)}</style></head><body>
+<div class="top"><b>⏳ Zaman Makinesi</b><span id="hud"></span></div><main id="app"></main>
+<script>
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbz5UFkeyHjo5BSG8fJBQK1QxEADZQFx1kH6YmovVp15cb8zfE6SKhxCYC8Rs6xIJsk6/exec";
+const KEY="sbk4-oyun-4b",OYUN="4. Sınıf 4. Ünite Oyunu";
+const HERO=["⏳ Zaman Makinesi Tamircisi","Zaman makinen bozuldu! 5 istasyondaki görevleri tamamla, parçaları topla ve makineyi çalıştır."],PARTS="Makine parçaları:";
+const FIN=[["🏆","Zaman Makinesi Ustası"],["🌟","Çırak Mucit"],["🌱","Genç Tamirci"],"makine çalıştı! Teknolojiyi bilinçli kullanan bir mucitsin. 💡"];
+const LV=[
+{n:"Radar Odası",e:"📡",sub:"Nedir, ne yapar?",k:"fast",f:[["🏥","MR, röntgen, ultrason ve tomografi sağlıkta kullanılır."],["🚄","Otomobil, tren, uçak, gemi ve metro ulaşım araçlarıdır."],["🏫","Etkileşimli tahta, dizüstü bilgisayar ve projeksiyon eğitimde kullanılır."]],d:{sec:8,bins:[["Sağlık","🏥"],["Ulaşım","🚄"],["Eğitim","🏫"]],items:[["MR cihazı",0],["Ultrason",0],["Röntgen",0],["Metro",1],["Uçak",1],["Gemi",1],["Etkileşimli tahta",2],["Dizüstü bilgisayar",2],["Projeksiyon cihazı",2]]},r:["Radar Ustası","Teknolojik ürünler hayatımızın her alanında işimizi kolaylaştırır."]},
+{n:"Zaman Atlama",e:"⏪",sub:"Geçmişte ve şimdi",k:"pairs",lives:6,f:[["🌾","Saban yerini traktöre, el dokuma tezgâhı fabrikalardaki makinelere bıraktı."],["🚢","Kömürlü buharlı tekneler yerini modern gemilere bıraktı."],["🧺","Isıtılmış taşlarla başlayan ütü, bugün elektrikli ve buharlı."],["🔍","Cam; kap ve boncuktan pencereye, gözlüğe, bugün fiber optik kabloya dönüştü."]],d:[["Saban","Traktör"],["El dokuma tezgâhı","Kumaş makinesi"],["Buharlı tekne","Modern gemi"],["Kömürlü ütü","Elektrikli ütü"]],r:["Zaman Yolcusu","Teknolojik ürünler ihtiyaçlara ve bilimsel gelişmelere göre değişir."]},
+{n:"Mucit Dedektifi",e:"🕵️",sub:"Teknolojinin öyküsü",k:"who",f:[["📞","Alexander Graham Bell 1876'da telefonu icat etti."],["📺","John Logie Baird 1926'da televizyonu icat etti."],["🩻","Esat Fevzi ve Rıfat Osman Beyler 1897'de ilk röntgen uygulamasını yaptı."],["🧠","Mucit, yeni bir buluş ortaya koyan veya ürünleri geliştiren kişidir."]],d:[["Sesi kablolarla karşı tarafa aktardı ve 1876'da telefonu icat etti. Kimdir?","Alexander Graham Bell",["John Logie Baird","Esat Fevzi"]],["İskoç mühendis; 1926'da televizyonu icat etti. Kimdir?","John Logie Baird",["Alexander Graham Bell","Rıfat Osman"]],["Kendi yaptıkları pillerle 1897'de bir yaralının elini röntgenle görüntülediler. Kimlerdir?","Esat Fevzi ve Rıfat Osman",["Bell ve Baird","İki kampçı"]],["Yeni bir buluş ortaya koyan kişiye ne denir?","Mucit",["Girişimci","Tüketici"]],["Isıtılmış taşlarla başlayıp bugün elektriğe dönüşen ürün hangisidir?","Ütü",["Buzdolabı","Televizyon"]],["Serin mağaralarda saklamayla başlayıp bugün dijitalleşen ürün hangisidir?","Buzdolabı",["Ütü","Telefon"]]],r:["Baş Dedektif","Mucitler meraklı, sabırlı ve yaratıcıdır."]},
+{n:"Prototip Hattı",e:"🛠️",sub:"Benim ürünüm",k:"order",f:[["💭","Her ürün bir ihtiyaçtan doğar. Kafa feneri ve telsiz böyle doğdu."],["📋","Aşamalar: problemi belirle, ön araştırma, planlama, tasarım ve çizim, prototip, değerlendirme ve raporlama."],["🏆","TEKNOFEST, gençlerin projelerini sergilediği büyük bir festivaldir."]],d:{q:"Ürün geliştirme aşamalarını sırayla dokun.",items:["Problemi / ihtiyacı belirle","Ön araştırma yap","Planlama yap","Tasarla ve çiz","Prototip üret","Değerlendir ve raporla"]},r:["Ürün Mühendisi","İyi bir ürün, doğru belirlenmiş bir ihtiyaçtan doğar."]},
+{n:"Dijital Sağlık Radarı",e:"🛡️",sub:"Teknolojiyi kullanıyorum",k:"whack",lives:4,f:[["👀","20-20 kuralı: Her 20 dakikada bir 20 saniye uzağa bak."],["♻️","E-atıklar çöpe değil, yetkili geri dönüşüm kutularına verilir."],["📖","Kılavuz okunur. Garanti için fatura saklanır ve ürün yetkili servis dışında açılmaz."]],d:{n:20,need:9,ms:1500,bad:["Saatlerce ekrana bakmak","Eski cihazı çöpe atmak","Kılavuzu okumamak","Eğri oturup ekrana bakmak","Faturayı atmak","Gece boyu oyun oynamak"],good:["20-20 kuralı","Geri dönüşüm kutusu","Kılavuzu okumak","Faturayı saklamak","Ekrana ara vermek"]},r:["Bilinçli Kullanıcı","Teknolojiyi sağlıklı ve çevre dostu kullanmak hepimizin görevi!"]}
+];
+
+const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a},esc=s=>String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+const KOD=(()=>{const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k)for(const x of p.keys())if(x!=='kod'){k=x.trim();break}return k})();
+const RULE={fast:"Kart süresi dolmadan doğru kutuya dokun! Yanlış ya da geç kalırsan enerji kaybedersin.",pairs:"Kartları çevir, eşleşen çiftleri bul. Her yanlış eşleşme enerji götürür.",who:"Soruyu oku, süre dolmadan doğru cevaba dokun.",order:"Adımlara doğru sırayla dokun. Yanlış sıra enerji götürür.",whack:"Yanlış ya da riskli olan çıkınca hemen dokun! Doğru olana dokunursan enerji kaybedersin."};
+let S={st:[],lost:0,me:null,sent:0};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}},tot=()=>S.st.reduce((a,b)=>a+(b||0),0);
+let T=[],cur=0,lives=0,lost=0,A=()=>{},ss=0;
+const stop=()=>{T.forEach(clearTimeout);T=[]},later=(f,ms)=>T.push(setTimeout(f,ms)),mx=()=>LV[cur].lives||3;
+const hudH=()=>`<div class=ph><span>${LV[cur].e} ${LV[cur].n}</span><span>${'❤️'.repeat(Math.max(0,lives))}${'🖤'.repeat(Math.max(0,mx()-lives))}</span></div>`;
+const hit=()=>{lives--;lost++;S.lost++},pg=(a,b)=>`<div class=pg><i style="width:${a/b*100}%"></i></div>`,tb=s=>`<div class=tb><i style="animation-duration:${s}s"></i></div>`;
+const FORM=(a,s,n)=>`<input id=na placeholder="Ad Soyad" value="${esc(a)}"><br><input id=ns placeholder="Sınıf (örn. 4-A)" value="${esc(s)}"><br><input id=nn placeholder="Okul no (boş bırakabilirsin)" value="${esc(n)}"><br>`;
+
+function menu(){stop();const nx=LV.findIndex((_,i)=>!S.st[i]);$('#hud').textContent='⭐ '+tot()+' / 15';
+ $('#app').innerHTML=`<h1>${HERO[0]}</h1><p class=lead>${HERO[1]}</p><div class=parts><small>${PARTS}</small>${LV.map((l,i)=>S.st[i]?l.e:'⚪').join(' ')}</div>
+ <div class=rail>${LV.map((l,i)=>{const ok=i<=nx||nx<0,dn=S.st[i];return `<button class="nd ${dn?'dn':''} ${i==nx?'nx':''}" ${ok?'':'disabled'} onclick="info(${i})"><span class=ic>${dn?'✅':ok?l.e:'🔒'}</span><span class=tx><b>${l.n}</b><small>${l.sub}</small></span><span class=ss>${'★'.repeat(dn||0)}</span></button>`}).join('')}</div>${nx<0?fin():''}`;
+ if(nx<0){const b=$('#snd');if(b)b.onclick=manual;if(KOD&&SCRIPT_URL&&S.me&&!S.sent&&ss==0){ss=1;auto()}}}
+function info(i){stop();cur=i;const l=LV[i];$('#app').innerHTML=`<div class=pn><div class=hd><span class=ic>${l.e}</span><div><h2>${l.n}</h2><small>${l.sub}</small></div><button class=x onclick=menu() aria-label=Kapat>✕</button></div><div class=facts>${l.f.map(f=>`<p>${f[0]} ${f[1]}</p>`).join('')}</div><p class=rule>🎯 ${RULE[l.k]}</p><button class=btn onclick=play()>Başla 🚀</button></div>`;scrollTo(0,0)}
+function play(){stop();const l=LV[cur];lives=mx();lost=0;G[l.k](l);scrollTo(0,0)}
+function end(ok){stop();const l=LV[cur],st=ok?Math.max(1,3-Math.floor(lost*3/mx())):0;
+ if(ok){const p=S.st[cur]||0;if(st>p){S.st[cur]=st;S.sent=0;ss=0}save()}
+ $('#app').innerHTML=`<div class="pn res"><div class=big>${ok?l.e:'💥'}</div><h2>${ok?l.r[0]:'Bu seferlik olmadı!'}</h2>${ok?`<div class=stars>${'★'.repeat(st)}${'☆'.repeat(3-st)}</div><p>${l.r[1]}</p>`:'<p>Enerjin bitti ya da hedefe ulaşamadın. Bir daha dene, bu sefer daha dikkatli ol!</p>'}<button class=btn onclick="${ok?'menu()':'play()'}">${ok?'Devam →':'Tekrar dene 🔄'}</button></div>`}
+const G={};
+G.fast=l=>{const q=sh(l.d.items),sec=l.d.sec||5;let i=0,lk=0;
+ const show=()=>{stop();lk=0;if(i>=q.length)return end(true);
+  $('#app').innerHTML=`<div class=pn>${hudH()}${pg(i,q.length)}${tb(sec)}<div class=card>${q[i][0]}</div><div class=bins>${l.d.bins.map((b,k)=>`<button class=bin onclick="A(${k})">${b[1]}<br>${b[0]}</button>`).join('')}</div><div class=fb id=fb></div></div>`;later(()=>A(-1),sec*1000)};
+ A=k=>{if(lk)return;lk=1;stop();const c=q[i],ok=k==c[1];if(!ok)hit();const f=$('#fb');f.className='fb '+(ok?'g':'r');f.textContent=ok?'✅ Doğru!':(k<0?'⏰ Süre doldu! ':'❌ ')+'Doğrusu: '+l.d.bins[c[1]][0];
+  later(()=>{if(lives<=0)return end(false);i++;show()},ok?500:1100)};show()};
+G.who=l=>{const q=sh(l.d);let i=0,lk=0,o;
+ const show=()=>{stop();lk=0;if(i>=q.length)return end(true);const c=q[i];o=sh([c[1],...c[2]]);
+  $('#app').innerHTML=`<div class=pn>${hudH()}${pg(i,q.length)}${tb(14)}<div class="card sm">${c[0]}</div>${o.map((x,k)=>`<button class=opt onclick="A(${k})">${'ABC'[k]}) ${x}</button>`).join('')}<div class=fb id=fb></div></div>`;later(()=>A(-1),14000)};
+ A=k=>{if(lk)return;lk=1;stop();const c=q[i],ok=k>=0&&o[k]==c[1];if(!ok)hit();const f=$('#fb');f.className='fb '+(ok?'g':'r');f.textContent=ok?'✅ Süper!':(k<0?'⏰ Süre doldu! ':'❌ ')+'Doğrusu: '+c[1];
+  later(()=>{if(lives<=0)return end(false);i++;show()},ok?600:1500)};show()};
+G.pairs=l=>{const cs=sh(l.d.flatMap((p,i)=>[[i,p[0]],[i,p[1]]]));let op=[],mt=[],lk=0;
+ const r=()=>{$('#app').innerHTML=`<div class=pn>${hudH()}<div class=pgrid>${cs.map((c,k)=>`<button class="pc ${mt.includes(k)?'ok':op.includes(k)?'op':''}" onclick="A(${k})">${mt.includes(k)||op.includes(k)?c[1]:'❓'}</button>`).join('')}</div></div>`};
+ A=k=>{if(lk||mt.includes(k)||op.includes(k))return;op.push(k);r();if(op.length<2)return;lk=1;const[a,b]=op;
+  if(cs[a][0]==cs[b][0]){mt.push(a,b);op=[];lk=0;r();if(mt.length==cs.length)later(()=>end(true),600)}
+  else{hit();later(()=>{op=[];lk=0;if(lives<=0)return end(false);r()},900)}};r()};
+G.order=l=>{const it=l.d.items,o=sh(it.map((_,k)=>k));let sq=[];
+ const r=(m,c)=>{$('#app').innerHTML=`<div class=pn>${hudH()}<p class=q>${l.d.q}</p>${o.map(k=>`<button class="opt ${sq.includes(k)?'ok':''}" onclick="A(${k})">${sq.includes(k)?(sq.indexOf(k)+1)+'. ':''}${it[k]}</button>`).join('')}<div class="fb ${c||''}">${m||''}</div></div>`};
+ A=k=>{if(sq.includes(k))return;if(k==sq.length){sq.push(k);if(sq.length==it.length){r('✅ Harika!','g');later(()=>end(true),700)}else r('✅ Doğru sıra!','g')}else{hit();if(lives<=0)return end(false);r('❌ Önce hangisi olmalıydı?','r')}};r()};
+G.whack=l=>{const d=l.d,N=d.n,seq=sh([...Array(N)].map((_,k)=>k%5<3?[d.bad[k%d.bad.length],1]:[d.good[k%d.good.length],0]));let i=0,hits=0,cell=-1,now;
+ const r=()=>{$('#app').innerHTML=`<div class=pn>${hudH()}${pg(i,N)}<p class=fb>🎯 Yakalanan: ${hits} / ${d.need}</p><div class=wgrid>${[...Array(9)].map((_,k)=>`<button class="hole ${k==cell?'pop':''}" onclick="A(${k})">${k==cell?now[0]:'🕳️'}</button>`).join('')}</div></div>`};
+ const sp=()=>{stop();cell=-1;if(i>=N||lives<=0)return end(lives>0&&hits>=d.need);now=seq[i++];cell=Math.random()*9|0;r();later(()=>{cell=-1;r();later(sp,350)},d.ms)};
+ A=k=>{if(k!=cell)return;stop();if(now[1])hits++;else{hit();if(lives<=0)return end(false)}cell=-1;r();later(sp,300)};sp()};
+const fin=()=>{const p=Math.round(tot()/15*100),b=p>=85?FIN[0]:p>=60?FIN[1]:FIN[2];return `<div class="pn res" style="margin-top:14px"><div class=big>${b[0]}</div><h2>${b[1]}</h2><p><b>${tot()} / 15 yıldız</b> — ${FIN[3]}</p>${KOD&&SCRIPT_URL&&!S.sent&&(ss==2||!S.me)?`<p>Sonucun öğretmenine gitsin:</p>${FORM(S.me?S.me.a:'',S.me?S.me.s:'',S.me&&S.me.n!='-'?S.me.n:'')}<button class=btn id=snd>Sonucu Gönder 📨</button>`:''}<p id=msg class=fb>${S.sent?'✓ Sonuçların öğretmenine gönderildi.':''}</p><button class=btn onclick=resetG()>Baştan Oyna 🔄</button></div>`};
+function resetG(){S={st:[],lost:0,me:S.me,sent:0};ss=0;save();menu();scrollTo(0,0)}
+const msg=(t,c)=>{const m=$('#msg');if(m){m.className='fb '+c;m.textContent=t}};
+async function post(){await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({kod:KOD,okulKodu:KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n,puan:Math.round(tot()/15*100),b:LV.map((_,i)=>S.st[i]||0),yanlis:S.lost,liste:LV.map((l,i)=>l.n+': '+(S.st[i]||0)+'★').join(' | ')})});S.sent=1;ss=0;save()}
+async function auto(){msg('⏳ Sonuç öğretmenine gönderiliyor…','');try{await post();msg('✓ Sonuçların öğretmenine gönderildi.','g')}catch(e){ss=2;menu();msg('⚠️ Gönderilemedi. İnternetini kontrol edip tekrar dene.','r')}}
+async function manual(){const a=$('#na').value.trim(),s=$('#ns').value.trim();if(!a||!s)return msg('Ad soyad ve sınıfı yaz.','r');S.me={a,s,n:$('#nn').value.trim()||'-'};ss=1;msg('⏳ Gönderiliyor…','');try{await post();msg('✓ Sonuçların öğretmenine gönderildi.','g')}catch(e){ss=2;msg('⚠️ Gönderilemedi. İnternetini kontrol edip tekrar dene.','r')}}
+function askName(){if(!(KOD&&SCRIPT_URL)||S.me)return;const d=document.createElement('div');d.className='modal';d.innerHTML=`<div class="pn res"><h2>Hoş geldin!</h2><p>Sonucun öğretmenine gidecek. Adını ve sınıfını yaz.</p>${FORM('','','')}<button class=btn id=go>Başla 🚀</button><p id=mm class="fb r"></p></div>`;document.body.appendChild(d);
+ $('#go').onclick=()=>{const a=$('#na').value.trim(),s=$('#ns').value.trim();if(!a||!s){$('#mm').textContent='Ad soyad ve sınıfı yaz.';return}S.me={a,s,n:$('#nn').value.trim()||'-'};save();d.remove();menu()}}
+menu();askName();
+</script></body></html>
