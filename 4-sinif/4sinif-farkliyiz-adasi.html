@@ -98,7 +98,7 @@ let S={done:[],miss:0,me:null,sent:0};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const total=()=>ST.reduce((a,_,i)=>a+(S.done[i]||0),0);
-let cur,Tk;
+let cur,Tk,sendState=0; // 0 bekliyor, 1 gönderiliyor, 2 başarısız
 
 function render(){
   const nx=ST.findIndex((_,i)=>!S.done[i]);
@@ -108,25 +108,38 @@ function render(){
   $('#ts').textContent=total();$('#pb').style.width=total()/15*100+'%';
   const all=ST.every((_,i)=>S.done[i]);
   $('#fin').innerHTML=all?finH():'';
-  if(all)finBind();
+  if(all){finBind();if(LINK_KOD&&SCRIPT_URL&&S.me&&!S.sent&&sendState==0){sendState=1;autoSend()}}
 }
 function finH(){
   const t=total(),p=Math.round(t/15*100),b=p>=85?['🏆','Farklıyız Adası Kahramanı']:p>=60?['🌟','Ada Kâşifi']:['🌱','Genç Kâşif'];
   return `<div class="finale"><div style="font-size:3.5rem">${b[0]}</div><h2>${b[1]}</h2><p><b>${t} / 15 yıldız</b> topladın. Farklıyız ama hepimiz arkadaşız! 💛</p>
-  ${LINK_KOD&&SCRIPT_URL&&!S.sent?`<p>Sonucun öğretmenine gitsin:</p><input id="na" placeholder="Ad Soyad" value="${S.me?S.me.a:''}"><br><input id="ns" placeholder="Sınıf (örn. 4-A)" value="${S.me?S.me.s:''}"><br><input id="nn" placeholder="Okul no (boş bırakabilirsin)" value="${S.me&&S.me.n!='-'?S.me.n:''}"><br><button class="btn" id="snd">Sonucu Gönder 📨</button>`:''}
+  ${LINK_KOD&&SCRIPT_URL&&!S.sent&&(sendState==2||!S.me)?`<p>Sonucun öğretmenine gitsin:</p><input id="na" placeholder="Ad Soyad" value="${S.me?S.me.a:''}"><br><input id="ns" placeholder="Sınıf (örn. 4-A)" value="${S.me?S.me.s:''}"><br><input id="nn" placeholder="Okul no (boş bırakabilirsin)" value="${S.me&&S.me.n!='-'?S.me.n:''}"><br><button class="btn" id="snd">Sonucu Gönder 📨</button>`:''}
   <p id="msg" class="fb">${S.sent?'✓ Sonuçların öğretmenine gönderildi.':''}</p><button class="btn" onclick="resetG()">Baştan Oyna 🔄</button></div>`;
 }
 function finBind(){const b=$('#snd');if(b)b.onclick=sendRes}
-function resetG(){S={done:[],miss:0,me:null,sent:0};save();render();scrollTo(0,0)}
+function resetG(){S={done:[],miss:0,me:S.me,sent:0};sendState=0;save();render();scrollTo(0,0)}
+function payload(){const st=ST.map((_,i)=>S.done[i]||0);return JSON.stringify({kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n,puan:Math.round(total()/15*100),b:st,yanlis:S.miss,liste:ST.map((s,i)=>s.n+': '+st[i]+'★').join(' | ')})}
+async function post(){await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:payload()});S.sent=1;sendState=0;save()}
+async function autoSend(){
+  const m=$('#msg');if(m){m.className='fb';m.textContent='⏳ Sonuç öğretmenine gönderiliyor…'}
+  try{await post();const k=$('#msg');if(k){k.className='fb g';k.textContent='✓ Sonuçların öğretmenine gönderildi.'}}
+  catch(e){sendState=2;render();const k=$('#msg');if(k){k.className='fb r';k.textContent='⚠️ Gönderilemedi. İnternetini kontrol edip tekrar dene.'}}
+}
 async function sendRes(){
   const a=$('#na').value.trim(),s=$('#ns').value.trim(),m=$('#msg');
   if(!a||!s){m.className='fb r';m.textContent='Ad soyad ve sınıfı yaz.';return}
   S.me={a,s,n:$('#nn').value.trim()||'-'};
-  m.className='fb';m.textContent='⏳ Gönderiliyor…';
-  const st=ST.map((_,i)=>S.done[i]||0);
-  try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n,puan:Math.round(total()/15*100),b:st,yanlis:S.miss,liste:ST.map((s,i)=>s.n+': '+st[i]+'★').join(' | ')})});
-    S.sent=1;save();m.className='fb g';m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
-  catch(e){m.className='fb r';m.textContent='⚠️ Gönderilemedi. İnternetini kontrol edip tekrar dene.'}
+  m.className='fb';m.textContent='⏳ Gönderiliyor…';sendState=1;
+  try{await post();m.className='fb g';m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+  catch(e){sendState=2;m.className='fb r';m.textContent='⚠️ Gönderilemedi. İnternetini kontrol edip tekrar dene.'}
+}
+function askName(){
+  if(!(LINK_KOD&&SCRIPT_URL)||S.me)return;
+  const st='width:100%;max-width:340px;padding:11px;margin:4px;border:2.5px solid var(--line);border-radius:12px;font:inherit';
+  const d=document.createElement('div');d.className='modal';d.id='nm';
+  d.innerHTML=`<div class="sheet" role="dialog" aria-modal="true" style="text-align:center"><h2>Hoş geldin! 🏝️</h2><p>Sonucun öğretmenine gidecek. Adını ve sınıfını yaz.</p><input id="ma" placeholder="Ad Soyad" style="${st}"><br><input id="ms" placeholder="Sınıf (örn. 4-A)" style="${st}"><br><input id="mn" placeholder="Okul no (boş bırakabilirsin)" style="${st}"><br><button class="btn" id="mgo">Başla 🚀</button><p id="mm" class="fb"></p></div>`;
+  document.body.appendChild(d);
+  $('#mgo').onclick=()=>{const a=$('#ma').value.trim(),c=$('#ms').value.trim(),m=$('#mm');if(!a||!c){m.className='fb r';m.textContent='Ad soyad ve sınıfı yaz.';return}S.me={a,s:c,n:$('#mn').value.trim()||'-'};save();d.remove();render()};
 }
 function openS(i){cur={i,p:0,m:0,o:{}};$('#modal').hidden=false;view()}
 function closeM(){$('#modal').hidden=true;render()}
@@ -165,7 +178,7 @@ function view(){
   }
   $('#sheet').innerHTML=h;
 }
-function fin(){const st=cur.m==0?3:cur.m<=2?2:1;S.done[cur.i]=Math.max(S.done[cur.i]||0,st);S.miss+=cur.m;S.sent=0;save()}
+function fin(){const st=cur.m==0?3:cur.m<=2?2:1,pv=S.done[cur.i]||0;S.done[cur.i]=Math.max(pv,st);S.miss+=cur.m;if(st>pv)S.sent=0;save()}
 function sortDrop(b){
   if(Tk.sel==null)return;const t=ST[cur.i].t[cur.p-1];
   if(t.items[Tk.sel][1]==b){Tk.pl[Tk.sel]=b;right('✅ Doğru!')}else wrong('❌ Bu sepet değil, tekrar düşün!');
@@ -186,5 +199,5 @@ function ordPick(i){
   if(i==Tk.seq.length){Tk.seq.push(i);right('✅ Doğru sıra!')}else wrong('❌ Önce olan olay hangisi? Tekrar dene!');
   view();
 }
-render();
+render();askName();
 </script></body></html>
