@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sosyal ve Doğal Çevremiz | 4. Sınıf 3. Ünite Quizi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:#f5f2ea;color:#1e293b;padding:16px;display:flex;justify-content:center}
+.box{width:100%;max-width:880px;background:#fff;border:2px solid #e4dcce;border-radius:18px;overflow:hidden}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 20px;background:#faf7f2;border-bottom:2px solid #e4dcce;font-weight:700}
+.sc{background:#fef3c7;color:#b45309;border-radius:99px;padding:4px 14px}
+.rail{height:7px;background:#e7dfd2}#pf{height:100%;width:0;background:#d97706;transition:width .3s}
+#app{padding:22px 20px}h2{font-size:1.4rem;margin-bottom:4px}.d{color:#64748b;margin-bottom:14px}
+.pool,.bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:#fdfbf7;border:1.5px solid #e4dcce;border-radius:12px;margin-bottom:14px;min-height:54px}
+.pill,.w{background:#fff;border:2px solid #e4dcce;border-radius:99px;padding:7px 16px;font-weight:700;cursor:pointer}
+.on{background:#d97706;color:#fff;border-color:#d97706}.w.pl{opacity:.35;pointer-events:none}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bk{border:2px dashed #cfc2ae;border-radius:12px;padding:14px;min-height:150px;cursor:pointer;background:#faf7f2}.bk h3{font-size:1rem;margin-bottom:10px}
+.chip{display:inline-block;background:#fff;border:1px solid #d4c8b6;border-radius:99px;padding:4px 12px;margin:3px;font-weight:700;font-size:.88rem}.chip b{color:#dc2626;cursor:pointer}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fdfbf7;border:1.5px solid #e4dcce;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.b2{border:2px solid #e4dcce;background:#fff;border-radius:8px;padding:6px 12px;font:inherit;font-weight:800;cursor:pointer}
+.t{background:#d1fae5;border-color:#059669;color:#059669}.f{background:#fee2e2;border-color:#dc2626;color:#dc2626}
+.slot{display:inline-block;min-width:110px;border-bottom:2.5px dashed #d97706;background:#fcf4e8;border-radius:6px;padding:1px 8px;margin:0 3px;text-align:center;font-weight:800;color:#b45309;cursor:pointer}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #e4dcce;border-radius:12px;padding:12px 14px;margin-bottom:8px;font:inherit;font-weight:600;cursor:pointer}
+.opt.on{background:#fef3c7;border-color:#d97706;color:inherit}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1.5px solid #e4dcce}
+.nx{background:#d97706;color:#fff;border:0;border-radius:12px;padding:12px 24px;font:inherit;font-weight:800;cursor:pointer}.nx:disabled{opacity:.4;cursor:not-allowed}
+.rv{border:1.5px solid;border-radius:12px;padding:10px 14px;margin-bottom:8px}.ok{background:#d1fae5;border-color:#059669}.bad{background:#fee2e2;border-color:#dc2626}
+.note{font-size:.9rem;color:#475569;margin-top:4px}
+input{width:100%;padding:10px;border:2px solid #e4dcce;border-radius:10px;font:inherit;margin-bottom:10px}
+.big{font-size:2.2rem;font-weight:800;color:#b45309}
+@media(max-width:600px){.g2{grid-template-columns:1fr}.row{flex-direction:column;align-items:stretch}.bar{flex-direction:column;align-items:stretch}}
+</style></head><body>
+<div class="box"><div class="hd"><span>📚 4. Sınıf Sosyal Bilgiler • Sosyal ve Doğal Çevremiz</span><span><span id="st">Giriş</span> &nbsp;<span class="sc">★ <span id="sc">0</span></span></span></div>
+<div class="rail"><div id="pf"></div></div><div id="app"></div></div>
+<script>
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyCJVu7_rkU4BY1WOj2i2WWhWpDQhw22CqDR1prGPAg0gNyZd3lfw5kagA-3qQinoBZbA/exec";
+
+// URL'den kodu yakala (?tasokul veya ?kod=tasokul). Kod yoksa quiz genel modda çalışır, sonuç kaydedilmez.
+const URL_KOD=(function(){
+  const p=new URLSearchParams(location.search);
+  let k=(p.get('kod')||'').trim();
+  if(!k){for(const key of p.keys()){if(key!=='kod'){k=key.trim();break}}}
+  return k;
+})();
+const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const SORT=[["Dağ","d"],["Göl","d"],["Orman","d"],["Akarsu","d"],["Okul","b"],["Köprü","b"],["Baraj","b"],["Hastane","b"]];
+const SB=[["d","🌿 Doğal unsur"],["b","🏗️ Beşerî unsur"]];
+const TF=[
+["Pusulanın renkli ucu her zaman kuzey yönünü gösterir.",true,"Pusula en güvenilir yön bulma yöntemidir."],
+["Ağaç ve taşların yosun tutan kısmı genellikle güneyi gösterir.",false,"Yosun, Güneş’i az gören kuzeye bakan kısımda tutar."],
+["Kroki, ölçülü ve en ince ayrıntısına kadar çizilen bir plandır.",false,"Kroki ölçüsüz, göz kararı ve kabataslak çizilir."],
+["Kroki üzerinde kuzey yön oku mutlaka belirtilmelidir.",true,"Yön oku krokinin temel öğelerindendir."],
+["Baraj ve köprü doğal unsurdur.",false,"Baraj ve köprü insan yapımıdır; beşerî unsurdur."],
+["Meteoroloji Genel Müdürlüğü’nün merkezi Ankara’dadır.",true,"Hava tahmin raporlarını burada hazırlar."],
+["Fiziki haritalarda kahverengi, yüksek ve dağlık yerleri gösterir.",true,"Renk koyulaştıkça yükselti artar."],
+["Yüksek ve engebeli yerlerde nüfus genellikle fazladır.",false,"Bu yerlerde ulaşım ve tarım zor olduğu için nüfus seyrektir."],
+["Depremlerin oluşumu tamamen engellenebilir.",false,"Oluşumu engellenemez, yalnızca zararı azaltılabilir."],
+["Afet ve acil durum çantası çıkış kapısına yakın bir yerde durmalıdır.",true,"Afet anında hızlıca alınabilmelidir."]];
+const FILL=[
+["Doğada meydana gelen, can ve mal kaybına yol açan yıkıcı olaylara {} denir.","Doğal afet"],
+["Uydu sinyalleriyle bulunduğumuz konumu belirleyen sisteme {} denir.","GPS"],
+["Bir yerin kuş bakışı, ölçüsüz ve kabataslak çizimine {} denir.","Kroki"],
+["İnsanların ihtiyaçları için yaptığı okul, köprü ve baraj gibi yapılara {} denir.","Beşerî unsur"],
+["Pusula ibresinin renkli ucu her zaman {} yönünü gösterir.","Kuzey"],
+["Belirli bir yerde kısa sürede etkili olan atmosfer olaylarına {} denir.","Hava durumu"],
+["Fiziki haritalarda alçak yerler {} renkle gösterilir.","Yeşil"],
+["Eğimli arazilerde toprağın aşağıya doğru kaymasına {} denir.","Heyelan"],
+["Acil Çağrı Merkezi’ni aramak için {} numaralı hat kullanılır.","112"],
+["Ülke sınırlarını ve illeri gösteren haritaya {} harita denir.","Siyasi"]];
+const BANK=["Doğal afet", "GPS", "Kroki", "Beşerî unsur", "Kuzey", "Hava durumu", "Yeşil", "Heyelan", "112", "Siyasi", "Güney", "Fiziki", "Sel"];
+const MCQ=[
+["Aşağıdakilerden hangisi doğal unsurdur?","Orman",["Hastane", "Okul", "Otopark"],"Orman kendiliğinden vardır."],
+["Kroki ile ilgili verilenlerden hangisi yanlıştır?","Yapıların büyüklüğü birebir ölçülü çizilir.",["Kuş bakışı çizilir.", "Kuzey yön oku bulunur.", "Önemli yapıların adları yazılır."],"Kroki ölçüsüzdür."],
+["Güneşli havada çubuk yönteminde ikinci gölgenin ucu hangi yönü gösterir?","Doğu",["Batı", "Kuzey", "Güney"],"İlk gölge batıyı, ikinci gölge doğuyu gösterir."],
+["Karıncalar yuvalarından çıkardıkları toprağı nereye yığar?","Yuvanın kuzeyine",["Yuvanın güneyine", "Yuvanın doğusuna", "Yuvanın batısına"],"Yuvanın ağzı güneyi gösterir."],
+["Ali ve dedesi teknolojiden yararlanarak yön bulmak isterse hangisini kullanmalıdır?","GPS / araç navigasyonu",["Çubuk yöntemi", "Yosun", "Karınca yuvası"],"GPS uydu sinyalleriyle konum bulur."],
+["Fiziki haritada kahverengi renk neyi gösterir?","1000 metreden yüksek dağlık yerleri",["Alçak ovaları", "Göl ve denizleri", "Kıyı düzlüklerini"],"Renk koyulaştıkça yükselti artar."],
+["Aşağıdaki yerlerden hangisinde nüfusun seyrek olması beklenir?","Yüksek ve dağlık Doğu Anadolu alanı",["Kıyı kesimi", "Verimli ova", "Ilıman düzlük"],"Dağlık alanlarda ulaşım ve tarım zordur."],
+["Heyelana karşı en etkili önlem hangisidir?","Ağaçlandırma yapmak ve riskli yamaçları yerleşime açmamak",["Eğimli yamaçlara bina yapmak", "Ağaçları kesmek", "Dere yatağını doldurmak"],"Ağaç kökleri toprağı tutar."],
+["Meteoroloji Genel Müdürlüğü ile ilgili hangisi doğrudur?","Hava tahmin raporları hazırlar.",["Merkezi İzmir’dedir.", "Yalnızca deprem tahmini yapar.", "Sadece denizcilere hizmet verir."],"Çiftçilere, denizcilere ve havacılara rehberlik eder."],
+["Deprem anında hangisi yapılmalıdır?","Sağlam bir eşyanın yanında çök-kapan-tutun yapmak",["Asansörle hızla inmek", "Pencere kenarında beklemek", "Balkona çıkmak"],"Panik yapılmaz, güvenli pozisyon alınır."]];
+const ORD=[
+["Çubuk yöntemiyle yön bulma",["Yere çubuk dikilip gölgenin ucu işaretlenir", "15-20 dakika sonra ikinci gölgenin ucu işaretlenir", "İki nokta birleştirilir; ilk nokta batı, ikinci nokta doğudur"]],
+["Afet aşamaları",["Aile afet planı yapmak", "Çök-kapan-tutun yapmak", "Acil Toplanma Alanı’na gitmek"]],
+["Hava gözlemi",["Hava olayını gözlemlemek", "Gözlem sonuçlarını kaydetmek", "Bulguları resimli grafiğe aktarmak"]]];
+const MAX=[16,20,20,20,24],NM=["Unsur Sınıflandırma","Doğru / Yanlış","Kelime Sandığı","Çoktan Seçmeli","Sıralama"];
+let sec=-1,score=0,me={},sc=[],W=[],rev=null,sent=0;
+const S={p:{},s:null,items:sh(SORT.map((x,i)=>({i,t:x[0],c:x[1]})))};
+const T={a:{},items:sh(TF.map((x,i)=>({i,t:x[0],v:x[1],e:x[2]})))};
+const F={p:{},s:null,items:sh(FILL.map((x,i)=>({i,t:x[0],r:x[1]}))),bank:sh(BANK)};
+const M={i:0,a:{},rows:[],qs:MCQ.map(q=>({q:q[0],r:q[1],o:sh([q[1],...q[2]]),e:q[3]}))};
+const O={i:0,rows:[],e:0,st:ORD.map(s=>{let o=sh(s[1].map((_,i)=>i));if(o.every((v,k)=>v==k))o.reverse();return{t:s[0],it:s[1],o}})};
+const bar=(m,on,fn,l="Bölümü Tamamla →")=>`<div class="bar"><b>${m}</b><button class="nx" ${on?"":"disabled"} onclick="${fn}">${l}</button></div>`;
+const esc=s=>String(s).replace(/</g,"&lt;");
+
+function R(top){const y=scrollY;$("#sc").textContent=score;$("#st").textContent=sec<0?"Giriş":sec<5?`Bölüm ${sec+1} / 5`:"Sonuç";$("#pf").style.width=Math.max(0,sec)*20+"%";
+$("#app").innerHTML=rev?revH():[startH,sortH,tfH,fillH,mcqH,ordH,endH][sec+1]();scrollTo(0,top?0:y);if(sec==5&&!rev&&!sent){sent=1;send()}}
+function fin(rows,e){score+=e;sc[sec]=e;rows.forEach(r=>{if(!r.ok)W.push(r)});rev={rows,e};R(1)}
+function go(){rev=null;sec++;R(1)}
+function revH(){return `<h2>Bölüm ${sec+1} sonucu: +${rev.e} / ${MAX[sec]} puan</h2><p class="d">Yanlışlarını incele, doğrusunu öğren.</p>${rev.rows.map(r=>`<div class="rv ${r.ok?"ok":"bad"}">${r.ok?"✓":"✗"} ${r.t}${r.ok?"":`<div class="note">${r.n}</div>`}</div>`).join("")}${bar("",1,"go()",sec==4?"Sonucu Gör 🏁":"Sonraki Bölüm →")}`}
+
+function startH(){return `<h2>Çevre Dedektifi Quizi</h2><p class="d">Önce 3. ünite konularını tekrar et, sonra quizi çöz. Toplam 100 puan.</p><input id="ia" placeholder="Ad Soyad"><input id="is" placeholder="Sınıf (örn. 4/A)"><input id="in" placeholder="Okul numarası (bilmiyorsan boş bırak)">${bar("",1,"st0()","Başla →")}`}
+function st0(){const a=$("#ia").value.trim(),s=$("#is").value.trim();if(!a||!s){alert("Ad soyad ve sınıfı yaz.");return}me={a,s,n:$("#in").value.trim()||"-",k:URL_KOD};sec=0;R(1)}
+
+function sortH(){const un=S.items.filter(x=>!S.p[x.i]),bk=c=>S.items.filter(x=>S.p[x.i]==c).map(x=>`<span class="chip">${x.t} <b onclick="event.stopPropagation();delete S.p[${x.i}];R()">×</b></span>`).join("")||"<small>Buraya dokun</small>";
+return `<h2>Bölüm 1: Unsur Sınıflandırma</h2><p class="d">Bir unsur seç, sonra doğru sepete dokun.</p><div class="pool">${un.map(x=>`<div class="pill ${S.s===x.i?"on":""}" onclick="S.s=${x.i};R()">${x.t}</div>`).join("")||"✓ Hepsi yerleşti"}</div><div class="g2">${SB.map(b=>`<div class="bk" onclick="drop('${b[0]}')"><h3>${b[1]}</h3>${bk(b[0])}</div>`).join("")}</div>${bar(`Kalan: ${un.length}`,!un.length,"doneS()")}`}
+function drop(c){if(S.s==null)return;S.p[S.s]=c;S.s=null;R()}
+function doneS(){const rows=S.items.map(x=>({ok:S.p[x.i]==x.c,t:x.t,n:`Doğrusu: ${SB.find(b=>b[0]==x.c)[1]}`}));fin(rows,rows.filter(r=>r.ok).length*2)}
+
+function tfH(){const n=Object.keys(T.a).length;return `<h2>Bölüm 2: Doğru mu, Yanlış mı?</h2><p class="d">10 önermeyi işaretle.</p>${T.items.map(x=>`<div class="row"><span>${x.t}</span><span style="display:flex;gap:8px"><button class="b2 ${T.a[x.i]===true?"t":""}" onclick="T.a[${x.i}]=true;R()">✓ DOĞRU</button><button class="b2 ${T.a[x.i]===false?"f":""}" onclick="T.a[${x.i}]=false;R()">✕ YANLIŞ</button></span></div>`).join("")}${bar(`Cevaplanan: ${n} / 10`,n==10,"doneT()")}`}
+function doneT(){const rows=T.items.map(x=>({ok:T.a[x.i]===x.v,t:x.t,n:`Senin cevabın: ${T.a[x.i]?"Doğru":"Yanlış"}. Doğrusu: <b>${x.v?"Doğru":"Yanlış"}</b>. ${x.e}`}));fin(rows,rows.filter(r=>r.ok).length*2)}
+
+function fillH(){const u=Object.values(F.p),n=u.length;return `<h2>Bölüm 3: Kelime Sandığı</h2><p class="d">Bir kelime seç, sonra boşluğa dokun. Dolu boşluğa dokunursan kelime geri alınır.</p>${F.items.map(x=>`<div class="row" style="display:block;line-height:2.1">${x.t.replace("{}",`<span class="slot" onclick="setSlot(${x.i})">${F.p[x.i]||"dokun"}</span>`)}</div>`).join("")}<div class="bank">${F.bank.map(w=>`<div class="w ${F.s===w?"on":""} ${u.includes(w)?"pl":""}" onclick="pickW(${F.bank.indexOf(w)})">${w}</div>`).join("")}</div>${bar(`Doldurulan: ${n} / 10`,n==10,"doneF()")}`}
+function pickW(k){const w=F.bank[k];F.s=F.s===w?null:w;R()}
+function setSlot(i){if(F.s){F.p[i]=F.s;F.s=null}else delete F.p[i];R()}
+function doneF(){const rows=F.items.map(x=>({ok:F.p[x.i]==x.r,t:x.t.replace("{}",`<u>${F.p[x.i]}</u>`),n:`Doğrusu: <b>${x.r}</b>`}));fin(rows,rows.filter(r=>r.ok).length*2)}
+
+function mcqH(){const q=M.qs[M.i],a=M.a[M.i],l=M.i==M.qs.length-1;return `<h2>Bölüm 4: Çoktan Seçmeli</h2><p class="d">Soru ${M.i+1} / ${M.qs.length}</p><p style="font-weight:700;margin-bottom:12px">${q.q}</p>${q.o.map((o,i)=>`<button class="opt ${a===i?"on":""}" onclick="M.a[M.i]=${i};R()">${"ABCD"[i]}) ${o}</button>`).join("")}${bar(a===undefined?"Bir seçenek işaretle":"Seçim yapıldı",a!==undefined,"nextM()",l?"Bölümü Bitir →":"Sonraki Soru →")}`}
+function nextM(){const q=M.qs[M.i],y=q.o[M.a[M.i]];M.rows.push({ok:y==q.r,t:q.q,n:`Senin cevabın: ${y}<br>Doğru cevap: <b>${q.r}</b><br>${q.e}`});if(M.i<M.qs.length-1){M.i++;R(1)}else fin(M.rows,M.rows.filter(r=>r.ok).length*2)}
+
+function ordH(){const s=O.st[O.i];return `<h2>Bölüm 5: Sıralama</h2><p class="d">${s.t} (${O.i+1} / 3) — okları kullanarak doğru sıraya diz.</p>${s.o.map((v,k)=>`<div class="row"><span>${s.it[v]}</span><span style="display:flex;gap:6px"><button class="b2" ${k?"":"disabled"} onclick="mv(${k},-1)">▲</button><button class="b2" ${k<2?"":"disabled"} onclick="mv(${k},1)">▼</button></span></div>`).join("")}${bar("",1,"okO()",O.i<2?"Sırayı Onayla →":"Quizi Bitir 🏁")}`}
+function mv(k,d){const o=O.st[O.i].o;[o[k],o[k+d]]=[o[k+d],o[k]];R()}
+function okO(){const s=O.st[O.i],ok=s.o.every((v,k)=>v==k);O.rows.push({ok,t:s.t,n:"Doğru sıra: "+s.it.map((x,k)=>`${k+1}) ${x}`).join(" → ")});if(ok)O.e+=8;if(O.i<2){O.i++;R(1)}else fin(O.rows,O.e)}
+
+function endH(){const t=score>=85?["🎖️","Altın Rozetli Çevre Dedektifi"]:score>=65?["🧭","Çevre Kâşifi"]:["🌱","Genç Gezgin"];
+return `<div style="text-align:center"><div style="font-size:3.5rem">${t[0]}</div><h2>${t[1]}</h2><p class="d">${esc(me.a)} • ${esc(me.s)}</p><div class="big">${score} / 100</div></div>
+<h3 style="margin:14px 0 8px">Bölüm puanların</h3>${NM.map((n,i)=>`<div class="row"><span>${i+1}. ${n}</span><b>${sc[i]} / ${MAX[i]}</b></div>`).join("")}
+<h3 style="margin:14px 0 8px">Tekrar etmen gerekenler (${W.length})</h3>${W.length?W.map(r=>`<div class="rv bad">${r.t}<div class="note">${r.n}</div></div>`).join(""):"<p>Hepsi doğru, harika! 🎉</p>"}
+<p id="msg" class="note" style="margin:12px 0;display:none;font-weight:700"></p>${bar("",1,"location.reload()","Yeniden Başla")}`}
+async function send(){
+  if(!me.k||!SCRIPT_URL)return;
+  const m=$("#msg");
+  if(m){m.style.display="block";m.style.color="#64748b";m.textContent="⏳ Sonuçların öğretmenine gönderiliyor…"}
+  try{
+    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({kod:me.k,okulKodu:me.k,oyun:"4. Sınıf 3. Ünite Quizi",ad:me.a,sinif:me.s,no:me.n,puan:score,b:sc,yanlis:W.length,liste:W.map(r=>r.t.replace(/<[^>]+>/g,"")).join(" | ").slice(0,1500)})});
+    if(m){m.style.color="#059669";m.textContent="✓ Sonucun öğretmenine gönderildi!"}
+  }catch(e){
+    if(m){m.style.color="#dc2626";m.textContent="⚠️ Sonuç gönderilemedi. İnternet bağlantını kontrol et."}
+  }
+}
+R();
+</script></body></html>
