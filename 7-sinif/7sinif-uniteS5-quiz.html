@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Üreten Türkiye | 7. Sınıf 5. Öğrenme Alanı Quizi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:#f4eddd;color:#1e293b;padding:16px;display:flex;justify-content:center}
+.box{width:100%;max-width:880px;background:#fff;border:2px solid #d9ccb0;border-radius:18px;overflow:hidden}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 20px;background:#fffaf0;border-bottom:2px solid #d9ccb0;font-weight:700}
+.sc{background:#d5f2ec;color:#0f5c54;border-radius:99px;padding:4px 14px}
+.rail{height:7px;background:#e7dfd2}#pf{height:100%;width:0;background:#12796f;transition:width .3s}
+#app{padding:22px 20px}h2{font-size:1.4rem;margin-bottom:4px}.d{color:#64748b;margin-bottom:14px}
+.pool,.bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:#fffaf0;border:1.5px solid #d9ccb0;border-radius:12px;margin-bottom:14px;min-height:54px}
+.pill,.w{background:#fff;border:2px solid #d9ccb0;border-radius:99px;padding:7px 16px;font-weight:700;cursor:pointer}
+.on{background:#12796f;color:#fff;border-color:#12796f}.w.pl{opacity:.35;pointer-events:none}
+.g2{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.bk{border:2px dashed #cfc2ae;border-radius:12px;padding:14px;min-height:150px;cursor:pointer;background:#fffaf0}.bk h3{font-size:1rem;margin-bottom:10px}
+.chip{display:inline-block;background:#fff;border:1px solid #d4c8b6;border-radius:99px;padding:4px 12px;margin:3px;font-weight:700;font-size:.88rem}.chip b{color:#dc2626;cursor:pointer}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fffaf0;border:1.5px solid #d9ccb0;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.b2{border:2px solid #d9ccb0;background:#fff;border-radius:8px;padding:6px 12px;font:inherit;font-weight:800;cursor:pointer}
+.t{background:#d1fae5;border-color:#059669;color:#059669}.f{background:#fee2e2;border-color:#dc2626;color:#dc2626}
+.slot{display:inline-block;min-width:110px;border-bottom:2.5px dashed #12796f;background:#e6f6f2;border-radius:6px;padding:1px 8px;margin:0 3px;text-align:center;font-weight:800;color:#0f5c54;cursor:pointer}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #d9ccb0;border-radius:12px;padding:12px 14px;margin-bottom:8px;font:inherit;font-weight:600;cursor:pointer}
+.opt.on{background:#d5f2ec;border-color:#12796f;color:inherit}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1.5px solid #d9ccb0}
+.nx{background:#12796f;color:#fff;border:0;border-radius:12px;padding:12px 24px;font:inherit;font-weight:800;cursor:pointer}.nx:disabled{opacity:.4;cursor:not-allowed}
+.rv{border:1.5px solid;border-radius:12px;padding:10px 14px;margin-bottom:8px}.ok{background:#d1fae5;border-color:#059669}.bad{background:#fee2e2;border-color:#dc2626}
+.note{font-size:.9rem;color:#475569;margin-top:4px}
+input{width:100%;padding:10px;border:2px solid #d9ccb0;border-radius:10px;font:inherit;margin-bottom:10px}
+.big{font-size:2.2rem;font-weight:800;color:#0f5c54}
+@media(max-width:600px){.g2{grid-template-columns:1fr}.row{flex-direction:column;align-items:stretch}.bar{flex-direction:column;align-items:stretch}}
+</style></head><body>
+<div class="box"><div class="hd"><span>📚 7. Sınıf Sosyal Bilgiler • Üreten Türkiye</span><span><span id="st">Giriş</span> &nbsp;<span class="sc">★ <span id="sc">0</span></span></span></div>
+<div class="rail"><div id="pf"></div></div><div id="app"></div></div>
+<script>
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwIFLeup5869qiswpGNL44WFFP-wCgxPywhDaLyF3plEWjVlyYVYyngDHT5-whp2gIi/exec";
+
+// URL'den kodu yakala (?tasokul veya ?kod=tasokul). Kod yoksa quiz genel modda çalışır, sonuç kaydedilmez.
+const URL_KOD=(function(){
+  const p=new URLSearchParams(location.search);
+  let k=(p.get('kod')||'').trim();
+  if(!k){for(const key of p.keys()){if(key!=='kod'){k=key.trim();break}}}
+  return k;
+})();
+const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const SORT=[["Çay fidanlarının yetiştirilmesi","u"],["Fabrikada otomobil montajı yapılması","u"],["Ham maddenin işlenip ürüne dönüştürülmesi","u"],["Ürünlerin tır, tren ve gemiyle depoya taşınması","d"],["Depodaki ürünlerin marketlere ulaştırılması","d"],["Ürünün kargoyla müşteriye gönderilmesi","d"],["Ailenin aldığı ürünleri kullanması","t"],["Müşterilerin meyve suyunu satın alıp içmesi","t"]];
+const SB=[["u","🏭 Üretim"],["d","🚚 Dağıtım"],["t","🛒 Tüketim"]];
+const TF=[
+["Türkiye İktisat Kongresi 1923 yılında İzmir’de toplanmıştır.",true,"17 Şubat–4 Mart 1923’te İzmir’de toplanmıştır."],
+["Türkiye’nin ilk uçak fabrikasını Mehmet Ali Kâğıtçı kurmuştur.",false,"İlk uçak fabrikasını Nuri Demirağ kurmuştur; Kâğıtçı kâğıt fabrikası kurmuştur."],
+["Zihni Derin, Türkiye’de çay tarımının öncüsüdür.",true,"Rize’de çay fidanlığını kurdurmuştur."],
+["Devrim otomobili seri üretimle binlerce adet üretilmiştir.",false,"Yalnızca 4 adet yapılmış, seri üretime geçilememiştir."],
+["KAAN, Türkiye’nin 4. nesil savaş uçağıdır.",false,"KAAN, 5. nesil millî muharip uçaktır."],
+["TCG Anadolu, dünyanın ilk SİHA gemisi olarak anılır.",true,"Güvertesinden SİHA’lar iniş kalkış yapabilir."],
+["Ekonomik gelişmişlik yalnızca gelir düzeyinin artmasına bağlıdır.",false,"Eğitim, sağlık, teknoloji, kültür, demografi gibi unsurlar da etkilidir."],
+["Dağıtım, üretilen malların tüketiciye ulaşmasını sağlar.",true,"Ulaşım, depolama ve ticaret dağıtımın parçasıdır."],
+["Tasarruf, yatırımların artmasına imkân vererek ekonomik gelişmeye katkı sağlar.",true,"Tasarruf → yatırım → üretim zinciri güçlenir."],
+["Misak-ı İktisadi’nin 4. maddesi, ithalata dayalı tüketimi öne çıkarır.",false,"Madde yerli üretimi ve israftan kaçınmayı vurgular."]];
+const FILL=[
+["Misak-ı İktisadi kararlarının alındığı kongre {} Kongresi’dir.","Türkiye İktisat"],
+["Türkiye’de tasarlanıp üretilen ilk yerli otomobilin adı {}’dir.","Devrim"],
+["Rize’de çay tarımının öncüsü ziraat mühendisi {}’dir.","Zihni Derin"],
+["Türkiye’nin ilk uçak fabrikasını {} kurmuştur.","Nuri Demirağ"],
+["Millî Gemi projesi kısaca {} adıyla anılır.","MİLGEM"],
+["Türkiye’nin 5. nesil millî muharip uçağı {}’dır.","KAAN"],
+["Türkiye Uzay Ajansı {} yılında kurulmuştur.","2018"],
+["Ürünlerin tüketiciye ulaştırılması aşamasına {} denir.","Dağıtım"],
+["Bir ülkenin belirli bir dönemde ürettiği tüm nihai mal ve hizmetlerin toplam değerine {} denir.","GSYH"],
+["Eldeki kaynakların verimli kullanılıp gelecek için korunmasına {} denir.","Tasarruf"]];
+const BANK=["Türkiye İktisat","Devrim","Zihni Derin","Nuri Demirağ","MİLGEM","KAAN","2018","Dağıtım","GSYH","Tasarruf","Şakir Zümre","Üretim","2023"];
+const MCQ=[
+["Millî kalkınma hamlelerinin temel amacı aşağıdakilerden hangisidir?","Ülkenin kendi kaynakları, bilgisi ve üretim gücüyle bağımsız olması",["Teknolojiyi yalnızca dışarıdan satın almak","Ekonomiyi yabancı ülkelerin yönlendirmesiyle geliştirmek","Tüm projeleri yalnızca yabancı şirketlerle yürütmek"],"Amaç ekonomik bağımsızlığı güçlendirmek ve dışa bağımlılığı azaltmaktır."],
+["Misak-ı İktisadi’nin 4. maddesinde vurgulanan anlayış hangisidir?","Gereksinimleri mümkün olduğunca kendi üretmek ve israftan kaçınmak",["İthalata dayalı tüketimi artırmak","Üretimi yabancılara bırakmak","Yalnızca tarıma yönelmek"],"Madde yerli üretimi ve israftan kaçınmayı öne çıkarır."],
+["Nu.D-36 eğitim uçağı ve Gök Okulu aşağıdakilerden hangisiyle ilgilidir?","Nuri Demirağ",["Zihni Derin","Mehmet Ali Kâğıtçı","Şakir Zümre"],"Nuri Demirağ ilk uçak fabrikasını kurmuş, Yeşilköy’de Gök Okulu açmıştır."],
+["Devrim otomobilinin seri üretime geçememesinin nedeni nedir?","Hükûmet değişikliği ve kurumlar arası anlaşmazlıklar",["Otomobilin hiç çalışmaması","Mühendislerin yurt dışına gitmesi","Halkın talep etmemesi"],"Proje yarım kalmış, yalnızca 4 araç yapılmıştır."],
+["TCG Anadolu’yu diğer gemilerden ayıran özellik hangisidir?","Güvertesinden SİHA’ların iniş kalkış yapabilmesi",["Yalnızca balıkçılık için üretilmesi","İlk yerli denizaltı olması","Yolcu taşımacılığı için tasarlanması"],"Bu nedenle “ilk SİHA gemisi” unvanını taşır."],
+["Bilişim Vadisi aşağıdakilerden hangisidir?","Türkiye’nin en büyük teknoloji geliştirme üssü",["Tarım ürünleri pazarı","Silah ve cephane fabrikası","Üniversite yurdu"],"2019’da Millî Teknoloji Hamlesi çerçevesinde faaliyete başlamıştır."],
+["Dağıtım ağı geliştikçe ne olur?","Ürünler tüketiciye daha hızlı ve uygun maliyetle ulaşır",["Üretim tamamen durur","Ürünler tüketiciye daha geç ulaşır","Tüketici ihtiyaçları karşılanamaz"],"Ulaşım ve depolama geliştikçe hem üretici hem tüketici kazanır."],
+["Türkiye’nin ekonomik gelişmesini destekleyen özellik hangisidir?","Nüfusun yaklaşık %68’inin çalışma çağında olması",["Eğitime yatırımın azaltılması","Üretim kapasitesinin düşmesi","Genç nüfusun iş gücüne katılmaması"],"Genç ve çalışma çağındaki nüfus önemli bir iş gücü avantajıdır."],
+["Gelişmekte olan ülkelerde üretim-dağıtım-tüketim döngüsü için hangisi doğrudur?","Üretim artsa bile dağıtım altyapısı yetersiz kalabilir",["Döngü gelişmiş ülkelerden daha hızlı işler","Tüketim yalnızca lüks ürünlerden oluşur","Dağıtım ağı her zaman en güçlü halkadır"],"Altyapı eksikliği ürünün tüketiciye ulaşmasını yavaşlatabilir."],
+["Aşağıdakilerden hangisi tasarrufa örnektir?","Suyu ihtiyacımız kadar kullanmak",["Gereksiz alışveriş yapmak","Eşyaları kısa sürede değiştirmek","Işıkları açık bırakmak"],"Kaynakları verimli kullanmak tasarruftur."]];
+const ORD=[
+["Göksu’nun meyve suyu işletmesi",["Meyveler seçilip meyve suyu üretilir","Ürünler marketlere ve internet siparişleriyle ulaştırılır","Müşteriler meyve suyunu satın alıp kullanır"]],
+["Millî kalkınma hamleleri (eskiden yeniye)",["1923: Türkiye İktisat Kongresi toplanır","1961: Devrim otomobili üretilir","2024: KAAN ilk uçuşunu yapar"]],
+["Tasarruf döngüsü",["Gelirin bir kısmı biriktirilir (tasarruf)","Birikim yatırıma dönüşür ve üretim artar","Ürünler dağıtılıp tüketilir, yeni tasarruf oluşur"]]];
+const MAX=[16,20,20,20,24],NM=["Üretim mi, Dağıtım mı, Tüketim mi?","Doğru / Yanlış","Kelime Sandığı","Çoktan Seçmeli","Sıralama"];
+let sec=-1,score=0,me={},sc=[],W=[],rev=null,sent=0;
+const S={p:{},s:null,items:sh(SORT.map((x,i)=>({i,t:x[0],c:x[1]})))};
+const T={a:{},items:sh(TF.map((x,i)=>({i,t:x[0],v:x[1],e:x[2]})))};
+const F={p:{},s:null,items:sh(FILL.map((x,i)=>({i,t:x[0],r:x[1]}))),bank:sh(BANK)};
+const M={i:0,a:{},rows:[],qs:MCQ.map(q=>({q:q[0],r:q[1],o:sh([q[1],...q[2]]),e:q[3]}))};
+const O={i:0,rows:[],e:0,st:ORD.map(s=>{let o=sh(s[1].map((_,i)=>i));if(o.every((v,k)=>v==k))o.reverse();return{t:s[0],it:s[1],o}})};
+const bar=(m,on,fn,l="Bölümü Tamamla →")=>`<div class="bar"><b>${m}</b><button class="nx" ${on?"":"disabled"} onclick="${fn}">${l}</button></div>`;
+const esc=s=>String(s).replace(/</g,"&lt;");
+
+function R(top){const y=scrollY;$("#sc").textContent=score;$("#st").textContent=sec<0?"Giriş":sec<5?`Bölüm ${sec+1} / 5`:"Sonuç";$("#pf").style.width=Math.max(0,sec)*20+"%";
+$("#app").innerHTML=rev?revH():[startH,sortH,tfH,fillH,mcqH,ordH,endH][sec+1]();scrollTo(0,top?0:y);if(sec==5&&!rev&&!sent){sent=1;send()}}
+function fin(rows,e){score+=e;sc[sec]=e;rows.forEach(r=>{if(!r.ok)W.push(r)});rev={rows,e};R(1)}
+function go(){rev=null;sec++;R(1)}
+function revH(){return `<h2>Bölüm ${sec+1} sonucu: +${rev.e} / ${MAX[sec]} puan</h2><p class="d">Yanlışlarını incele, doğrusunu öğren.</p>${rev.rows.map(r=>`<div class="rv ${r.ok?"ok":"bad"}">${r.ok?"✓":"✗"} ${r.t}${r.ok?"":`<div class="note">${r.n}</div>`}</div>`).join("")}${bar("",1,"go()",sec==4?"Sonucu Gör 🏁":"Sonraki Bölüm →")}`}
+
+function startH(){return `<h2>Üreten Türkiye Fabrika Quizi</h2><p class="d">Millî kalkınma hamlelerini, üretim-dağıtım-tüketim döngüsünü ve tasarrufu hatırla; sonra quizi çöz. Toplam 100 puan.</p><input id="ia" placeholder="Ad Soyad"><input id="is" placeholder="Sınıf (örn. 7/A)"><input id="in" placeholder="Okul numarası (bilmiyorsan boş bırak)">${bar("",1,"st0()","Başla →")}`}
+function st0(){const a=$("#ia").value.trim(),s=$("#is").value.trim();if(!a||!s){alert("Ad soyad ve sınıfı yaz.");return}me={a,s,n:$("#in").value.trim()||"-",k:URL_KOD};sec=0;R(1)}
+
+function sortH(){const un=S.items.filter(x=>!S.p[x.i]),bk=c=>S.items.filter(x=>S.p[x.i]==c).map(x=>`<span class="chip">${x.t} <b onclick="event.stopPropagation();delete S.p[${x.i}];R()">×</b></span>`).join("")||"<small>Buraya dokun</small>";
+return `<h2>Bölüm 1: Üretim, Dağıtım, Tüketim</h2><p class="d">Bir durum seç, sonra doğru kutuya dokun.</p><div class="pool">${un.map(x=>`<div class="pill ${S.s===x.i?"on":""}" onclick="S.s=${x.i};R()">${x.t}</div>`).join("")||"✓ Hepsi yerleşti"}</div><div class="g2">${SB.map(b=>`<div class="bk" onclick="drop('${b[0]}')"><h3>${b[1]}</h3>${bk(b[0])}</div>`).join("")}</div>${bar(`Kalan: ${un.length}`,!un.length,"doneS()")}`}
+function drop(c){if(S.s==null)return;S.p[S.s]=c;S.s=null;R()}
+function doneS(){const rows=S.items.map(x=>({ok:S.p[x.i]==x.c,t:x.t,n:`Doğrusu: ${SB.find(b=>b[0]==x.c)[1]}`}));fin(rows,rows.filter(r=>r.ok).length*2)}
+
+function tfH(){const n=Object.keys(T.a).length;return `<h2>Bölüm 2: Doğru mu, Yanlış mı?</h2><p class="d">10 önermeyi işaretle.</p>${T.items.map(x=>`<div class="row"><span>${x.t}</span><span style="display:flex;gap:8px"><button class="b2 ${T.a[x.i]===true?"t":""}" onclick="T.a[${x.i}]=true;R()">✓ DOĞRU</button><button class="b2 ${T.a[x.i]===false?"f":""}" onclick="T.a[${x.i}]=false;R()">✕ YANLIŞ</button></span></div>`).join("")}${bar(`Cevaplanan: ${n} / 10`,n==10,"doneT()")}`}
+function doneT(){const rows=T.items.map(x=>({ok:T.a[x.i]===x.v,t:x.t,n:`Senin cevabın: ${T.a[x.i]?"Doğru":"Yanlış"}. Doğrusu: <b>${x.v?"Doğru":"Yanlış"}</b>. ${x.e}`}));fin(rows,rows.filter(r=>r.ok).length*2)}
+
+function fillH(){const u=Object.values(F.p),n=u.length;return `<h2>Bölüm 3: Kelime Sandığı</h2><p class="d">Bir kelime seç, sonra boşluğa dokun. Dolu boşluğa dokunursan kelime geri alınır.</p>${F.items.map(x=>`<div class="row" style="display:block;line-height:2.1">${x.t.replace("{}",`<span class="slot" onclick="setSlot(${x.i})">${F.p[x.i]||"dokun"}</span>`)}</div>`).join("")}<div class="bank">${F.bank.map(w=>`<div class="w ${F.s===w?"on":""} ${u.includes(w)?"pl":""}" onclick="pickW(${F.bank.indexOf(w)})">${w}</div>`).join("")}</div>${bar(`Doldurulan: ${n} / 10`,n==10,"doneF()")}`}
+function pickW(k){const w=F.bank[k];F.s=F.s===w?null:w;R()}
+function setSlot(i){if(F.s){F.p[i]=F.s;F.s=null}else delete F.p[i];R()}
+function doneF(){const rows=F.items.map(x=>({ok:F.p[x.i]==x.r,t:x.t.replace("{}",`<u>${F.p[x.i]}</u>`),n:`Doğrusu: <b>${x.r}</b>`}));fin(rows,rows.filter(r=>r.ok).length*2)}
+
+function mcqH(){const q=M.qs[M.i],a=M.a[M.i],l=M.i==M.qs.length-1;return `<h2>Bölüm 4: Çoktan Seçmeli</h2><p class="d">Soru ${M.i+1} / ${M.qs.length}</p><p style="font-weight:700;margin-bottom:12px">${q.q}</p>${q.o.map((o,i)=>`<button class="opt ${a===i?"on":""}" onclick="M.a[M.i]=${i};R()">${"ABCD"[i]}) ${o}</button>`).join("")}${bar(a===undefined?"Bir seçenek işaretle":"Seçim yapıldı",a!==undefined,"nextM()",l?"Bölümü Bitir →":"Sonraki Soru →")}`}
+function nextM(){const q=M.qs[M.i],y=q.o[M.a[M.i]];M.rows.push({ok:y==q.r,t:q.q,n:`Senin cevabın: ${y}<br>Doğru cevap: <b>${q.r}</b><br>${q.e}`});if(M.i<M.qs.length-1){M.i++;R(1)}else fin(M.rows,M.rows.filter(r=>r.ok).length*2)}
+
+function ordH(){const s=O.st[O.i];return `<h2>Bölüm 5: Sıralama</h2><p class="d">${s.t} (${O.i+1} / 3) — okları kullanarak doğru sıraya diz.</p>${s.o.map((v,k)=>`<div class="row"><span>${s.it[v]}</span><span style="display:flex;gap:6px"><button class="b2" ${k?"":"disabled"} onclick="mv(${k},-1)">▲</button><button class="b2" ${k<2?"":"disabled"} onclick="mv(${k},1)">▼</button></span></div>`).join("")}${bar("",1,"okO()",O.i<2?"Sırayı Onayla →":"Quizi Bitir 🏁")}`}
+function mv(k,d){const o=O.st[O.i].o;[o[k],o[k+d]]=[o[k+d],o[k]];R()}
+function okO(){const s=O.st[O.i],ok=s.o.every((v,k)=>v==k);O.rows.push({ok,t:s.t,n:"Doğru sıra: "+s.it.map((x,k)=>`${k+1}) ${x}`).join(" → ")});if(ok)O.e+=8;if(O.i<2){O.i++;R(1)}else fin(O.rows,O.e)}
+
+function endH(){const t=score>=85?["🏅","Baş Mühendis"]:score>=65?["⚙️","Usta Üretici"]:["🔧","Çırak Üretici"];
+return `<div style="text-align:center"><div style="font-size:3.5rem">${t[0]}</div><h2>${t[1]}</h2><p class="d">${esc(me.a)} • ${esc(me.s)}</p><div class="big">${score} / 100</div></div>
+<h3 style="margin:14px 0 8px">Bölüm puanların</h3>${NM.map((n,i)=>`<div class="row"><span>${i+1}. ${n}</span><b>${sc[i]} / ${MAX[i]}</b></div>`).join("")}
+<h3 style="margin:14px 0 8px">Tekrar etmen gerekenler (${W.length})</h3>${W.length?W.map(r=>`<div class="rv bad">${r.t}<div class="note">${r.n}</div></div>`).join(""):"<p>Hepsi doğru, harika! 🎉</p>"}
+<p id="msg" class="note" style="margin:12px 0;display:none;font-weight:700"></p>${bar("",1,"location.reload()","Yeniden Başla")}`}
+async function send(){
+  if(!me.k||!SCRIPT_URL)return;
+  const m=$("#msg");
+  if(m){m.style.display="block";m.style.color="#64748b";m.textContent="⏳ Sonuçların öğretmenine gönderiliyor…"}
+  try{
+    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({kod:me.k,okulKodu:me.k,oyun:"7. Sınıf 5. Öğrenme Alanı Quizi",ad:me.a,sinif:me.s,no:me.n,puan:score,b:sc,yanlis:W.length,liste:W.map(r=>r.t.replace(/<[^>]+>/g,"")).join(" | ").slice(0,1500)})});
+    if(m){m.style.color="#059669";m.textContent="✓ Sonucun öğretmenine gönderildi!"}
+  }catch(e){
+    if(m){m.style.color="#dc2626";m.textContent="⚠️ Sonuç gönderilemedi. İnternet bağlantını kontrol et."}
+  }
+}
+R();
+</script></body></html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Üreten Türkiye Fabrika Hattı | 7. Sınıf 5. Öğrenme Alanı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4eddd;--card:#fffaf0;--ink:#14213d;--red:#c8102e;--gold:#f2a900;--teal:#12796f;--line:#d9ccb0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Nunito,system-ui,sans-serif;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,.brand,.bigno{font-family:'Bricolage Grotesque',Nunito,system-ui,sans-serif}
+.hz{height:12px;background:repeating-linear-gradient(-45deg,var(--gold) 0 14px,var(--ink) 14px 28px)}
+header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--ink);color:#fff}
+.brand{font-weight:800;font-size:1.1rem}.hud{background:var(--gold);color:var(--ink);font-weight:800;border-radius:99px;padding:2px 14px}
+main{max-width:980px;margin:0 auto;padding:16px}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem);line-height:1.05;margin:8px 0;color:var(--ink)}
+.hero p{max-width:60ch;margin:0 0 18px}
+.line{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;position:relative}
+.st{position:relative;text-align:left;background:var(--card);border:3px solid var(--ink);border-radius:16px;padding:14px;box-shadow:0 6px 0 var(--ink);display:flex;flex-direction:column;gap:2px;transition:transform .15s}
+.st:hover{transform:translateY(-3px)}
+.st .n{position:absolute;top:-12px;left:-8px;background:var(--red);color:#fff;font-weight:800;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:3px solid var(--ink)}
+.st .e{font-size:2rem}.st small{color:#4b5563;line-height:1.3}.stars{color:var(--gold);font-size:1.3rem;letter-spacing:2px;margin-top:6px;-webkit-text-stroke:1px var(--ink)}
+.st.done{background:#e2f3ee;border-color:var(--teal);box-shadow:0 6px 0 var(--teal)}
+.st.next{animation:pl 1.6s infinite}.st.next .e{display:inline-block;animation:sp 4s linear infinite}
+@keyframes pl{50%{box-shadow:0 6px 0 var(--ink),0 0 0 8px rgba(242,169,0,.5)}}@keyframes sp{to{transform:rotate(360deg)}}
+.panel{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:20px;box-shadow:0 6px 0 var(--ink)}
+.panel.c{text-align:center}.ic{font-size:3rem;line-height:1.1;color:var(--gold);-webkit-text-stroke:1px var(--ink)}
+.panel h2{margin:4px 0}.panel>p{margin:0 0 12px}
+.cards{display:grid;gap:10px;margin:14px 0;text-align:left}
+.ic2{background:#fff;border:2px dashed var(--line);border-radius:12px;padding:10px 14px;display:flex;flex-direction:column}
+.back{background:none;border:0;font-weight:800;margin:0 0 10px;padding:4px 0;text-decoration:underline}
+.go{background:var(--red);color:#fff;border:3px solid var(--ink);border-radius:12px;padding:8px 18px;font-weight:800;box-shadow:0 4px 0 var(--ink)}
+.go:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}.go.big{padding:12px 26px;font-size:1.05rem;margin-top:6px}
+.meta{display:flex;justify-content:space-between;font-weight:800;font-size:.9rem}.meta #ms{color:var(--red)}
+.rail{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin:8px 0 14px}.rail i{display:block;height:100%;background:var(--teal)}
+.q{font-weight:800;font-size:1.15rem;margin:0 0 12px}.hint{color:#4b5563;font-size:.9rem;margin:0 0 8px}
+.tile{background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:10px 12px;font-weight:700;text-align:left;box-shadow:0 3px 0 var(--ink);margin:0}
+.tile.on{background:#fff0bd;border-color:var(--gold)}.tile.ok{background:#c8eee3;border-color:var(--teal);box-shadow:none;opacity:.85}
+.tile.no{background:#ffd9de;border-color:var(--red);box-shadow:none}.tile:disabled{cursor:default}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:12px}.col{display:flex;flex-direction:column;gap:8px}
+.opts,.pool{display:flex;flex-direction:column;gap:8px}.pool{flex-direction:row;flex-wrap:wrap}
+.chain{margin:0 0 12px;padding:0;list-style:none;counter-reset:k;display:grid;gap:6px}
+.chain li{counter-increment:k;background:#c8eee3;border:2px solid var(--teal);border-radius:10px;padding:6px 12px;font-weight:700}
+.chain li:before{content:counter(k);display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;margin-right:8px;font-size:.85rem}
+.bx{text-align:center}.bx .big{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:22px 14px;font-size:1.25rem;font-weight:800;margin-bottom:12px}
+.bn{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}.bb{text-align:center;font-size:1.05rem}
+.fb{min-height:44px;margin-top:12px;font-weight:700}.fb .go{margin-left:8px}
+.row{display:flex;justify-content:space-between;background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px 14px;margin:6px 0;text-align:left}.row b{color:var(--gold);-webkit-text-stroke:.7px var(--ink)}
+.bigno{font-size:2.4rem;font-weight:800;color:var(--red)}
+input{width:100%;padding:11px;border:2.5px solid var(--ink);border-radius:10px;font:inherit;margin-bottom:10px}
+.shake{animation:sh .3s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.foot{text-align:center;margin:18px 0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media(max-width:560px){.mt{grid-template-columns:1fr}.line{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<div class="hz"></div>
+<header><span class="brand">⚙️ Üreten Türkiye • Fabrika Hattı</span><span class="hud">★ <span id="tot">0</span> / 15</span></header>
+<main id="app"></main>
+<script>
+const KEY="sbk7-oyun-5",SCRIPT_URL="https://script.google.com/macros/s/AKfycbyXiHI9AyNIRxZ92vaF0_Snv8C-HHELeXgYkrvfixjLCyYsMf6ElGw8AkxmrDDhs3LY/exec",OYUN="7. Sınıf 5. Öğrenme Alanı Oyunu";
+const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[
+{n:"Öncüler Atölyesi",e:"🏭",sub:"Misak-ı İktisadi ve ilk fabrikalar",
+ info:[["🏛️","Türkiye İktisat Kongresi","17 Şubat–4 Mart 1923’te İzmir’de toplandı. Alınan kararlar “Misak-ı İktisadi” adını aldı."],["🧵","4. madde","“Türkiye halkı, sarf ettiği eşyayı mümkün mertebe kendi yetiştirir.” Hedef: yerli üretim, ekonomik bağımsızlık ve israftan kaçınmak."],["👷","Girişimciler","Şakir Zümre, Nuri Killigil, Mehmet Ali Kâğıtçı, Nuri Demirağ ve Zihni Derin ülkenin ihtiyacı olan ürünleri yerli olarak üretti."]],
+ t:[{k:"match",q:"Girişimciyi eseriyle eşleştir. Önce soldan, sonra sağdan dokun.",p:[["Şakir Zümre","İlk sivil silah fabrikası (1925)"],["Nuri Killigil","Sütlüce Silah ve Cephane Fabrikası"],["Mehmet Ali Kâğıtçı","İzmit’te selüloz ve kâğıt fabrikası"],["Nuri Demirağ","İlk uçak fabrikası, Nu.D-36"],["Zihni Derin","Çay tarımının öncüsü"],["Vecihi Hürkuş","Sivil havacılığı yaymaya çalıştı"]]},
+ {k:"mcq",q:"Misak-ı İktisadi’deki “kendi yetiştirir” anlayışı neyi hedefler?",o:["Yerli üretimi artırıp ekonomik bağımsızlığı güçlendirmeyi","Her ürünü ithal etmeyi","Üretimi tamamen durdurmayı","Yalnızca yabancı fabrikalara güvenmeyi"],a:0,e:"Amaç dışa bağımlılığı azaltmak ve millî üretimi artırmaktır."}]},
+{n:"Tarih Şeridi",e:"📜",sub:"Millî kalkınma hamleleri 1923’ten bugüne",
+ info:[["🎯","Millî kalkınma hamlesi","Ekonomik ve sosyal bağımsızlığı güçlendirmek, üretim kapasitesini artırmak için yapılan planlı ve kapsamlı girişimlerdir."],["🚗","Devrim (1961)","İlk yerli otomobil. 4 adet yapıldı; hükûmet değişikliği ve kurumlar arası anlaşmazlık yüzünden seri üretime geçemedi."],["⏳","Neden yavaşladı?","II. Dünya Savaşı’nda üretim düştü, bütçe zorlandı, ham madde bulmak güçleşti."]],
+ t:[{k:"seq",q:"Olayları eskiden yeniye doğru sırala.",items:["1923 • Türkiye İktisat Kongresi","1941 • Nuri Demirağ’ın uçak fabrikası","1961 • Devrim otomobili","1975 • ASELSAN kuruldu","2018 • Türkiye Uzay Ajansı ve TEKNOFEST","2024 • KAAN ilk uçuşunu yaptı"]},
+ {k:"mcq",q:"Millî kalkınma hamlelerinin yavaşlamasında hangisi etkili olmuştur?",o:["II. Dünya Savaşı’nda üretimin düşmesi ve ham madde sıkıntısı","Fabrikaların fazla çalışması","Yatırımlara çok kaynak ayrılması","Ham maddenin bolluğu"],a:0,e:"Savaş yıllarında üretim azaldı, bütçe zorlandı, fabrikalar tam kapasite çalışamadı."},
+ {k:"mcq",q:"Devrim otomobili için hangisi doğrudur?",o:["Türkiye’de tasarlanıp üretilen ilk yerli otomobildir","Binlerce adet üretilmiştir","1923’te üretilmiştir","Yabancı bir şirketin tasarımıdır"],a:0,e:"Prototip tamamlandı ama seri üretime geçilemedi."}]},
+{n:"Teknoloji Üssü",e:"🚀",sub:"Savunma, uzay ve yerli teknoloji",
+ info:[["✈️","İHA, SİHA, KAAN","TUSAŞ yerli İHA/SİHA’ları geliştirdi. KAAN, 5. nesil millî muharip uçaktır."],["🚢","MİLGEM ve TCG Anadolu","Yerli savaş gemisi projesi; TCG Anadolu dünyanın ilk SİHA gemisi olarak anılır."],["💡","Bilişim Vadisi, TURKOVAC, yerli otomobil","Bilim teknolojiye, teknoloji ürüne dönüşür. AR-GE ve yenilikçilik bu hamleleri besler."]],
+ t:[{k:"match",q:"Proje veya kurumu özelliğiyle eşleştir.",p:[["TUA","Uzay ve havacılık faaliyetlerini yürütür"],["Bilişim Vadisi","En büyük teknoloji geliştirme üssü"],["TURKOVAC","Yerli COVID-19 aşısı"],["TCG Anadolu","Dünyanın ilk SİHA gemisi"],["KAAN","5. nesil millî muharip uçak"],["KOSGEB","KOBİ ve girişimcilere destek"]]},
+ {k:"mcq",q:"Türkiye’nin ilk insanlı uzay çalışmaları kapsamında uzay yolculuğu yapan astronot kimdir?",o:["Alper Gezeravcı","Nuri Killigil","Vecihi Hürkuş","Aziz Sancar"],a:0,e:"Alper Gezeravcı, Türkiye’nin ilk insanlı uzay çalışmasında yer aldı."}]},
+{n:"Üretim-Dağıtım-Tüketim Bandı",e:"🚚",sub:"Ekonominin üç halkası",
+ info:[["🏭","Üretim","İhtiyaçları karşılamak için mal ve hizmetlerin ortaya konmasıdır."],["🚚","Dağıtım","Üretilen malın ulaşım, depolama ve ticaretle tüketiciye ulaşmasıdır."],["🛒","Tüketim","Ürünlerin ihtiyacı karşılamak için kullanılmasıdır. Tüketim arttıkça üretime talep artar."]],
+ t:[{k:"bins",q:"Her kartı doğru kutuya at.",bins:[["u","Üretim","🏭"],["d","Dağıtım","🚚"],["t","Tüketim","🛒"]],cards:[["Fabrikada ürünlerin üretilmesi","u","Mal ve hizmetin ortaya konması üretimdir."],["Ham maddenin toplanıp işlenmesi","u","Sürecin ilk aşaması üretimdir."],["Ürünlerin tır ve gemiyle depoya taşınması","d","Taşıma ve depolama dağıtımdır."],["Depodaki ürünlerin marketlere ulaştırılması","d","Ürün tüketiciye doğru yol alır."],["Ürünün kargoyla müşteriye gönderilmesi","d","Müşteriye ulaştırma dağıtımdır."],["Ailenin aldığı ürünleri kullanması","t","İhtiyacı karşılamak için kullanmak tüketimdir."],["Müşterilerin meyve suyunu satın alıp içmesi","t","Satın alıp kullanan taraf tüketicidir."],["Tarlada çay yetiştirilmesi","u","Tarım da üretimdir."]]},
+ {k:"seq",q:"Göksu’nun meyve suyu işletmesinin sürecini sırala.",items:["Yatırım: hayalini kurup işletmesini kurar","Üretim: meyveleri seçip meyve suyunu şişeler","Pazarlama: afiş ve sosyal medyayla tanıtır","Dağıtım: marketlere ve internet siparişlerine ulaştırır","Tüketim: müşteriler satın alıp kullanır"]}]},
+{n:"Gelişmişlik ve Tasarruf",e:"💰",sub:"Ülkeler, GSYH ve tasarruf döngüsü",
+ info:[["📊","Ekonomik gelişmişlik","Yalnızca gelir değil; mali güç, kültür, demografi, eğitim, sağlık ve teknoloji de belirleyicidir. GSYH, bir ülkenin üretimini gösteren en önemli ölçüdür."],["🌍","Ülke örnekleri","Türkiye: çalışma çağındaki nüfus yaklaşık %68. Almanya ve Japonya: yüksek gelir, yaşlı nüfus oranı yüksek. Hindistan: genç nüfus, gelir düşük."],["🐷","Tasarruf","Kaynakları verimli kullanıp gelecek için korumaktır. Tasarruf yatırımı, yatırım üretimi artırır."]],
+ t:[{k:"match",q:"İpucunu ülkeyle eşleştir.",p:[["Çalışma çağı nüfusu yaklaşık %68; otomotiv, tekstil, turizm güçlü","Türkiye"],["Gelir düşük, genç nüfus yüksek, dağıtım altyapısı geliştiriliyor","Hindistan"],["Gelir yüksek, yaşlı nüfus yüksek, lojistik ağlar çok gelişmiş","Almanya"],["Disiplin ve yenilikçilik değerleri; hızlı tren ve limanlar","Japonya"]]},
+ {k:"bins",q:"Tasarruf mu, israf mı?",bins:[["s","Tasarruf","🐷"],["i","İsraf","🗑️"]],cards:[["Suyu ihtiyacımız kadar kullanmak","s","Kaynağı verimli kullanmaktır."],["Kullanılmayan odanın ışığını açık bırakmak","i","Gereksiz enerji tüketimidir."],["Plastik, pil ve kâğıdı geri dönüşüme göndermek","s","Kaynaklar korunur."],["Harçlığı gereksiz alışverişe harcamak","i","Gereksiz tüketim israftır."],["Defter sayfalarını verimli kullanmak","s","Ham madde tasarrufudur."],["Her gün küçük miktar biriktirmek","s","Birikince çoğalır."]]},
+ {k:"seq",q:"Tasarruf döngüsünü sırala.",items:["Tasarruf: gelirin bir kısmı biriktirilir","Yatırım: birikim işletmeye aktarılır","Üretim artar, iş imkânı doğar","Dağıtım: ürünler tüketiciye ulaşır","Tüketim: ihtiyaçlar karşılanır","Gelir artar, yeni tasarruf oluşur"]}]}
+];
+const $=s=>document.querySelector(s),H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+const esc=s=>String(s).replace(/</g,'&lt;');
+let S={done:{},miss:{},me:null,sent:false};
+try{const j=localStorage.getItem(KEY);if(j)S=Object.assign(S,JSON.parse(j))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const tot=()=>ST.reduce((a,_,i)=>a+(S.done[i]||0),0);
+const TK={
+ match(t,box,bad,fin){let sel=null,left=t.p.length;const w=H('div','mt');
+  [0,1].forEach(side=>{const c=H('div','col');shuf(t.p.map((_,i)=>i)).forEach(i=>{const b=H('button','tile',t.p[i][side]);b.dataset.i=i;b.dataset.s=side;
+   b.onclick=()=>{if(b.disabled)return;
+    if(!sel||sel.dataset.s==b.dataset.s){if(sel)sel.classList.remove('on');sel=b;b.classList.add('on');return}
+    if(sel.dataset.i==b.dataset.i){[sel,b].forEach(x=>{x.disabled=true;x.className='tile ok'});sel=null;if(!--left)setTimeout(fin,500)}
+    else{bad();sel.classList.remove('on');shk(sel);shk(b);sel=null}};c.append(b)});w.append(c)});box.append(w)},
+ seq(t,box,bad,fin){let n=0;const out=H('ol','chain'),pool=H('div','pool');
+  shuf(t.items.map((_,i)=>i)).forEach(i=>{const b=H('button','tile',t.items[i]);b.onclick=()=>{if(i==n){b.remove();out.append(H('li','',t.items[i]));if(++n==t.items.length)setTimeout(fin,600)}else{bad();shk(b)}};pool.append(b)});
+  box.append(H('p','hint','İlk sırada olması gerekene dokun. Doğruysa yukarı çıkar.'),out,pool)},
+ bins(t,box,bad,fin){let i=0;const draw=()=>{const o=box.querySelector('.bx');if(o)o.remove();const c=t.cards[i],w=H('div','bx');
+  w.innerHTML=`<small>Kart ${i+1} / ${t.cards.length}</small><div class="big">${c[0]}</div><div class="bn">${t.bins.map(b=>`<button class="tile bb" data-id="${b[0]}">${b[2]} ${b[1]}</button>`).join('')}</div><div class="fb"></div>`;
+  const fb=w.querySelector('.fb');let ans=false;
+  w.querySelectorAll('.bb').forEach(b=>b.onclick=()=>{if(ans||b.disabled)return;
+   if(b.dataset.id==c[1]){ans=true;b.classList.add('ok');fb.innerHTML=`✓ ${c[2]} <button class="go">${i<t.cards.length-1?'Sonraki →':'Bitir ✓'}</button>`;fb.querySelector('.go').onclick=()=>{if(++i<t.cards.length)draw();else fin()}}
+   else{bad();b.classList.add('no');b.disabled=true;shk(b);fb.textContent='✗ Olmadı, tekrar dene.'}});box.append(w)};draw()},
+ mcq(t,box,bad,fin){const w=H('div','opts');
+  shuf(t.o.map((_,i)=>i)).forEach(i=>{const b=H('button','tile',t.o[i]);b.onclick=()=>{if(b.disabled)return;
+   if(i==t.a){w.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add('ok');const f=H('div','fb','✓ '+t.e+' <button class="go">Devam →</button>');f.querySelector('.go').onclick=fin;box.append(f)}
+   else{bad();b.classList.add('no');b.disabled=true;shk(b)}};w.append(b)});box.append(w)}
+};
+let cur;
+function home(){$('#tot').textContent=tot();
+ if(!S.me){$('#app').innerHTML=`<div class="panel"><div class="ic">⚙️</div><h2>Fabrika hattına hoş geldin!</h2><p>Kendini tanıt, üretim başlasın.</p><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 7-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="go big" onclick="reg()">Başla</button><p id="fh" class="hint"></p></div>`;return}
+ const nx=ST.findIndex((_,i)=>!S.done[i]),all=nx<0;
+ $('#app').innerHTML=`<section class="hero"><h1>Üreten Türkiye,<br>Güçlü Gelecek</h1><p>Merhaba ${esc(S.me.a)}! 5 istasyonu sırayla çalıştır: bilgi kartlarını oku, görevleri çöz, yıldız topla. Hata sayın azaldıkça yıldızın artar.</p></section>
+ <div class="line">${ST.map((s,i)=>`<button class="st ${S.done[i]?'done':''} ${i==nx?'next':''}" onclick="station(${i})"><span class="n">${i+1}</span><span class="e">${s.e}</span><b>${s.n}</b><small>${s.sub}</small><span class="stars">${'★'.repeat(S.done[i]||0)}${'☆'.repeat(3-(S.done[i]||0))}</span></button>`).join('')}</div>
+ <div class="foot">${all?'<button class="go big" onclick="end()">Sertifikamı gör 🏅</button>':''}<br><button class="back" onclick="reset()">Baştan başla</button></div>`}
+function reg(){const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli.';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();home()}
+function reset(){if(confirm('Tüm ilerleme silinsin mi?')){S={done:{},miss:{},me:S.me,sent:false};save();home()}}
+function station(i){cur={i,ti:0,m:0};const s=ST[i];
+ $('#app').innerHTML=`<button class="back" onclick="home()">← Hatta dön</button><div class="panel"><div class="ic">${s.e}</div><h2>${i+1}. İstasyon: ${s.n}</h2><p>${s.sub}</p><div class="cards">${s.info.map(c=>`<div class="ic2"><b>${c[0]} ${c[1]}</b><span>${c[2]}</span></div>`).join('')}</div><button class="go big" onclick="task()">Göreve başla →</button></div>`}
+function task(){const s=ST[cur.i],t=s.t[cur.ti];
+ $('#app').innerHTML=`<button class="back" onclick="home()">← Hatta dön</button><div class="panel"><div class="meta"><span>${s.e} ${s.n} • Görev ${cur.ti+1}/${s.t.length}</span><span id="ms">Hata: ${cur.m}</span></div><div class="rail"><i style="width:${cur.ti/s.t.length*100}%"></i></div><p class="q">${t.q}</p><div id="box"></div></div>`;
+ TK[t.k](t,$('#box'),()=>{cur.m++;$('#ms').textContent='Hata: '+cur.m},()=>{if(++cur.ti<s.t.length)task();else result()})}
+function result(){const m=cur.m,i=cur.i,st=m<=1?3:m<=3?2:1;
+ if(!S.done[i]||st>S.done[i])S.done[i]=st;S.miss[i]=S.miss[i]==null?m:Math.min(S.miss[i],m);S.sent=false;save();$('#tot').textContent=tot();
+ const all=ST.every((_,k)=>S.done[k]);
+ $('#app').innerHTML=`<div class="panel c"><div class="ic">${'★'.repeat(st)}${'☆'.repeat(3-st)}</div><h2>${st==3?'Kusursuz üretim!':st==2?'Güzel iş!':'Hat çalıştı!'}</h2><p>${m} hata yaptın. ${st<3?'Daha az hatayla tekrar deneyip yıldızını artırabilirsin.':''}</p><button class="go big" onclick="${all?'end()':'home()'}">${all?'Sertifikamı gör 🏅':'Hatta dön'}</button>${st<3?`<br><button class="back" onclick="station(${i})">↻ Tekrar dene</button>`:''}</div>`}
+function end(){const t=tot(),r=t>=13?['🏅','Baş Mühendis']:t>=9?['⚙️','Usta Üretici']:['🔧','Çırak Üretici'];
+ $('#app').innerHTML=`<div class="panel c"><div class="ic">${r[0]}</div><h2>${r[1]}</h2><p>${esc(S.me.a)} • ${esc(S.me.s)}</p><div class="bigno">${t} / 15 ★</div>${ST.map((s,i)=>`<div class="row"><span>${s.e} ${s.n}</span><b>${'★'.repeat(S.done[i]||0)}</b></div>`).join('')}<p id="msg" class="hint"></p><button class="go big" onclick="home()">Hatta dön</button></div>`;sendRes()}
+async function sendRes(){const m=$('#msg');if(!m)return;if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),T=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(T/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="go" onclick="sendRes()">Tekrar dene</button>'}}
+home();
+</script></body></html>
