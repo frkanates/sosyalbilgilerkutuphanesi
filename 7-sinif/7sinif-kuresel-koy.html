@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Küresel Köy Diplomatları | 7. Sınıf Evimiz Dünya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#e4f0f6;--panel:#fff;--soft:#eef6fa;--line:#b4d3e2;--ink:#0f2f44;--a:#e8890c;--b:#1c8f78;--c:#f2b21d;--map:#bfe3f3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Fredoka','Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header class="top"><a class="back" href="../index.html">← Kütüphane</a><div class="brand"><span>🌐</span>Küresel Köy Diplomatları (7. Sınıf)</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk7-oyun-2";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyXiHI9AyNIRxZ92vaF0_Snv8C-HHELeXgYkrvfixjLCyYsMf6ElGw8AkxmrDDhs3LY/exec";const OYUN="7. Sınıf 2. Öğrenme Alanı Oyunu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Küresel Köy", "e": "🌐", "x": 50, "y": 50, "sub": "Küreselleşme nedir?", "intro": "Ağın merkezindeyiz! Dünya neden bir “küresel köy” sayılıyor?", "c": [["🌐", "Küreselleşme", "Dünyanın ekonomik, kültürel, teknolojik ve siyasi olarak birbirine daha bağlı ve bağımlı hâle gelmesi sürecidir."], ["🚄", "Neden oldu?", "Ulaşım ve iletişimdeki hızlı gelişmeler sınırları anlamsızlaştırdı."], ["🏘️", "Küresel köy", "Dünya, adeta dev bir köy gibi birbirine bağlandı."], ["🔑", "Anahtar kavramlar", "Değişim, dış politika, girişimcilik, küreselleşme, küresel sorunlar."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Küreselleşme", "Dünyanın birbirine daha bağlı ve bağımlı hâle gelmesi"], ["Küresel köy", "Sınırların anlamsızlaştığı, bağlantılı dünya"], ["Ulaşım ve iletişim", "Küreselleşmeyi hızlandıran gelişmeler"], ["Dış politika", "Bir devletin diğer devletlerle ilişkilerini yürütme biçimi"]]}, {"k": "pick", "rounds": [{"q": "Küreselleşmeyi hızlandıran temel gelişme hangisidir?", "o": ["Ulaşım ve iletişimdeki gelişmeler", "Sınırların kapanması", "Yerel ticaretin artması", "Nüfusun azalması"], "a": 0, "w": "Hızlı ulaşım ve iletişim sınırları anlamsızlaştırmıştır.", "h": "Dünyayı küçülten şey nedir?"}]}], "r": ["Ağın Merkezi", "Küreselleşme, dünyanın birbirine bağlanmasıdır."]}, {"n": "Ekonomi ve Ticaret", "e": "🚢", "x": 20, "y": 24, "sub": "Küresel ticaret", "intro": "Gemiler, trenler, uçaklar ve internet ticareti dünyaya açtı.", "c": [["📦", "Değişim", "Sanayi İnkılabı öncesi yerel ve sınırlı olan ticaret; gemi, tren, uçak ve internetle küresel boyut kazandı."], ["🛍️", "E-ticaret", "İnsanlar evlerinden çıkmadan dünyanın öbür ucundaki ürünleri satın alabiliyor."], ["🏢", "Çok uluslu şirketler", "Sayıları arttı."], ["⚠️", "Sorunlar", "Zenginlik adil paylaşılamıyor; büyük küresel markalar karşısında yerel küçük işletmeler zorlanıyor."], ["📈", "Türkiye ihracatı", "Genel olarak yükseliş trendinde. 2020’deki düşüş COVID-19 pandemisi ve sınırların kapanmasından kaynaklandı."]], "t": [{"k": "sort", "q": "Fırsat mı, sorun mu?", "bins": [["Fırsat", "🌟"], ["Sorun / tehdit", "⚠️"]], "items": [["E-ticaretle dünya ürünlerine ulaşmak", 0], ["Ticaretin küresel boyut kazanması", 0], ["Ulaşımla ticaretin hızlanması", 0], ["Türkiye ihracatının yükselişi", 0], ["Zenginliğin adil paylaşılamaması", 1], ["Yerel küçük işletmelerin zorlanması", 1], ["Büyük küresel markaların baskısı", 1], ["Pandemide sınırların kapanması", 1]]}, {"k": "pick", "rounds": [{"q": "2020’de Türkiye ihracatındaki düşüşün nedeni nedir?", "o": ["COVID-19 pandemisi ve sınırların kapanması", "E-ticaretin yasaklanması", "Gemilerin artması", "İnternetin yaygınlaşması"], "a": 0, "w": "2020’deki düşüş tüm dünyayı etkileyen pandemiden kaynaklandı.", "h": "Tüm dünyayı sarsan olay."}]}], "r": ["Ticaret Elçisi", "Küresel ticaret hem fırsat hem sorun getirir."]}, {"n": "Orta Koridor", "e": "🚆", "x": 50, "y": 14, "sub": "Ulaşım ve ticaret hattı", "intro": "Çin’den Avrupa’ya uzanan demir yolu hattındayız!", "c": [["⏱️", "Ulaşımda değişim", "Aylar süren tehlikeli yolculuklar hızlı tren, uçak ve gemilerle saatlere indi."], ["🛤️", "Orta Koridor", "Trans-Hazar Uluslararası Taşımacılık Koridoru; Çin’in doğusundan Kazakistan, Hazar Denizi, Azerbaycan ve Gürcistan üzerinden Türkiye’ye ve Avrupa’ya uzanır."], ["🚉", "Türkiye hattı", "Kars-Mersin-İstanbul hattı; sonra Sofya, Belgrad, Budapeşte, Viyana, Prag ve Londra."], ["💵", "Potansiyeli", "75 milyar dolarlık ticaret potansiyeli vardır; Türkiye’yi Avrasya ticaretinin ve lojistiğinin merkezine taşır."]], "t": [{"k": "order", "q": "Orta Koridor’u batıya doğru sırala.", "steps": ["Çin’in doğusu", "Kazakistan ve Hazar Denizi", "Azerbaycan ve Gürcistan", "Türkiye’den Avrupa’ya"]}, {"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Orta Koridor", "Trans-Hazar taşımacılık koridoru"], ["Kars-Mersin-İstanbul", "Türkiye’deki hat"], ["75 milyar dolar", "Ticaret potansiyeli"], ["Avrasya", "Türkiye’nin lojistik merkezi olduğu bölge"]]}], "r": ["Koridor Mühendisi", "Orta Koridor Türkiye’yi Avrasya ticaretinin merkezine taşır."]}, {"n": "İletişim ve Bilişim", "e": "🛰️", "x": 80, "y": 24, "sub": "Bilgi saniyeler içinde", "intro": "Uydular sinyal gönderiyor: bilgi dünyada saniyeler içinde yayılıyor!", "c": [["📱", "Araçlar", "İnternet, akıllı telefonlar ve uydular bilgiyi saniyeler içinde yayar."], ["📹", "Görüntülü görüşme", "Uzaktaki insanlarla canlı, görüntülü ve sesli konuşulabilir."], ["🏙️", "Günlük hayat", "Akıllı şehir ve trafik uygulamaları, uzaktan eğitim ve teletıp/sağlık takip sistemleri standart hâle geldi."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Uzaktan eğitim", "Çevrim içi ders"], ["Teletıp", "Uzaktan sağlık takibi"], ["Akıllı şehir", "Trafik uygulamaları"], ["Uydu", "Bilgiyi saniyeler içinde yayar"]]}, {"k": "pick", "rounds": [{"q": "Uzaktaki insanlarla canlı konuşmayı sağlayan teknoloji hangisidir?", "o": ["Görüntülü görüşme", "Mektup", "Telgraf", "Posta güvercini"], "a": 0, "w": "İnternet ve akıllı telefonlarla canlı görüntülü görüşme yapılır.", "h": "Hem sesli hem görüntülü."}]}], "r": ["Bağlantı Ustası", "İletişim teknolojileri dünyayı birbirine yakınlaştırır."]}, {"n": "Kültürel Etkileşim", "e": "🎭", "x": 91, "y": 50, "sub": "Fırsatlar ve riskler", "intro": "Müzikler, filmler, yemekler dünyada dolaşıyor. Peki risk var mı?", "c": [["🎶", "Fırsat", "Toplumlar birbirlerinin müziklerini, sinemalarını, giyim tarzlarını ve mutfaklarını tanıma fırsatı buldu."], ["⚠️", "Risk 1", "Popüler kültürün tek tipleştirici baskısı yerel ve geleneksel kültürleri yok olma tehlikesiyle karşı karşıya bırakır."], ["📖", "Risk 2", "Yabancı dillerden giren yoğun kelimeler millî dilleri ve konuşma ahengini bozar."], ["🏛️", "Korumacı adım", "Türkiye Kültür Yolu Festivalleri; el sanatlarını, musikiyi ve tarihi genç kuşaklara sergi, konser ve tiyatroyla aktarır."]], "t": [{"k": "sort", "q": "Fırsat mı, risk mi?", "bins": [["Fırsat", "🎶"], ["Risk", "⚠️"]], "items": [["Farklı müzikleri tanımak", 0], ["Farklı mutfakları tanımak", 0], ["Farklı sinemaları tanımak", 0], ["Kültürler arası etkileşim", 0], ["Yerel kültürlerin yok olma tehlikesi", 1], ["Kültürün tek tipleşmesi", 1], ["Yabancı kelimelerin dile girmesi", 1], ["Millî dilin ahengi bozulması", 1]]}, {"k": "pick", "rounds": [{"q": "Türkiye Kültür Yolu Festivalleri’nin amacı nedir?", "o": ["El sanatlarını, musikiyi ve tarihi genç kuşaklara aktarmak", "Yabancı kelimeleri yaymak", "Kültürleri tek tipleştirmek", "Müzeleri kapatmak"], "a": 0, "w": "Festivaller kültürel mirasın modern etkinliklerle gençlere aktarılmasını sağlar.", "h": "Koruma amaçlı."}]}], "r": ["Kültür Koruyucusu", "Küresel kültürü tanırken yerel ve millî kültürü koruruz."]}, {"n": "Sağlık", "e": "🏥", "x": 80, "y": 76, "sub": "Küresel sağlık", "intro": "Aşılar, tedaviler ve salgınlar sınır tanımıyor.", "c": [["💉", "Paylaşım", "Tıbbi araştırmalar, aşılar ve tedavi yöntemleri ülkeler arasında hızla paylaşılır."], ["🦠", "Risk", "Hastalıklar küresel hareketlilik nedeniyle hızla pandemiye dönüşebilir (COVID-19)."], ["🤝", "TİKA", "Senegal’in Touba kentinde Ndamatou Halk Sağlığı Merkezi Acil Servisi’ni modern cihazlarla donattı; yılda 25 bin kişiye ulaşıyor."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["TİKA", "Senegal’de acil servisi donattı"], ["Touba", "Senegal’de bir kent"], ["COVID-19", "Küresel pandemi örneği"], ["Aşılar ve tedaviler", "Ülkeler arasında hızla paylaşılır"]]}, {"k": "pick", "rounds": [{"q": "Hastalıklar neden hızla pandemiye dönüşebilir?", "o": ["Küresel hareketlilik nedeniyle", "Sınırlar kapalı olduğu için", "İnsanlar evde kaldığı için", "Aşı olduğu için"], "a": 0, "w": "İnsanların dünya genelindeki hareketliliği salgınların yayılmasını kolaylaştırır.", "h": "İnsanlar çok seyahat ediyor."}]}], "r": ["Sağlık Elçisi", "Sağlıkta iş birliği küresel çözümler üretir."]}, {"n": "İklim ve Çevre", "e": "🌱", "x": 50, "y": 84, "sub": "İklim krizi", "intro": "Karbon salınımı artıyor. Çözüm yerelden evrensele!", "c": [["🏭", "Nedenler", "Aşırı üretim, sanayileşme, fosil yakıt tüketimi ve lojistik hareketlilik karbon salınımını artırdı."], ["🌡️", "Sonuçlar", "Küresel ısınma, ormansızlaşma, su kirliliği ve biyolojik çeşitlilik kaybı."], ["🚪", "Yerelden evrensele", "Kişi kendi kapısının önünden başlayarak israfı önlemeli, doğayı korumalıdır."], ["🌳", "Yeşil Vatan", "“Benim Okulum Geleceğe Çare” projesi okullarda çevre bilinci, fidan dikimi ve sürdürülebilirlik eğitimi verir."], ["🎯", "Türkiye’nin hedefi", "2053 Sıfır Emisyon Hedefi ve COP31 dönem başkanlığı."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["2053", "Sıfır emisyon hedefi"], ["Yerelden evrensele", "Kendi kapımızın önünden başlamak"], ["Yeşil Vatan", "Okullarda çevre bilinci projesi"], ["COP31", "BM İklim Sözleşmesi 31. Taraflar Konferansı"]]}, {"k": "pick", "rounds": [{"q": "Karbon salınımını artıran etken hangisidir?", "o": ["Fosil yakıt tüketimi ve aşırı üretim", "Fidan dikimi", "Geri dönüşüm", "Enerji tasarrufu"], "a": 0, "w": "Aşırı üretim ve fosil yakıt kullanımı karbon salınımını artırır.", "h": "Dumanı düşün."}]}], "r": ["İklim Koruyucusu", "Küresel iklim krizine yerelden başlayan çözümlerle karşı koyarız."]}, {"n": "Dış Politika", "e": "🧭", "x": 33, "y": 38, "sub": "Türkiye’nin ilkeleri", "intro": "Türkiye dünyada nasıl bir dış politika izliyor?", "c": [["🕊️", "Rehber ilkeler", "Atatürk’ün “Yurtta sulh, cihanda sulh” ilkesi ve “Sulh hükümlerin en güzelidir” anlayışı."], ["🤝", "Duruşu", "Çatışmacı değil; arabulucu, yapıcı, adil, mazlumun yanında ve insani diplomasiyi önceleyen bir duruş."], ["🎭", "Komşularla kültür", "Türkiye-Yunanistan sanatçılarının “Romeo ve Juliet” tiyatrosu; Türkiye-Ermenistan millî takımlarının resmî müsabakaları."], ["🔤", "Türk Devletleri Teşkilatı", "Türk dünyasında entegrasyon için 34 harfli Ortak Türk Alfabesi kabul edildi."]], "t": [{"k": "sort", "q": "Türkiye’nin yaklaşımı mı, değil mi?", "bins": [["Türkiye’nin yaklaşımı", "🕊️"], ["Türkiye’nin yaklaşımı değil", "❌"]], "items": [["Arabuluculuk", 0], ["Diplomasi ve uzlaşma", 0], ["İnsani diplomasi", 0], ["Mazlumun yanında olmak", 0], ["Bekle-gör politikası", 1], ["Askerî güçle hızlı çözüm", 1], ["Çatışmacı yaklaşım", 1], ["Tek başına hareket etmek", 1]]}, {"k": "pick", "rounds": [{"q": "Ortak Türk Alfabesi kaç harften oluşur?", "o": ["34", "29", "32", "40"], "a": 0, "w": "Türk Devletleri Teşkilatı 34 harfli ortak alfabeyi kabul etmiştir.", "h": "Ortak alfabe."}]}], "r": ["Diplomat", "Türkiye barışı, uzlaşmayı ve iş birliğini esas alır."]}, {"n": "Barış Diplomasisi", "e": "🕊️", "x": 20, "y": 76, "sub": "Arabuluculuk", "intro": "Savaşan tarafları masaya oturtan arabulucu olmak kolay değil!", "c": [["🤝", "Arabulucu", "Türkiye, Rusya-Ukrayna Savaşı’nda her iki tarafla doğrudan görüşebilen nadir aktördür; barış görüşmelerine ev sahipliği yapmıştır."], ["🌾", "Karadeniz Tahıl Koridoru", "BM ile birlikte İstanbul’da imzalanan anlaşmayla küresel gıda ve açlık krizi önlendi."], ["🌍", "Diğer süreçler", "Gazze ateşkesi, Etiyopya-Somali, Sudan-BAE, Bosna Hersek ve Filipinler barış süreçlerinde aktif arabuluculuk."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Karadeniz Tahıl Koridoru", "BM ile İstanbul’da imzalanan anlaşma"], ["Koordinasyon merkezi", "Küresel açlık krizini önledi"], ["Arabulucu Türkiye", "İki tarafla da görüşebilir"], ["Rusya-Ukrayna", "Barış görüşmelerine ev sahipliği"]]}, {"k": "pick", "rounds": [{"q": "Karadeniz Tahıl Koridoru Anlaşması neyi önlemiştir?", "o": ["Küresel gıda ve açlık krizini", "Depremi", "Sel baskınını", "Orman yangınını"], "a": 0, "w": "Koordinasyon merkeziyle gıda akışı sağlanmış ve açlık krizi önlenmiştir.", "h": "Tahıl = yiyecek."}]}], "r": ["Barış Elçisi", "Türkiye barış görüşmelerinde arabulucu rol üstlenir."]}, {"n": "Göç ve Mülteci", "e": "🤲", "x": 9, "y": 50, "sub": "İnsani yaklaşım", "intro": "Güvenlik duvarı değil, insani yaklaşım!", "c": [["🏠", "Yaklaşım", "Güvenlikçi ve baskıcı politikalar yerine insan hakları, aile birliği ve toplumsal uyum temel alınır."], ["🎓", "Suriyeli sığınmacılar", "Barınma, eğitim ve sağlık hizmeti sunulur."], ["🏘️", "Ahıska Türkleri", "İskân için TOKİ konutları, istihdam ve sosyal uyum projeleri yürütülür (örneğin Bitlis)."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Suriyeli sığınmacılar", "Barınma, eğitim ve sağlık hizmeti"], ["Ahıska Türkleri", "TOKİ konutları ve istihdam projeleri"], ["Bitlis", "Ahıska Türkleri proje örneği"], ["Aile birliği", "Göç politikasının temel değerlerinden"]]}, {"k": "pick", "rounds": [{"q": "Türkiye göç politikasında neyi temel alır?", "o": ["İnsan hakları, aile birliği ve toplumsal uyumu", "Güvenlikçi ve baskıcı yaklaşımı", "Sınırları tamamen kapatmayı", "Sığınmacıları görmezden gelmeyi"], "a": 0, "w": "İnsani, hak temelli ve uyumu gözeten bir yaklaşım izlenir.", "h": "İnsan odaklı."}]}], "r": ["Dayanışma Elçisi", "Türkiye göç meselesinde insani yaklaşımı esas alır."]}, {"n": "İnsani Yardım", "e": "❤️", "x": 67, "y": 62, "sub": "Kalkınma ve yardım", "intro": "Beş kıtaya uzanan yardım eli! Türkiye kimlere nasıl destek oluyor?", "c": [["🏆", "Cömert ülke", "Türkiye, millî gelirine oranla insani yardımda dünyada ilk sıralarda yer alır."], ["🏢", "Kurumlar", "TİKA, Türk Kızılayı, AFAD ve Türkiye Maarif Vakfı beş kıtada çalışır."], ["🚢", "Gazze ve Somali", "İyilik Gemileri Mısır El-Ariş Limanı üzerinden 110 bin tonu aşan yardım taşıdı. Mogadişu’da tam teşekküllü Eğitim ve Araştırma Hastanesi kuruldu."], ["🏥", "Karabağ ve Kuzey Makedonya", "Ağdam ve Zengilan’da prefabrik modüler hastaneler; Üsküp Kalkandelen’de 1.200 öğrencilik Maarif Okulları."], ["📚", "Kolombiya ve orman yangınları", "Bogota’da İspanyolcaya çevrilmiş Türk eserleriyle gezici kütüphane; yangınlarda Azerbaycan başta olmak üzere uluslararası dayanışma."]], "t": [{"k": "match", "q": "Projeyi yeriyle eşleştir.", "pairs": [["İyilik Gemileri", "Gazze"], ["Eğitim ve Araştırma Hastanesi", "Mogadişu (Somali)"], ["Maarif Okulları", "Üsküp (Kuzey Makedonya)"], ["Gezici kütüphane", "Bogota (Kolombiya)"]]}, {"k": "pick", "rounds": [{"q": "Türkiye insani yardımda dünyada nasıl bir yerdedir?", "o": ["Millî gelirine oranla ilk sıralarda", "Son sıralarda", "Hiç yardım yapmaz", "Yalnızca komşularına yardım eder"], "a": 0, "w": "Türkiye millî gelirine oranla dünyada en cömert ülkeler arasındadır.", "h": "Cömertlik sıralaması."}]}], "r": ["İyilik Elçisi", "Türkiye insani yardım ve kalkınma desteğinde öncü bir ülkedir."]}];
+const G={title:"Küresel Köy Diplomatları",story:"Küresel köyün merkezindesin! Ağdaki her düğümde küreselleşmenin bir yüzünü keşfedecek, Türkiye’nin bölgesel ve küresel sorunlardaki rolünü öğrenecek ve diplomat rozetini kazanacaksın.",end:["Küresel köy diplomatı oldun!", "Küreselleşmenin etkilerini ve Türkiye’nin bölgesel ve küresel sorunlardaki rolünü baştan sona keşfettin."],map:d=>`<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="gl"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><radialGradient id="bg" cx=".5" cy=".5" r=".75"><stop offset="0" stop-color="#23407e"/><stop offset="1" stop-color="#0c1630"/></radialGradient></defs><rect width="100" height="60" fill="url(#bg)"/><circle cx="32.7" cy="9.7" r="0.30" fill="#fff" opacity="0.33"/><circle cx="81.5" cy="6.5" r="0.30" fill="#fff" opacity="0.33"/><circle cx="50.7" cy="3.2" r="0.20" fill="#fff" opacity="0.55"/><circle cx="24.6" cy="33.0" r="0.15" fill="#fff" opacity="0.80"/><circle cx="13.1" cy="13.9" r="0.30" fill="#fff" opacity="0.65"/><circle cx="7.1" cy="35.0" r="0.15" fill="#fff" opacity="0.89"/><circle cx="5.6" cy="50.8" r="0.20" fill="#fff" opacity="0.55"/><circle cx="54.0" cy="34.1" r="0.30" fill="#fff" opacity="0.79"/><circle cx="18.7" cy="34.7" r="0.30" fill="#fff" opacity="0.41"/><circle cx="10.5" cy="42.3" r="0.30" fill="#fff" opacity="0.34"/><circle cx="21.2" cy="40.5" r="0.20" fill="#fff" opacity="0.77"/><circle cx="46.6" cy="54.6" r="0.20" fill="#fff" opacity="0.48"/><circle cx="78.8" cy="41.5" r="0.15" fill="#fff" opacity="0.35"/><circle cx="30.4" cy="29.7" r="0.20" fill="#fff" opacity="0.74"/><circle cx="29.2" cy="57.9" r="0.15" fill="#fff" opacity="0.61"/><circle cx="17.2" cy="20.8" r="0.20" fill="#fff" opacity="0.55"/><circle cx="95.3" cy="5.5" r="0.30" fill="#fff" opacity="0.64"/><circle cx="86.8" cy="19.2" r="0.30" fill="#fff" opacity="0.51"/><circle cx="49.7" cy="47.2" r="0.15" fill="#fff" opacity="0.80"/><circle cx="93.6" cy="28.5" r="0.30" fill="#fff" opacity="0.34"/><circle cx="72.7" cy="19.0" r="0.30" fill="#fff" opacity="0.90"/><circle cx="81.5" cy="17.5" r="0.20" fill="#fff" opacity="0.83"/><circle cx="35.0" cy="55.6" r="0.20" fill="#fff" opacity="0.40"/><circle cx="12.5" cy="4.4" r="0.20" fill="#fff" opacity="0.38"/><circle cx="25.3" cy="23.7" r="0.20" fill="#fff" opacity="0.35"/><circle cx="45.0" cy="32.9" r="0.15" fill="#fff" opacity="0.79"/><circle cx="85.7" cy="17.1" r="0.20" fill="#fff" opacity="0.89"/><circle cx="67.9" cy="23.1" r="0.15" fill="#fff" opacity="0.39"/><circle cx="18.3" cy="14.5" r="0.15" fill="#fff" opacity="0.31"/><circle cx="82.4" cy="11.6" r="0.20" fill="#fff" opacity="0.30"/><circle cx="42.1" cy="22.4" r="0.30" fill="#fff" opacity="0.49"/><circle cx="13.3" cy="50.8" r="0.30" fill="#fff" opacity="0.69"/><circle cx="73.5" cy="27.5" r="0.30" fill="#fff" opacity="0.78"/><circle cx="39.5" cy="24.1" r="0.15" fill="#fff" opacity="0.59"/><circle cx="40.2" cy="12.1" r="0.15" fill="#fff" opacity="0.56"/><circle cx="11.8" cy="35.8" r="0.15" fill="#fff" opacity="0.30"/><circle cx="15.8" cy="6.9" r="0.20" fill="#fff" opacity="0.67"/><circle cx="7.9" cy="13.1" r="0.20" fill="#fff" opacity="0.39"/><circle cx="25.7" cy="21.1" r="0.20" fill="#fff" opacity="0.58"/><circle cx="12.3" cy="29.3" r="0.20" fill="#fff" opacity="0.59"/><circle cx="31.6" cy="9.4" r="0.30" fill="#fff" opacity="0.51"/><circle cx="26.9" cy="49.1" r="0.15" fill="#fff" opacity="0.61"/><circle cx="21.1" cy="56.2" r="0.20" fill="#fff" opacity="0.39"/><circle cx="54.2" cy="2.6" r="0.30" fill="#fff" opacity="0.48"/><circle cx="64.0" cy="6.3" r="0.20" fill="#fff" opacity="0.61"/><circle cx="90.0" cy="21.6" r="0.15" fill="#fff" opacity="0.62"/><circle cx="77.3" cy="20.1" r="0.15" fill="#fff" opacity="0.67"/><circle cx="78.3" cy="45.0" r="0.15" fill="#fff" opacity="0.78"/><circle cx="81.2" cy="43.9" r="0.15" fill="#fff" opacity="0.42"/><circle cx="49.3" cy="43.4" r="0.15" fill="#fff" opacity="0.77"/><circle cx="47.3" cy="12.2" r="0.30" fill="#fff" opacity="0.87"/><circle cx="44.8" cy="55.3" r="0.20" fill="#fff" opacity="0.87"/><circle cx="36.7" cy="13.8" r="0.15" fill="#fff" opacity="0.58"/><circle cx="34.1" cy="29.0" r="0.30" fill="#fff" opacity="0.80"/><circle cx="48.0" cy="38.9" r="0.30" fill="#fff" opacity="0.35"/><circle cx="65.7" cy="53.8" r="0.30" fill="#fff" opacity="0.75"/><circle cx="47.8" cy="11.4" r="0.30" fill="#fff" opacity="0.50"/><circle cx="79.5" cy="57.4" r="0.20" fill="#fff" opacity="0.58"/><circle cx="73.8" cy="5.9" r="0.15" fill="#fff" opacity="0.40"/><circle cx="13.4" cy="9.8" r="0.20" fill="#fff" opacity="0.78"/><g fill="none" stroke="#6db6ff" stroke-width=".25" opacity=".55"><circle cx="50" cy="30" r="17"/><ellipse cx="50" cy="30" rx="17" ry="6"/><ellipse cx="50" cy="30" rx="17" ry="12"/><ellipse cx="50" cy="30" rx="6" ry="17"/><ellipse cx="50" cy="30" rx="12" ry="17"/><path d="M33 30H67M50 13V47"/></g><circle cx="50" cy="30" r="17" fill="#4ea1ff" opacity=".08"/><path d="M50.0 30.0L20.0 14.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L50.0 8.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L80.0 14.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L91.0 30.0" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L80.0 45.6" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L50.0 50.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L33.0 22.8" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L20.0 45.6" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L9.0 30.0" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 30.0L67.0 37.2" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M20.0 14.4L50.0 8.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 8.4L80.0 14.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M80.0 14.4L91.0 30.0" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M91.0 30.0L80.0 45.6" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M80.0 45.6L50.0 50.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M50.0 50.4L20.0 45.6" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M20.0 45.6L9.0 30.0" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M9.0 30.0L20.0 14.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M33.0 22.8L20.0 14.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M33.0 22.8L50.0 8.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M67.0 37.2L80.0 45.6" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M67.0 37.2L50.0 50.4" stroke="#7cc4ff" stroke-width=".25" stroke-dasharray=".8 .6" opacity=".55"/><path d="M20 14.4L50 8.4L80 14.4" fill="none" stroke="#ffd25e" stroke-width=".5" stroke-dasharray="1.4 .8" opacity=".85"/><text x="50" y="58" font-size="1.9" font-weight="800" fill="#8fc7ff" text-anchor="middle" opacity=".8" font-family="Fredoka,sans-serif">KÜRESEL KÖY AĞI</text>${ST.map((s,i)=>d[i]?`<circle cx="${s.x}" cy="${s.y*.6}" r="5" fill="url(#gl)"/>`:"").join("")}</svg>`};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 7-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>
