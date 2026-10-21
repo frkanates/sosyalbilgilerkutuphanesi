@@ -10,7 +10,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 h1,h2,.brand,.bigno{font-family:'Bricolage Grotesque',Nunito,system-ui,sans-serif}
 .hz{height:12px;background:repeating-linear-gradient(-45deg,var(--gold) 0 14px,var(--ink) 14px 28px)}
 header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--ink);color:#fff}
-.brand{font-weight:800;font-size:1.1rem}.hud{background:var(--gold);color:var(--ink);font-weight:800;border-radius:99px;padding:2px 14px}
+.brand{font-weight:800;font-size:1.1rem}.lib{color:#fff;text-decoration:none;font-weight:800;font-size:.85rem;background:rgba(255,255,255,.16);border-radius:99px;padding:4px 12px;white-space:nowrap;margin-right:8px}
+.hud{background:var(--gold);color:var(--ink);font-weight:800;border-radius:99px;padding:2px 14px}
 main{max-width:980px;margin:0 auto;padding:16px}
 .hero h1{font-size:clamp(1.9rem,5vw,3rem);line-height:1.05;margin:8px 0;color:var(--ink)}
 .hero p{max-width:60ch;margin:0 0 18px}
@@ -53,7 +54,7 @@ input{width:100%;padding:11px;border:2.5px solid var(--ink);border-radius:10px;f
 @media(max-width:560px){.mt{grid-template-columns:1fr}.line{grid-template-columns:1fr 1fr}}
 </style></head><body>
 <div class="hz"></div>
-<header><span class="brand">⚙️ Üreten Türkiye • Fabrika Hattı</span><span class="hud">★ <span id="tot">0</span> / 15</span></header>
+<header><a class="lib" href="../index.html">← Kütüphane</a><span class="brand">⚙️ Üreten Türkiye • Fabrika Hattı</span><span class="hud">★ <span id="tot">0</span> / 15</span></header>
 <main id="app"></main>
 <script>
 const KEY="sbk7-oyun-5",SCRIPT_URL="https://script.google.com/macros/s/AKfycbyXiHI9AyNIRxZ92vaF0_Snv8C-HHELeXgYkrvfixjLCyYsMf6ElGw8AkxmrDDhs3LY/exec",OYUN="7. Sınıf 5. Öğrenme Alanı Oyunu";
@@ -113,9 +114,9 @@ const TK={
 };
 let cur;
 function home(){$('#tot').textContent=tot();
- if(!S.me){$('#app').innerHTML=`<div class="panel"><div class="ic">⚙️</div><h2>Fabrika hattına hoş geldin!</h2><p>Kendini tanıt, üretim başlasın.</p><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 7-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="go big" onclick="reg()">Başla</button><p id="fh" class="hint"></p></div>`;return}
+ if(LINK_KOD&&!S.me){$('#app').innerHTML=`<div class="panel"><div class="ic">⚙️</div><h2>Fabrika hattına hoş geldin!</h2><p>Kendini tanıt, üretim başlasın.</p><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 7-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="go big" onclick="reg()">Başla</button><p id="fh" class="hint"></p></div>`;return}
  const nx=ST.findIndex((_,i)=>!S.done[i]),all=nx<0;
- $('#app').innerHTML=`<section class="hero"><h1>Üreten Türkiye,<br>Güçlü Gelecek</h1><p>Merhaba ${esc(S.me.a)}! 5 istasyonu sırayla çalıştır: bilgi kartlarını oku, görevleri çöz, yıldız topla. Hata sayın azaldıkça yıldızın artar.</p></section>
+ $('#app').innerHTML=`<section class="hero"><h1>Üreten Türkiye,<br>Güçlü Gelecek</h1><p>Merhaba${S.me?' '+esc(S.me.a):''}! 5 istasyonu sırayla çalıştır: bilgi kartlarını oku, görevleri çöz, yıldız topla. Hata sayın azaldıkça yıldızın artar.</p></section>
  <div class="line">${ST.map((s,i)=>`<button class="st ${S.done[i]?'done':''} ${i==nx?'next':''}" onclick="station(${i})"><span class="n">${i+1}</span><span class="e">${s.e}</span><b>${s.n}</b><small>${s.sub}</small><span class="stars">${'★'.repeat(S.done[i]||0)}${'☆'.repeat(3-(S.done[i]||0))}</span></button>`).join('')}</div>
  <div class="foot">${all?'<button class="go big" onclick="end()">Sertifikamı gör 🏅</button>':''}<br><button class="back" onclick="reset()">Baştan başla</button></div>`}
 function reg(){const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli.';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();home()}
@@ -130,8 +131,8 @@ function result(){const m=cur.m,i=cur.i,st=m<=1?3:m<=3?2:1;
  const all=ST.every((_,k)=>S.done[k]);
  $('#app').innerHTML=`<div class="panel c"><div class="ic">${'★'.repeat(st)}${'☆'.repeat(3-st)}</div><h2>${st==3?'Kusursuz üretim!':st==2?'Güzel iş!':'Hat çalıştı!'}</h2><p>${m} hata yaptın. ${st<3?'Daha az hatayla tekrar deneyip yıldızını artırabilirsin.':''}</p><button class="go big" onclick="${all?'end()':'home()'}">${all?'Sertifikamı gör 🏅':'Hatta dön'}</button>${st<3?`<br><button class="back" onclick="station(${i})">↻ Tekrar dene</button>`:''}</div>`}
 function end(){const t=tot(),r=t>=13?['🏅','Baş Mühendis']:t>=9?['⚙️','Usta Üretici']:['🔧','Çırak Üretici'];
- $('#app').innerHTML=`<div class="panel c"><div class="ic">${r[0]}</div><h2>${r[1]}</h2><p>${esc(S.me.a)} • ${esc(S.me.s)}</p><div class="bigno">${t} / 15 ★</div>${ST.map((s,i)=>`<div class="row"><span>${s.e} ${s.n}</span><b>${'★'.repeat(S.done[i]||0)}</b></div>`).join('')}<p id="msg" class="hint"></p><button class="go big" onclick="home()">Hatta dön</button></div>`;sendRes()}
-async function sendRes(){const m=$('#msg');if(!m)return;if(!LINK_KOD||!SCRIPT_URL)return;
+ $('#app').innerHTML=`<div class="panel c"><div class="ic">${r[0]}</div><h2>${r[1]}</h2>${S.me?`<p>${esc(S.me.a)} • ${esc(S.me.s)}</p>`:''}<div class="bigno">${t} / 15 ★</div>${ST.map((s,i)=>`<div class="row"><span>${s.e} ${s.n}</span><b>${'★'.repeat(S.done[i]||0)}</b></div>`).join('')}<p id="msg" class="hint"></p><button class="go big" onclick="home()">Hatta dön</button></div>`;sendRes()}
+async function sendRes(){const m=$('#msg');if(!m)return;if(!LINK_KOD||!SCRIPT_URL||!S.me)return;
  if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
  m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
  const stars=ST.map((s,i)=>S.done[i]||0),T=stars.reduce((a,b)=>a+b,0);
