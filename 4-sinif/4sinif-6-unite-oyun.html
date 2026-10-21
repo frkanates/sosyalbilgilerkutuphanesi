@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vatandaşlık Adası | 4. Sınıf Ben Bir Vatandaşım</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#e4f0f6;--panel:#fff;--soft:#eef6fa;--line:#b4d3e2;--ink:#0f2f44;--a:#e8890c;--b:#1c8f78;--c:#f2b21d;--map:#bfe3f3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Fredoka','Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header class="top"><a class="back" href="../index.html">← Kütüphane</a><div class="brand"><span>🏝️</span>Vatandaşlık Adası (4. Sınıf)</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk4-oyun-6";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbz5UFkeyHjo5BSG8fJBQK1QxEADZQFx1kH6YmovVp15cb8zfE6SKhxCYC8Rs6xIJsk6/exec";const OYUN="4. Sınıf 6. Ünite Oyunu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Hak Kalesi", "e": "🏰", "x": 22, "y": 24, "sub": "Haklarımız", "intro": "Vatandaşlık Adası’nın kalesindesin. Önce haklarımızı tanıyalım!", "c": [["⚖️", "Hak", "Devletlerce insanların özgürce kullanımına sunulan, yasalarla korunan kazanımlardır."], ["🛡️", "Haklar kimindir?", "Doğuştan sahibiz; dokunulamaz, devredilemez ve vazgeçilemez. Anayasa ve uluslararası sözleşmelerle güvence altındadır."], ["🌍", "Birleşmiş Milletler", "1945’te dünya barışını korumak ve sorunları iş birliğiyle çözmek için kuruldu."], ["📜", "İnsan Hakları Evrensel Beyannamesi", "10 Aralık 1948’de BM Genel Kurulu’nda kabul edildi."], ["🧒", "Çocuk Haklarına Dair Sözleşme", "20 Kasım 1989’da kabul edildi. 18 yaşına kadar her insan çocuk sayılır."]], "t": [{"k": "match", "q": "Belgeyi tarihiyle eşleştir.", "pairs": [["Birleşmiş Milletler’in kuruluşu", "1945"], ["İnsan Hakları Evrensel Beyannamesi", "10 Aralık 1948"], ["Çocuk Haklarına Dair Sözleşme", "20 Kasım 1989"], ["Çocuk sayılma sınırı", "18 yaşına kadar"]]}, {"k": "order", "q": "Olayları tarih sırasına diz.", "steps": ["1945: Birleşmiş Milletler kuruldu", "10 Aralık 1948: İnsan Hakları Evrensel Beyannamesi", "20 Kasım 1989: Çocuk Haklarına Dair Sözleşme"]}], "r": ["Hak Şövalyesi", "Haklarımız doğuştan gelir ve yasalarla korunur."]}, {"n": "Sözleşme Kulesi", "e": "📜", "x": 42, "y": 16, "sub": "Çocuk hakları maddeleri", "intro": "Kulenin duvarlarında Çocuk Haklarına Dair Sözleşme’nin maddeleri yazılı.", "c": [["🤝", "Madde 2 ve 6", "Haklar ayrım yapılmadan tüm çocuklara eşit tanınır. Her çocuğun yaşama hakkı vardır."], ["💬", "Madde 13 ve 16", "Düşüncelerini sözle, yazıyla, resimle özgürce ifade edebilirsin. Özel hayatına haksız müdahale edilemez."], ["♿", "Madde 23", "Engelli çocukların saygınlığı korunur ve topluma etkin katılımları sağlanır."], ["🏥", "Madde 24 ve 28", "Sağlık hizmetlerinden yararlanma hakkı. İlköğretim herkes için zorunlu ve parasızdır."], ["⚽", "Madde 31 ve 32", "Oyun oynama ve dinlenme hakkı. Çocukların tehlikeli işlerde çalıştırılması yasaktır."]], "t": [{"k": "match", "q": "Maddeyi hakkıyla eşleştir.", "pairs": [["Madde 6", "Yaşama hakkı"], ["Madde 13", "Düşünceyi açıklama özgürlüğü"], ["Madde 24", "Sağlık hakkı"], ["Madde 28", "Eğitim hakkı"]]}, {"k": "pick", "rounds": [{"q": "Parkları yıkılmasın diye pankart açan çocuklar hangi hakkı savunur?", "o": ["Oyun hakkını", "Çalışma hakkını", "Seyahat hakkını", "Alışveriş hakkını"], "a": 0, "w": "Madde 31 oyun, dinlenme ve boş zaman hakkını güvence altına alır.", "h": "Parkta ne yapılır?"}]}], "r": ["Madde Bilgesi", "Çocuk Hakları Sözleşmesi tüm çocukların haklarını korur."]}, {"n": "Saygı Köprüsü", "e": "🌉", "x": 36, "y": 44, "sub": "Başkalarının haklarına saygı", "intro": "Köprüden geçerken hep birlikte kurallara uymalıyız!", "c": [["🤲", "Yalnız bilmek yetmez", "Haklarımızı bilmenin yanında başkalarının haklarına da saygı göstermeliyiz."], ["🥪", "Kantinde sıra", "Sıraya girmek hem kendi hakkımızı hem başkalarının hakkını korur."], ["🚦", "Trafik kuralları", "Yaya geçidini kullanmak ve kurallara uymak, diğer insanların yaşama ve güvenlik haklarına saygıdır."]], "t": [{"k": "sort", "q": "Davranışı sepete koy.", "bins": [["Haklara saygı", "🤝"], ["Saygısızlık", "🚫"]], "items": [["Kantinde sıraya girmek", 0], ["Yaya geçidinden geçmek", 0], ["Trafik kurallarına uymak", 0], ["Söz hakkını beklemek", 0], ["Kantinde sıra atlamak", 1], ["Kırmızı ışıkta geçmek", 1], ["Arkadaşının sözünü kesmek", 1], ["Arkadaşını oyundan dışlamak", 1]]}, {"k": "pick", "rounds": [{"q": "Kantinde sıraya girmek neyi korur?", "o": ["Hem kendi hem başkalarının hakkını", "Sadece kendi hakkını", "Hiçbir hakkı", "Sadece kantinciyi"], "a": 0, "w": "Sıraya girmek herkesin hakkını korur.", "h": "Herkesin hakkı önemli."}]}], "r": ["Saygı Elçisi", "Başkalarının haklarına saygı göstermek de bir sorumluluktur."]}, {"n": "Sorumluluk Evi", "e": "🏠", "x": 16, "y": 58, "sub": "Ailede sorumluluk", "intro": "Her hakkın bir sorumluluğu vardır. Önce ailemizde başlayalım!", "c": [["📌", "Sorumluluk", "Kişinin söz ve eylemlerinin sonuçlarını üstlenebilmesidir."], ["🔗", "Hak ve sorumluluk", "Her hak yerine getirilmesi gereken sorumluluk doğurur. Eğitim hakkı: okula zamanında gitmek, ödev yapmak."], ["👨‍👩‍👧", "Ailemize karşı", "Saygılı olmak, söz tutmak, yalan söylememek, odamızı düzenli tutmak, sofra kurarken yardım etmek."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Sorumluluk", "Eylemlerin sonuçlarını üstlenmek"], ["Eğitim hakkı", "Okula zamanında gitme sorumluluğu getirir"], ["Sofra kurmak", "Ailede yardımlaşma"], ["Verilen söz", "Tutmak gerekir"]]}, {"k": "pick", "rounds": [{"q": "Sahip olduğumuz her hak ne doğurur?", "o": ["Sorumluluk", "Ayrıcalık", "Yasak", "Ceza"], "a": 0, "w": "Her hak, beraberinde yerine getirilmesi gereken sorumluluklar doğurur.", "h": "Haklar tek başına gelmez."}]}], "r": ["Aile Kahramanı", "Ailemize karşı sorumluluklarımızı yerine getiririz."]}, {"n": "Okul Binası", "e": "🏫", "x": 36, "y": 72, "sub": "Okulda sorumluluk", "intro": "Okulumuzun kurallarını ve sorumluluklarımızı öğrenelim.", "c": [["📏", "Okul kuralları", "Okul ve sınıf kurallarına uymak sorumluluğumuzdur."], ["🪜", "Merdivenler", "Kazaları önlemek için merdivenlerden sağdan inip çıkılır."], ["🗣️", "Derste", "Söz alarak konuşulur; hakaret, alay ve ayrımcılık içeren sözlerden kaçınılır."], ["🙏", "Hata yapınca", "Sorumluluğu üstlenip özür dileriz."]], "t": [{"k": "sort", "q": "Okul sorumluluğu mu, değil mi?", "bins": [["Okul sorumluluğu", "🏫"], ["Okul sorumluluğu değil", "🏠"]], "items": [["Okul kurallarına uymak", 0], ["Merdivenden sağdan inmek", 0], ["Derste söz alarak konuşmak", 0], ["Hata yapınca özür dilemek", 0], ["Alışverişe yardım etmek", 1], ["Yatağını toplamak", 1], ["Sofra kurmak", 1], ["Evde çamaşır asmak", 1]]}, {"k": "pick", "rounds": [{"q": "Merdivenlerden neden sağdan inip çıkılır?", "o": ["Kazaları önlemek için", "Daha hızlı koşmak için", "Eğlenmek için", "Kimse görmesin diye"], "a": 0, "w": "Kurallı hareket kazaları önler.", "h": "Çarpışmayı düşün."}]}], "r": ["Okul Elçisi", "Okul kurallarına uymak herkesin güvenliğini sağlar."]}, {"n": "Hayvan Barınağı", "e": "🐾", "x": 60, "y": 74, "sub": "Çevre ve canlılara karşı sorumluluk", "intro": "Sokak dostlarımız bizi bekliyor!", "c": [["💬", "Önemli söz", "Yalnızca yaptıklarımızdan değil, yapmadıklarımızdan da sorumluyuz."], ["🥣", "Mama ve su", "Sokak hayvanlarının aç kalmaması için mama ve su desteği verilebilir."], ["🏠", "Barınak", "Hayvanların donmaması için barınak yapılabilir; belediyelerden destek istenebilir."]], "t": [{"k": "sort", "q": "Davranışı sepete koy.", "bins": [["Sorumlu davranış", "🐾"], ["Sorumsuz davranış", "⚠️"]], "items": [["Sokak hayvanına mama vermek", 0], ["Barınak için destek istemek", 0], ["Belediyeden yardım istemek", 0], ["Hayvanın donmasını önlemek", 0], ["Aç hayvanı görmezden gelmek", 1], ["Çöpü doğaya atmak", 1], ["Hayvanlara zarar vermek", 1], ["“Bana ne” demek", 1]]}, {"k": "pick", "rounds": [{"q": "Sokak hayvanları için yerel yönetimden ne isteyebiliriz?", "o": ["Barınak ve mama desteği", "Alışveriş merkezi", "Yeni otopark", "Spor salonu"], "a": 0, "w": "Belediyelerden barınak ve mama desteği istenebilir.", "h": "Hayvanların neye ihtiyacı var?"}]}], "r": ["Can Dostu", "Canlılara ve çevreye karşı da sorumluyuz."]}, {"n": "Etkinlik Meydanı", "e": "🎭", "x": 62, "y": 44, "sub": "Etkinliklere katılıyorum", "intro": "Meydanda eğlence var! Etkinlikler bize neler kazandırır?", "c": [["🤝", "Sosyalleşme", "Bireyin toplumun bir parçası olması, çevresiyle bağ kurması ve iletişim becerilerini geliştirmesidir."], ["🌟", "Faydası", "Etkinlikler ilgi ve yetenekleri keşfetmeyi, öz güven kazanmayı ve sosyalleşmeyi sağlar."], ["🎨", "Kültür ve sanat", "Şiir, koro, orkestra, tiyatro, drama, halk oyunları, resim sergisi."], ["⚽", "Spor, akıl oyunları", "Futbol, basketbol, voleybol, yüzme; satranç, kodlama, 3D tasarım."], ["🌱", "Yardımlaşma ve doğa", "Kitap toplama, fidan dikme, kermes, hayvanları koruma projeleri ve geziler."]], "t": [{"k": "sort", "q": "Etkinliği türüne göre sepete koy.", "bins": [["Kültür ve sanat", "🎨"], ["Spor", "⚽"], ["Akıl oyunları ve bilişim", "♟️"], ["Yardımlaşma ve doğa", "🌱"]], "items": [["Tiyatro", 0], ["Koro", 0], ["Voleybol turnuvası", 1], ["Yüzme", 1], ["Satranç turnuvası", 2], ["Kodlama kursu", 2], ["Fidan dikme", 3], ["Kitap toplama kampanyası", 3]]}, {"k": "pick", "rounds": [{"q": "Etkinliklere katılmak öğrencilere ne kazandırır?", "o": ["İlgi, yetenek keşfi ve öz güven", "Sadece yorgunluk", "Daha az arkadaş", "Ders çalışmama izni"], "a": 0, "w": "Etkinlikler yeteneklerimizi keşfetmemize ve sosyalleşmemize yardımcı olur.", "h": "Olumlu bir şey düşün."}]}], "r": ["Etkin Öğrenci", "Etkinliklere katılan öğrenci yeteneğini keşfeder."]}, {"n": "Özgürlük Tepesi", "e": "🚩", "x": 82, "y": 22, "sub": "Bağımsızlık ve millî egemenlik", "intro": "Tepenin zirvesinde bayrak dalgalanıyor. Özgürlüğün değerini öğrenelim!", "c": [["🕊️", "Bağımsızlık", "Bir milletin hiçbir dış güce bağlı olmadan geleceğine hür biçimde karar verebilmesidir."], ["🔗", "Özgürlük ve vatan", "Bireysel özgürlükler ancak tam bağımsız bir devlette güvence altındadır. Vatan işgal altındayken özgürlükten söz edilemez."], ["🏛️", "23 Nisan 1920", "TBMM açıldı. Millî Mücadele’yi yönettiği için ona “Gazi Meclis” unvanı verildi."], ["🇹🇷", "29 Ekim 1923", "Cumhuriyet ilan edildi; halk yöneticilerini seçimle belirler."], ["👑", "Hâkimiyet milletindir", "Devlet yönetimindeki en üstün güç doğrudan millete aittir."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["23 Nisan 1920", "TBMM’nin açılışı"], ["Gazi Meclis", "Millî Mücadele’yi yöneten TBMM"], ["29 Ekim 1923", "Cumhuriyet’in ilanı"], ["Hâkimiyet milletindir", "Üstün güç millete aittir"]]}, {"k": "pick", "rounds": [{"q": "Bireysel özgürlükler hangi durumda güvence altındadır?", "o": ["Tam bağımsız bir devlette", "Vatan işgal altındayken", "Yasalar yokken", "Hiçbir zaman"], "a": 0, "w": "Bireysel özgürlükler ancak tam bağımsız bir devlette güvence altındadır.", "h": "Bağımsızlık ile özgürlük bağlantılıdır."}]}], "r": ["Özgürlük Bekçisi", "Bağımsızlık, özgürlüğümüzün temelidir."]}, {"n": "Bayrak Meydanı", "e": "🇹🇷", "x": 86, "y": 56, "sub": "Millî irade ve görevlerimiz", "intro": "Meydanda son durak! 15 Temmuz’u ve bağımsızlığı koruma görevlerimizi öğren.", "c": [["🌙", "15 Temmuz 2016", "Ordu içine sızan terör örgütü mensupları darbe girişiminde bulundu."], ["🚩", "Millet meydanda", "Halk, çağrı üzerine yalnızca bayrağıyla meydanlara inerek darbe girişimini engelledi."], ["🎖️", "Anma günü", "15 Temmuz, “Demokrasi ve Millî Birlik Günü” ilan edildi."], ["📚", "Görevlerimiz", "Çok çalışmak, yasalara uymak, yabancı dil öğrenmek, bayram ve bayrağa, İstiklal Marşı’na sahip çıkmak."]], "t": [{"k": "sort", "q": "Bağımsızlığı korumaya katkı sağlar mı?", "bins": [["Katkı sağlar", "✅"], ["Katkı sağlamaz", "❌"]], "items": [["Çok çalışıp başarılı olmak", 0], ["Yasalara ve kurallara uymak", 0], ["Yabancı dil öğrenmek", 0], ["Bayrağa sahip çıkmak", 0], ["Kuralları umursamamak", 1], ["Haklarını bilmemek", 1], ["Millî bayramları önemsememek", 1], ["Derslere çalışmamak", 1]]}, {"k": "pick", "rounds": [{"q": "15 Temmuz hangi gün olarak ilan edilmiştir?", "o": ["Demokrasi ve Millî Birlik Günü", "Çocuk Bayramı", "Cumhuriyet Bayramı", "Zafer Bayramı"], "a": 0, "w": "15 Temmuz Demokrasi ve Millî Birlik Günü’dür.", "h": "Millî iradeye sahip çıkış."}]}], "r": ["Vatan Nöbetçisi", "Vatandaş; hakkını, sorumluluğunu ve bağımsızlığını bilir."]}];
+const G={title:"Vatandaşlık Adası",story:"Vatandaşlık Adası’na hoş geldin! Hak Kalesi’nden Bayrak Meydanı’na uzanan yolda haklarını öğrenecek, sorumluluklarını üstlenecek, etkinliklere katılacak ve özgürlüğün değerini keşfedeceksin.",end:["Etkin vatandaş oldun!", "Haklardan sorumluluklara, etkinliklerden özgürlüğün değerine kadar 6. üniteyi baştan sona gezdin."],map:d=>`<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="gl"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs><rect width="100" height="60" fill="#8fd3f0"/><path d="M-2 6q4-2 8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0" fill="none" stroke="#b9e6f7" stroke-width=".4" opacity=".8"/><path d="M-2 16q4-2 8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0" fill="none" stroke="#b9e6f7" stroke-width=".4" opacity=".8"/><path d="M-2 28q4-2 8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0" fill="none" stroke="#b9e6f7" stroke-width=".4" opacity=".8"/><path d="M-2 40q4-2 8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0" fill="none" stroke="#b9e6f7" stroke-width=".4" opacity=".8"/><path d="M-2 52q4-2 8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0" fill="none" stroke="#b9e6f7" stroke-width=".4" opacity=".8"/><path d="M10 22C6 10 20 3 38 4C55 2 70 3 84 6C95 10 98 24 95 36C93 48 80 56 62 55C48 58 30 56 18 50C8 44 12 34 10 22Z" fill="#f3e3a8"/><path d="M10 22C6 10 20 3 38 4C55 2 70 3 84 6C95 10 98 24 95 36C93 48 80 56 62 55C48 58 30 56 18 50C8 44 12 34 10 22Z" fill="#cfe8a0" transform="translate(50 30) scale(.96) translate(-50 -30)"/><path d="M54 4C50 10 46 16 40 24C34 30 42 36 48 42C54 47 52 52 54 58" fill="none" stroke="#7ec3e8" stroke-width="2.6" stroke-linecap="round"/><path d="M54 4C50 10 46 16 40 24C34 30 42 36 48 42C54 47 52 52 54 58" fill="none" stroke="#bfe6f7" stroke-width=".7" stroke-linecap="round"/><rect x="34.3" y="25.6" width="8" height="2.2" rx=".4" fill="#a8764a" stroke="#6e4a2a" stroke-width=".25" transform="rotate(-12 38 26.7)"/><rect x="17" y="10" width="10" height="7" fill="#d9d4c7" stroke="#8d8672" stroke-width=".3"/><rect x="15.5" y="7.5" width="3.4" height="9.5" fill="#cfc9b9" stroke="#8d8672" stroke-width=".3"/><rect x="25.1" y="7.5" width="3.4" height="9.5" fill="#cfc9b9" stroke="#8d8672" stroke-width=".3"/><path d="M15.5 7.5h3.4M25.1 7.5h3.4" stroke="#8d8672" stroke-width=".5" stroke-dasharray=".7 .5"/><path d="M22 10V6.5" stroke="#555" stroke-width=".3"/><path d="M22 6.5h3v1.6h-3Z" fill="#e23b3b"/><path d="M20.6 17V13.6a1.4 1.4 0 0 1 2.8 0V17Z" fill="#7b5a3a"/><rect x="40" y="4.5" width="4.4" height="10" fill="#e6dccb" stroke="#9c8c72" stroke-width=".3"/><path d="M39.4 4.5L42.2 1.4L45 4.5Z" fill="#c9674a"/><rect x="41.2" y="7" width="2" height="3" rx=".3" fill="#fff8e1" stroke="#b9a37a" stroke-width=".2"/><rect x="12" y="31.5" width="8" height="6" fill="#f6dcb8" stroke="#b98a5c" stroke-width=".3"/><path d="M11.2 31.5L16 27.5L20.8 31.5Z" fill="#d98a6a"/><rect x="15" y="34" width="2" height="3.5" fill="#8a5a3c"/><rect x="12.8" y="33" width="1.6" height="1.4" fill="#8ec5ea"/><rect x="31" y="39.5" width="10" height="6" rx=".4" fill="#f7d36b" stroke="#b8902a" stroke-width=".3"/><rect x="34.5" y="37" width="3" height="2.5" fill="#e8b93e"/><path d="M36 37V34.5" stroke="#555" stroke-width=".3"/><path d="M36 34.5h2.2v1.2H36Z" fill="#e23b3b"/><rect x="32.0" y="41.6" width="1.3" height="1.8" fill="#fff"/><rect x="34.3" y="41.6" width="1.3" height="1.8" fill="#fff"/><rect x="36.6" y="41.6" width="1.3" height="1.8" fill="#fff"/><rect x="38.9" y="41.6" width="1.3" height="1.8" fill="#fff"/><rect x="56" y="41.5" width="8" height="5" fill="#e9c3b0" stroke="#a9755a" stroke-width=".3"/><path d="M55.2 41.5L60 38.3L64.8 41.5Z" fill="#b8644a"/><path d="M54 48.5h12" stroke="#a9755a" stroke-width=".4" stroke-dasharray=".8 .5"/><path d="M56 30L62 21L68 30Z" fill="#e65a5a"/><path d="M62 21L59.3 30H62.8Z" fill="#fff"/><path d="M62 21V18.8" stroke="#555" stroke-width=".3"/><path d="M62 18.8h2.2v1.2H62Z" fill="#f7c93e"/><ellipse cx="82" cy="13.5" rx="10" ry="7" fill="#b9db8f" stroke="#7da955" stroke-width=".2"/><ellipse cx="82" cy="13.5" rx="6.5" ry="4.5" fill="#a3cc78" stroke="#7da955" stroke-width=".2"/><ellipse cx="82" cy="13.5" rx="3.2" ry="2.3" fill="#8fbd64" stroke="#7da955" stroke-width=".2"/><path d="M82 13V6.5" stroke="#555" stroke-width=".4"/><path d="M82 6.5h4v2.6h-4Z" fill="#e23b3b"/><circle cx="86" cy="34" r="6" fill="#efe6cf" stroke="#c9b98a" stroke-width=".3"/><circle cx="86" cy="34" r="3.2" fill="none" stroke="#c9b98a" stroke-width=".25" stroke-dasharray=".8 .6"/><path d="M86 34V27.5" stroke="#555" stroke-width=".4"/><path d="M86 27.5h4v2.6h-4Z" fill="#e23b3b"/><circle cx="10" cy="26" r="1.5" fill="#5aa24f"/><circle cx="11.2" cy="26.8" r="1.1" fill="#6bb35a"/><circle cx="27" cy="24" r="1.5" fill="#5aa24f"/><circle cx="28.2" cy="24.8" r="1.1" fill="#6bb35a"/><circle cx="30" cy="10" r="1.5" fill="#5aa24f"/><circle cx="31.2" cy="10.8" r="1.1" fill="#6bb35a"/><circle cx="48" cy="28" r="1.5" fill="#5aa24f"/><circle cx="49.2" cy="28.8" r="1.1" fill="#6bb35a"/><circle cx="24" cy="50" r="1.5" fill="#5aa24f"/><circle cx="25.2" cy="50.8" r="1.1" fill="#6bb35a"/><circle cx="46" cy="52" r="1.5" fill="#5aa24f"/><circle cx="47.2" cy="52.8" r="1.1" fill="#6bb35a"/><circle cx="70" cy="38" r="1.5" fill="#5aa24f"/><circle cx="71.2" cy="38.8" r="1.1" fill="#6bb35a"/><circle cx="72" cy="50" r="1.5" fill="#5aa24f"/><circle cx="73.2" cy="50.8" r="1.1" fill="#6bb35a"/><circle cx="76" cy="24" r="1.5" fill="#5aa24f"/><circle cx="77.2" cy="24.8" r="1.1" fill="#6bb35a"/><circle cx="92" cy="44" r="1.5" fill="#5aa24f"/><circle cx="93.2" cy="44.8" r="1.1" fill="#6bb35a"/><circle cx="14" cy="44" r="1.5" fill="#5aa24f"/><circle cx="15.2" cy="44.8" r="1.1" fill="#6bb35a"/><circle cx="52" cy="20" r="1.5" fill="#5aa24f"/><circle cx="53.2" cy="20.8" r="1.1" fill="#6bb35a"/><circle cx="70" cy="10" r="1.5" fill="#5aa24f"/><circle cx="71.2" cy="10.8" r="1.1" fill="#6bb35a"/><text x="50" y="58.2" font-size="2" font-weight="800" fill="#2f6d8a" text-anchor="middle" opacity=".7" font-family="Fredoka,sans-serif">VATANDAŞLIK ADASI</text>${ST.map((s,i)=>d[i]?`<circle cx="${s.x}" cy="${s.y*.6}" r="6" fill="url(#gl)"/>`:"").join("")}</svg>`};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 4-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>
