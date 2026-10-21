@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pasaportlu Gezginler | 4. Sınıf Dünya Ailesi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#e4f0f6;--panel:#fff;--soft:#eef6fa;--line:#b4d3e2;--ink:#0f2f44;--a:#e8890c;--b:#1c8f78;--c:#f2b21d;--map:#bfe3f3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Fredoka','Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header class="top"><a class="back" href="../index.html">← Kütüphane</a><div class="brand"><span>🌍</span>Pasaportlu Gezginler (4. Sınıf)</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk4-oyun-7";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbz5UFkeyHjo5BSG8fJBQK1QxEADZQFx1kH6YmovVp15cb8zfE6SKhxCYC8Rs6xIJsk6/exec";const OYUN="4. Sınıf 7. Ünite Oyunu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Kıtalar Limanı", "e": "🌍", "x": 40.3, "y": 36.1, "sub": "Kıtalar ve dünya ailesi", "intro": "Pasaportun hazır! Önce yeryüzünün büyük kara parçalarını tanıyalım.", "c": [["🌎", "Kıta", "Yeryüzünü oluşturan büyük kara parçalarına denir."], ["🗺️", "7 kıta", "Asya, Afrika, Avrupa, Kuzey Amerika, Güney Amerika, Avustralya (Okyanusya) ve Antarktika."], ["👨‍👩‍👧‍👦", "Dünya ailesi", "Yaklaşık 8 milyar insan, 200’den fazla devlette yaşar. Dilleri, inançları farklı olsa da herkes dünya ailesinin üyesidir."]], "t": [{"k": "sort", "q": "Ülkeyi kıtasına göre sepete koy.", "bins": [["Afrika", "🌍"], ["Asya", "🌏"], ["Avrupa", "🏰"]], "items": [["Mısır", 0], ["Güney Afrika", 0], ["Hindistan", 1], ["Japonya", 1], ["Polonya", 2], ["İtalya", 2]]}, {"k": "pick", "rounds": [{"q": "Dünyada kaç kıta vardır?", "o": ["7", "5", "6", "9"], "a": 0, "w": "Dünyada 7 kıta vardır.", "h": "Asya’dan Antarktika’ya say."}]}], "r": ["Kıta Kaşifi", "Yedi kıtadaki tüm toplumlar dünya ailesinin parçasıdır."]}, {"n": "Mısır", "e": "🏺", "x": 58.1, "y": 37.8, "sub": "Piramitler ve Nil", "intro": "İlk durak Mısır! Piramitlerin ve Nil’in ülkesi.", "c": [["📍", "Konumu", "Afrika’nın kuzeydoğusunda, Türkiye’nin güneyindedir. Akdeniz ve Kızıldeniz’e kıyısı vardır."], ["🏙️", "Bilgi kartı", "Başkenti Kahire, resmî dili Arapça, para birimi Mısır lirasıdır."], ["🧭", "Komşuları", "Libya, Sudan ve İsrail."], ["🔺", "Öne çıkanlar", "Yaklaşık 4600 yıllık piramitler ve ülkeye hayat veren Nil Nehri."], ["💰", "Gelir kaynakları", "Tarım, turizm, petrol, Süveyş Kanalı ticareti ve sanayi."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Başkent", "Kahire"], ["Resmî dil", "Arapça"], ["Para birimi", "Mısır lirası"], ["Ülkeye hayat veren nehir", "Nil"]]}, {"k": "pick", "rounds": [{"q": "Mısır hangi kıtadadır?", "o": ["Afrika", "Asya", "Avrupa", "Avustralya"], "a": 0, "w": "Mısır, Afrika kıtasının kuzeydoğusundadır.", "h": "Türkiye’nin güneyine bak."}]}], "r": ["Piramit Gezgini", "Mısır; piramitleri ve Nil Nehri ile bilinir."]}, {"n": "Hindistan", "e": "🕌", "x": 71.7, "y": 37.8, "sub": "Tac Mahal ve Himalayalar", "intro": "Hindistan’dayız! Dünyanın en kalabalık ülkelerinden biri.", "c": [["📍", "Konumu", "Güney Asya’da, Hindistan Yarımadası üzerindedir."], ["🏙️", "Bilgi kartı", "Başkenti Yeni Delhi, resmî dilleri Hintçe ve İngilizce, para birimi Hindistan rupisidir. Nüfusu yaklaşık 1 milyar 440 milyondur."], ["🕌", "Tac Mahal", "Dünyaca ünlü anıt mezar niteliğinde mimari harika."], ["🏔️", "Doğa", "Kutsal kabul edilen Ganj Nehri ve dünyanın en yüksek sıradağları Himalayalar."], ["🌶️", "Kültür", "Zengin baharat kültürü ve gelişen yazılım/teknoloji sektörü."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Başkent", "Yeni Delhi"], ["Tac Mahal", "Anıt mezar niteliğinde mimari harika"], ["Ganj Nehri", "Kutsal kabul edilen nehir"], ["Himalayalar", "Dünyanın en yüksek sıradağları"]]}, {"k": "pick", "rounds": [{"q": "Hindistan’ın resmî dilleri hangileridir?", "o": ["Hintçe ve İngilizce", "Arapça ve Farsça", "İspanyolca", "Almanca"], "a": 0, "w": "Resmî diller Hintçe ve İngilizcedir.", "h": "İki dil var."}]}], "r": ["Baharat Yolcusu", "Hindistan; Tac Mahal ve Himalayalarla tanınır."]}, {"n": "Meksika", "e": "🌮", "x": 21.7, "y": 37.2, "sub": "Maya mirası", "intro": "Okyanusu aşıp Kuzey Amerika’ya geldik!", "c": [["📍", "Konumu", "Kuzey Amerika’nın güneyindedir; başkenti Meksiko’dur."], ["🔺", "Chichen Itza", "Maya uygarlığından kalan ünlü piramit."], ["🌶️", "Mutfak", "Acılı, baharatlı yemekler; mısır ve fasulye ağırlıklı mutfak."], ["👒", "Sombrero", "Geleneksel geniş kenarlı şapkadır."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Başkent", "Meksiko"], ["Chichen Itza", "Maya uygarlığından kalan piramit"], ["Sombrero", "Geniş kenarlı geleneksel şapka"], ["Mutfak", "Mısır ve fasulye ağırlıklı, acılı"]]}, {"k": "pick", "rounds": [{"q": "Meksika hangi kıtadadır?", "o": ["Kuzey Amerika", "Güney Amerika", "Avrupa", "Asya"], "a": 0, "w": "Meksika, Kuzey Amerika’nın güneyindedir.", "h": "Amerika’nın hangi yarısı?"}]}], "r": ["Maya Kâşifi", "Meksika; Maya piramitleri ve baharatlı mutfağıyla ünlüdür."]}, {"n": "Peru", "e": "🦙", "x": 29.2, "y": 55.6, "sub": "And Dağları ve Amazon", "intro": "Güney Amerika’nın batısındayız, Peru’dayız!", "c": [["📍", "Konumu", "Güney Amerika’nın batısındadır; Türkiye’ye göre güneybatı yönündedir."], ["🏙️", "Bilgi kartı", "Başkenti Lima, resmî dili İspanyolcadır."], ["⛰️", "Doğa", "And Dağları ve dünyanın en uzun nehirlerinden Amazon."], ["⛏️", "Madenler", "Zengin altın ve bakır madenleri."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Başkent", "Lima"], ["Resmî dil", "İspanyolca"], ["And Dağları", "Peru’nun dağları"], ["Amazon", "Dünyanın en uzun nehirlerinden"]]}, {"k": "pick", "rounds": [{"q": "Peru, Türkiye’ye göre hangi yöndedir?", "o": ["Güneybatı", "Kuzeydoğu", "Doğu", "Kuzey"], "a": 0, "w": "Peru, Türkiye’nin güneybatısında kalır.", "h": "Batıya ve güneye git."}]}], "r": ["And Gezgini", "Peru; And Dağları ve Amazon ile tanınır."]}, {"n": "Polonya", "e": "🥟", "x": 55.8, "y": 18.9, "sub": "Orta Avrupa", "intro": "Avrupa’ya döndük! Polonya Türkiye’nin kuzeybatısında.", "c": [["📍", "Konumu", "Orta Avrupa’dadır; Türkiye’nin kuzeybatısındadır."], ["🏙️", "Başkent", "Varşova."], ["🥟", "Pierogi", "Lahana, patates veya etle yapılan geleneksel mantı."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Başkent", "Varşova"], ["Pierogi", "Geleneksel mantı yemeği"], ["Konumu", "Orta Avrupa"], ["Türkiye’ye göre yönü", "Kuzeybatı"]]}, {"k": "pick", "rounds": [{"q": "Pierogi nedir?", "o": ["Geleneksel Polonya mantısı", "Bir dans", "Bir nehir", "Bir şapka"], "a": 0, "w": "Pierogi; lahana, patates veya etle yapılan mantıdır.", "h": "Yemek mi, dans mı?"}]}], "r": ["Avrupa Gezgini", "Polonya mutfağı pierogi ile ünlüdür."]}, {"n": "Avustralya", "e": "🦘", "x": 87.2, "y": 63.9, "sub": "Ada kıtası", "intro": "Dünyanın öbür ucunda, kanguruların ülkesindeyiz!", "c": [["🌏", "Konumu", "Kendi adını taşıyan kıtadaki ada devletidir; kara sınırı yoktur. Türkiye’ye göre güneydoğudadır."], ["🏙️", "Şehirleri", "Başkenti Canberra; en bilinen büyük kenti Sidney’dir."], ["🦘", "Hayvanları", "Kanguru, koala gibi kıtaya özgü hayvanlar."], ["📏", "Büyüklüğü", "Yüz ölçümü bakımından dünyanın en büyük 7. ülkesidir."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Başkent", "Canberra"], ["En bilinen büyük kent", "Sidney"], ["Kanguru ve koala", "Kıtaya özgü hayvanlar"], ["Kara sınırı", "Yoktur"]]}, {"k": "pick", "rounds": [{"q": "Avustralya’nın başkenti hangisidir?", "o": ["Canberra", "Sidney", "Perth", "Meksiko"], "a": 0, "w": "Başkent Canberra’dır; Sidney en bilinen büyük kenttir.", "h": "Sidney en ünlüsü ama başkent değil."}]}], "r": ["Okyanusya Gezgini", "Avustralya hem ülke hem kıta adıdır."]}, {"n": "Komşularımız", "e": "🇹🇷", "x": 59.4, "y": 28.9, "sub": "Türkiye ve 8 komşu", "intro": "Eve döndük! Türkiye’nin kara sınırı olan komşularını tanıyalım.", "c": [["🌉", "Köprü ülke", "Türkiye Asya ve Avrupa’yı birbirine bağlar. Asya’daki topraklarına Anadolu, Avrupa’dakilere Trakya denir."], ["⬅️", "Batı", "Bulgaristan (Sofya) ve Yunanistan (Atina)."], ["➡️", "Doğu", "İran (Tahran), Nahçıvan (Azerbaycan’a bağlı), Ermenistan (Erivan), Gürcistan (Tiflis, kuzeydoğu)."], ["⬇️", "Güney", "Suriye (Şam) ve Irak (Bağdat)."], ["📏", "Sınırlar", "En uzun kara sınırı Suriye ile, en kısa kara sınırı Nahçıvan ile."]], "t": [{"k": "sort", "q": "Komşuyu yönüne göre sepete koy.", "bins": [["Batı komşusu", "⬅️"], ["Doğu komşusu", "➡️"], ["Güney komşusu", "⬇️"]], "items": [["Bulgaristan", 0], ["Yunanistan", 0], ["İran", 1], ["Ermenistan", 1], ["Suriye", 2], ["Irak", 2]]}, {"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Anadolu", "Asya’daki topraklarımız"], ["Trakya", "Avrupa’daki topraklarımız"], ["Suriye", "En uzun kara sınırı"], ["Nahçıvan", "En kısa kara sınırı"]]}], "r": ["Komşu Dostu", "Komşularımızla ilişkilerimiz barış ve saygıya dayanır."]}, {"n": "Kardeş Ülkeler", "e": "🤝", "x": 68.3, "y": 23.9, "sub": "Türk Cumhuriyetleri", "intro": "Orta Asya’ya geldik. Ortak dil, tarih ve kültürümüz olan kardeşlerimiz burada!", "c": [["🇦🇿", "Azerbaycan", "Başkenti Bakü. “Bir millet, iki devlet” anlayışıyla en yakın ilişkideyiz. Petrol ve doğal gaz boru hatlarıyla Türkiye üzerinden dünyaya akar."], ["🏝️", "KKTC", "Akdeniz’de, başkenti Lefkoşa. Resmî dili Türkçe, para birimi Türk lirası."], ["⛏️", "Kazakistan", "Başkenti Astana. Yüz ölçümü en büyük Türk devletidir; yer altı madenleri zengindir."], ["🕌", "Özbekistan ve Kırgızistan", "Özbekistan’ın başkenti Taşkent, tarihî İpek Yolu merkezlerine ev sahipliği yapar. Kırgızistan’ın başkenti Bişkek, Tanrı Dağları eteğindedir."], ["🔥", "Türkmenistan", "Başkenti Aşkabat. Dünyanın dördüncü büyük doğal gaz üreticisidir."]], "t": [{"k": "match", "q": "Ülkeyi başkentiyle eşleştir.", "pairs": [["Azerbaycan", "Bakü"], ["Kazakistan", "Astana"], ["Özbekistan", "Taşkent"], ["Kırgızistan", "Bişkek"]]}, {"k": "pick", "rounds": [{"q": "“Bir millet, iki devlet” anlayışıyla en yakın olduğumuz ülke hangisidir?", "o": ["Azerbaycan", "Polonya", "Peru", "Meksika"], "a": 0, "w": "Azerbaycan ile ortak dil, tarih ve kültür bağımız vardır.", "h": "Kardeş ülke."}]}], "r": ["Kardeşlik Elçisi", "Türk Cumhuriyetleri ortak dil, tarih ve kültür bağıyla kardeştir."]}, {"n": "Kültür Durağı", "e": "👘", "x": 88.1, "y": 29.4, "sub": "Giysi, yemek ve oyunlar", "intro": "Uzak Doğu’dayız! Giysiler, yemekler ve oyunlar kültürleri anlatır.", "c": [["👘", "Geleneksel giysiler", "Güney Kore: Hanbok. Japonya: Kimono. Almanya: Lederhosen ve Dirndl. Suudi Arabistan: serin tutan beyaz giysiler."], ["🍣", "Yemek kültürü", "İtalya: makarna ve pizza. Kore: kimbap ve kimçi. İran: abgoosht. Meksika: acılı mısır tortillası. Türkiye: sarma, kebap, mantı, baklava."], ["🎎", "Dünya oyunları", "Japonya: Kagome Kagome. Avrupa: Kasnak Oyunu ve Bayrağı Yakala."], ["🤸", "Ortak oyunlar", "Saklambaç, seksek, ip atlama ve bilye oyunları neredeyse her yerde oynanır."]], "t": [{"k": "sort", "q": "Kültür ögesini sepete koy.", "bins": [["Giysi", "👘"], ["Yemek", "🍱"], ["Oyun", "🎎"]], "items": [["Hanbok", 0], ["Kimono", 0], ["Kimbap", 1], ["Abgoosht", 1], ["Kagome Kagome", 2], ["Kasnak oyunu", 2]]}, {"k": "pick", "rounds": [{"q": "Kagome Kagome hangi ülkenin çocuk oyunudur?", "o": ["Japonya", "Mısır", "Peru", "Polonya"], "a": 0, "w": "Kagome Kagome, ebenin arkasındaki çocuğu tahmin ettiği Japon oyunudur.", "h": "Kimono ile aynı ülke."}]}], "r": ["Kültür Gezgini", "Her kültürün giysisi, yemeği ve oyunu kendine özgüdür."]}, {"n": "Dünya Çocukları", "e": "🌈", "x": 56.9, "y": 66.1, "sub": "Gökkuşağı Ulusu", "intro": "Güney Afrika’dayız! Dünyanın farklı yerlerinden çocuklarla tanışalım.", "c": [["🌈", "Sinua: Güney Afrika", "Farklı toplulukların barış içinde yaşadığı için ülkelerine “Gökkuşağı Ulusu” denir. Geleneksel dans ve çömlekçilik yaygındır."], ["🖌️", "Cobia: Çin", "Çok köklü bir uygarlık. Festivaller, kaligrafi, geleneksel çalgılar ve zengin yemek kültürü."], ["🎭", "Jean: İtalya", "Mimari, moda, opera, heykel ve sinemasıyla tanınır."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Güney Afrika", "Gökkuşağı Ulusu"], ["Çin", "Kaligrafi ve geleneksel çalgılar"], ["İtalya", "Mimari, moda ve opera"], ["Saklambaç", "Dünyada ortak oynanan oyun"]]}, {"k": "pick", "rounds": [{"q": "Güney Afrika’ya neden “Gökkuşağı Ulusu” denir?", "o": ["Farklı topluluklar barış içinde yaşadığı için", "Çok yağmur yağdığı için", "Çok göl olduğu için", "Nüfusu az olduğu için"], "a": 0, "w": "Farklı toplulukların bir arada barış içinde yaşaması bu adı kazandırmıştır.", "h": "Renkler = topluluklar."}]}], "r": ["Dünya Çocuğu", "Farklı ülkelerin çocukları farklı kültürlerden gelir ama hepsi dünya ailesindendir."]}, {"n": "Saygı Köprüsü", "e": "🕊️", "x": 54.4, "y": 27.2, "sub": "Saygı esastır", "intro": "Son durak! Farklılıklara saygının neden önemli olduğunu öğrenelim.", "c": [["💎", "Zenginlik", "Farklı kültürlerin varlığı tehdit değil, zenginliktir."], ["🌐", "Küreselleşme", "Ulaşım ve iletişim sayesinde toplumların yakınlaşması, bilgi ve kültürün hızla yayılmasıdır."], ["🧢", "Keloğlan", "Kazakistan’da Taşza Bala, Azerbaycan’da Keçel Memed, Türkmenistan’da Kelcebatır, İran’da Çeçel adıyla yaşar."], ["📜", "Bosna Ahitnamesi", "Fatih Sultan Mehmet, 1463’te Bosna’da Hristiyan halka can, mal ve ibadet özgürlüğü tanıdı."]], "t": [{"k": "match", "q": "Keloğlan’ı ülkesiyle eşleştir.", "pairs": [["Kazakistan", "Taşza Bala"], ["Azerbaycan", "Keçel Memed"], ["Türkmenistan", "Kelcebatır"], ["İran", "Çeçel"]]}, {"k": "pick", "rounds": [{"q": "Bosna Ahitnamesi neyin tarihî kanıtıdır?", "o": ["Türk milletinin farklı inanç ve kültürlere saygısının", "Bir ticaret anlaşmasının", "Bir sınır antlaşmasının", "Bir vergi düzeninin"], "a": 0, "w": "Ahitname, farklı inançlara can, mal ve ibadet özgürlüğü tanımıştır.", "h": "1463, Fatih."}]}], "r": ["Dünya Vatandaşı", "Farklılıklara saygı duyan herkes dünya ailesinin değerli üyesidir."]}];
+const G={title:"Pasaportlu Gezginler",story:"Pasaportun hazır! Kıtalar Limanı’ndan yola çıkıp Mısır’dan Peru’ya, Avustralya’dan Türkiye’nin komşularına kadar dünyayı geziyorsun. Her durakta ülkeyi tanı, görevi çöz, pasaportuna damga topla.",end:["Dünya turunu tamamladın!", "Ülkeleri, komşularımızı, kardeş ülkeleri ve farklı kültürleri tanıdın; saygının önemini öğrendin."],map:d=>`<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="gl"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs><rect width="100" height="60" fill="#a9dcf3"/><path d="M10 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M20 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M30 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M40 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M50 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M60 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M70 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M80 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M90 0V60" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M0 10H100" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M0 20H100" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M0 30H100" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M0 40H100" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M0 50H100" stroke="#fff" stroke-opacity=".35" stroke-width=".15" stroke-dasharray=".8 .8"/><path d="M0 30H100" stroke="#fff" stroke-opacity=".7" stroke-width=".25"/><text x="1" y="29.4" font-size="1.3" fill="#fff" font-weight="800" font-family="Nunito,sans-serif" opacity=".9">EKVATOR</text><path d="M3.3 8.0L11.1 6.7L23.6 6.0L27.8 6.7L32.8 10.0L34.7 13.3L31.4 15.3L28.9 18.0L27.5 21.7L23.1 21.3L23.1 23.3L25.8 23.0L26.9 26.7L28.3 27.3L25.0 25.3L20.8 23.3L17.5 19.3L15.6 16.7L15.3 13.7L12.5 10.7L8.3 10.0L4.2 10.0Z" fill="#cfe3a3" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><path d="M28.3 27.3L30.0 26.0L32.8 26.7L36.1 30.0L40.3 32.0L39.2 35.0L36.7 38.7L33.9 42.7L31.7 45.3L30.6 48.0L29.4 46.7L30.0 41.7L30.3 36.0L27.5 31.7L27.8 29.3Z" fill="#bfe0a0" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><path d="M47.2 18.0L47.5 15.7L49.4 14.0L50.6 13.0L52.2 12.0L52.2 10.7L51.4 9.3L54.2 7.0L58.3 6.3L66.7 6.7L72.2 5.7L77.8 4.3L86.1 6.0L94.4 6.7L100.0 7.3L100.0 9.0L95.8 10.0L93.1 12.7L89.4 12.7L88.9 15.0L86.4 16.0L85.3 18.3L83.9 16.7L83.6 19.7L82.8 22.0L80.0 23.0L79.4 26.7L77.8 25.7L78.6 29.7L77.2 27.3L77.2 24.7L75.6 22.7L72.2 25.0L71.4 27.3L70.3 24.3L68.6 21.7L65.8 21.3L64.2 22.0L65.6 24.3L62.2 26.0L61.9 24.7L60.8 22.7L59.7 20.3L59.4 19.7L60.0 18.0L58.3 18.0L57.5 17.7L57.2 16.7L56.4 18.0L55.6 16.7L54.4 17.3L53.3 16.0L52.2 15.3L50.8 15.7L49.4 17.7Z" fill="#e0e6a8" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><path d="M45.3 23.0L47.2 20.0L48.6 18.0L52.8 17.7L55.6 19.3L58.9 19.7L59.7 20.7L61.9 26.0L64.2 26.0L61.1 31.0L61.1 35.0L59.7 38.3L57.5 41.3L55.0 41.3L53.3 35.7L52.5 30.3L52.2 28.7L47.8 28.7L45.3 25.3Z" fill="#f0dca0" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><path d="M81.7 37.3L83.9 36.0L86.1 34.0L88.1 34.0L89.4 33.7L90.6 36.3L92.5 39.0L91.7 42.3L89.2 42.7L87.2 41.0L81.9 41.3Z" fill="#f2cfa0" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><path d="M34.7 10.0L37.5 10.0L44.4 6.7L44.4 2.7L33.3 2.7L30.0 4.7Z" fill="#eef3f8" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><path d="M48.6 13.3L50.6 12.7L49.2 10.7L48.3 11.7Z" fill="#e0e6a8" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><path d="M86.1 19.7L89.4 18.0L90.3 15.3L89.2 15.0L87.5 18.3Z" fill="#e0e6a8" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><path d="M0.0 54.0L22.2 55.0L50.0 53.3L77.8 52.3L100.0 54.0L100.0 60.0L0.0 60.0Z" fill="#f4f8fc" stroke="#8fb06a" stroke-width=".3" stroke-linejoin="round"/><ellipse cx="59.4" cy="17.3" rx="3.3" ry="1.2" fill="#e23b3b" opacity=".45"/><g font-family="Nunito,sans-serif" font-weight="800" fill="#2f6d8a" opacity=".6" font-size="1.7"><text x="30" y="20">ATLAS</text><text x="30" y="21.8">OKYANUSU</text><text x="4" y="22">PASİFİK</text><text x="73" y="40">HİNT OKY.</text></g><text x="50" y="58.3" font-size="2" font-weight="800" fill="#2f6d8a" text-anchor="middle" opacity=".75" font-family="Fredoka,sans-serif">DÜNYA AİLESİ</text>${ST.map((s,i)=>d[i]?`<circle cx="${s.x}" cy="${s.y*.6}" r="5" fill="url(#gl)"/>`:"").join("")}</svg>`};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 4-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>
