@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cihan Yolu | 7. Sınıf Ortak Mirasımız</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#14213d;--panel:#1d2f58;--soft:#263b6b;--line:#3d5a99;--ink:#f6f0e0;--a:#e0a82e;--b:#3fc1a5;--c:#e0584a;--map:#2b7ca8;--onb:#231a00;--onok:#04251d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Alegreya',Georgia,'Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.bin .chip{pointer-events:none}
+</style></head><body>
+<header class="top"><a class="back" href="../index.html">← Kütüphane</a><div class="brand"><span>🏰</span>Cihan Yolu (7. Sınıf)</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk7-oyun-3a";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyXiHI9AyNIRxZ92vaF0_Snv8C-HHELeXgYkrvfixjLCyYsMf6ElGw8AkxmrDDhs3LY/exec";const OYUN="7. Sınıf 3. Öğrenme Alanı Oyunu: Cihan Yolu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Malazgirt", "e": "🏹", "x": 86, "y": 25, "sub": "Anadolu'nun kapıları açılıyor", "intro": "26 Ağustos 1071: Anadolu'nun kaderi değişiyor. Osmanlı'nın doğacağı topraklara giden yol buradan açıldı.", "c": [["⚔️", "Malazgirt Zaferi", "1071'de Anadolu'nun kapıları Türklere açıldı; Anadolu'nun siyasi yapısı değişti."], ["🏴", "Türk beylikleri", "Savaştan sonra Anadolu'nun çeşitli bölgelerinde Türk beylikleri kuruldu."], ["🕌", "Türkleşme ve İslamlaşma", "Bu beylikler Anadolu'nun Türkleşmesine ve İslamlaşmasına katkı sağladı."], ["🌄", "XIII. yüzyıl", "Türkiye Selçuklu Devleti zayıflayınca Anadolu'nun farklı yerlerinde yeni beylikler kuruldu; Osmanlı Beyliği de bunlardan biriydi."]], "t": [{"k": "match", "q": "Kavramı açıklamasıyla eşleştir.", "pairs": [["Malazgirt (1071)", "Anadolu'nun kapılarının Türklere açılması"], ["Türk beylikleri", "Anadolu'nun Türkleşmesine ve İslamlaşmasına katkı"], ["Türkiye Selçuklu'nun zayıflaması", "XIII. yüzyılda yeni beyliklerin kurulması"]]}], "r": ["Anadolu Kapıcısı", "Malazgirt kapıyı açtı, beylikler Anadolu'yu yurt edindi. Osmanlı bu mirasın üzerinde yükselecek."]}, {"n": "Söğüt", "e": "🏕️", "x": 49, "y": 24, "sub": "Osman Bey ve kuruluş", "intro": "Anadolu'nun kuzeybatısında Söğüt çevresinde küçük bir uç beyliği: Osmanlı'nın başlangıcı!", "c": [["📍", "Söğüt", "Osman Bey Dönemi'nde beylik Anadolu'nun kuzeybatısında Söğüt ve çevresinde kuruldu."], ["🗺️", "Konum avantajı", "Doğu Roma sınırındaki konum, fetihlerle büyümeye fırsat verdi; çevredeki bazı kaleler ve yerleşimler alındı."], ["⚔️", "Gaza anlayışı", "Küçük bir sınır beyliği olan Osmanlılar kendilerini gazaya adamıştı; fetihler zamanla devlet politikası oldu."], ["🤝", "Destek", "Türkmenler ve esnaf teşkilatı Ahiler Osmanlı'nın etrafında toplandı."]], "t": [{"k": "pick", "rounds": [{"q": "Osman Bey Dönemi'nde Osmanlı Beyliği nerede kuruldu?", "o": ["Anadolu'nun kuzeybatısında, Söğüt ve çevresinde", "Güneydoğu Anadolu'da", "Orta Asya'da", "Trakya'da"], "a": 0, "w": "Beylik Doğu Roma sınırına yakın Söğüt'te kuruldu.", "h": "Doğu Roma sınırına yakın bir yer."}, {"q": "Osman Bey Dönemi'nde Osmanlı Beyliği nasıl büyümeye başladı?", "o": ["Doğu Roma sınırındaki fetihlerle", "Başkenti Edirne'ye taşıyarak", "Mısır'ı alarak", "Denizlerde savaşarak"], "a": 0, "w": "Çevredeki bazı kale ve yerleşimler Osmanlı hâkimiyetine girdi.", "h": "Sınır boyunda ilerlediler."}]}], "r": ["Uç Beyi", "Küçük bir uç beyliği, doğru konum ve gaza ruhuyla büyümeye başladı."]}, {"n": "Bursa", "e": "🏛️", "x": 38, "y": 27, "sub": "Orhan Bey ve ilk başkent", "intro": "Orhan Bey Bursa'nın kapılarında. Marmara'ya ve Rumeli'ye giden yolun ilk adımı burada atılıyor.", "c": [["🏰", "Bursa başkent", "Bursa fethedilince başkent oldu."], ["🌊", "Marmara'ya ulaştı", "İznik ve İzmit alınınca Osmanlı toprakları Marmara Denizi'ne kadar genişledi."], ["⛵", "Denizcilik", "Karesioğulları Beyliği Osmanlı'ya katılınca denizcilik faaliyetleri başladı."], ["🌍", "Rumeli", "Rumeli'ye geçilerek Avrupa'daki ilk fetihler yapıldı; teşkilatlanmayla devlet güçlendi."]], "t": [{"k": "order", "q": "Orhan Bey Dönemi'ndeki gelişmeleri sıraya diz.", "steps": ["Bursa'nın fethi ve başkent olması", "İznik ve İzmit'in alınması", "Karesioğulları Beyliği'nin katılması", "Rumeli'ye geçilmesi"]}], "r": ["Marmara Kaptanı", "Bursa'dan Marmara'ya, oradan Rumeli'ye: Osmanlı iki kıtaya uzanmaya başladı."]}, {"n": "Edirne", "e": "🌉", "x": 31, "y": 12, "sub": "I. Murad ve Balkanlar", "intro": "I. Murad ile Osmanlı Balkanlar'ın içlerine ilerliyor. Yeni başkent Edirne!", "c": [["🏙️", "Edirne başkent", "Edirne fethedilince başkent oldu; Rumeli'deki hâkimiyet güçlendi."], ["🌄", "Balkanlar", "Fetihler Balkanlar'da sürdü; sınırlar Avrupa'nın içlerine doğru genişledi."], ["💍", "Anadolu'da birlik", "Anadolu beyliklerinden çeyiz ve satın alma yoluyla topraklar kazanıldı."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Bursa", "Orhan Bey'in başkenti"], ["Edirne", "I. Murad'ın fethettiği, Rumeli'deki başkent"], ["Çeyiz ve satın alma", "Anadolu'da siyasi birliği güçlendiren yollar"]]}, {"k": "pick", "rounds": [{"q": "Osmanlı, Anadolu beyliklerinden toprakları nasıl kazandı?", "o": ["Çeyiz ve satın alma yoluyla", "Yalnızca savaşarak", "Sürgün ederek", "Anlaşmalarla toprak vererek"], "a": 0, "w": "Çeyiz ve satın alma Anadolu'da siyasi birliği güçlendirdi.", "h": "Her toprak savaşla alınmadı."}]}], "r": ["Rumeli Beyi", "Edirne ile Balkanlar'daki hâkimiyet sağlam temele oturdu."]}, {"n": "Balkanlar", "e": "🏘️", "x": 26, "y": 29, "sub": "İskân ve istimalet politikaları", "intro": "Fethetmek yetmez; kalıcı olmak gerekir. Osmanlı Balkanlar'da düzeni nasıl kurdu?", "c": [["⚔️", "Gaza ve cihat", "Planlı ve düzenli fetihler zamanla devlet politikası hâline geldi."], ["🏘️", "İskân", "Anadolu'dan getirilen Türk-Müslüman topluluklar yeni yerlere yerleştirildi; cami, köprü, medrese, han ve yollar yapıldı."], ["🤝", "İstimalet", "Gayrimüslim halkın can, mal ve inanç güvenliği korundu; derviş ve abdallar gönül kazandı."], ["👑", "Merkezî otorite", "Hükümdar ve ona yardım eden kurumlar sayesinde düzen korundu."]], "t": [{"k": "match", "q": "Politikayı özelliğiyle eşleştir.", "pairs": [["İskân", "Türk-Müslüman toplulukları fethedilen yerlere yerleştirme"], ["İstimalet", "Halkın gönlünü kazanma ve haklarına saygı"], ["Gaza ve cihat", "Planlı fetihlerin devlet politikası olması"], ["Merkezî otorite", "Hükümdar ve kurumlarla düzenin korunması"]]}, {"k": "sort", "q": "Uygulamayı politikasıyla eşleştir.", "bins": [["İskân", "🏘️"], ["İstimalet", "🤝"]], "items": [["Cami, köprü, han ve medrese yapmak", 0], ["Konargöçerleri yerleşik hayata geçirmek", 0], ["Anadolu'dan Türk-Müslüman topluluk getirmek", 0], ["Gayrimüslimlerin haklarına saygı göstermek", 1], ["Derviş ve abdallarla gönül kazanmak", 1], ["Can, mal ve inanç güvenliğini korumak", 1]]}], "r": ["Düzen Kurucusu", "Fetih, iskân ve istimalet birlikte yürüyünce geçici bir fetih kalıcı bir yurda dönüştü."]}, {"n": "İstanbul", "e": "🏰", "x": 43, "y": 16, "sub": "Fatih ve 1453", "intro": "II. Mehmed'in en büyük hedefi: İstanbul! Hazırlıklar tamam mı?", "c": [["🎯", "Neden fethedildi?", "Anadolu ile Balkanlar arasında engeldi, İpek Yolu üzerindeydi, Doğu Roma Osmanlı için tehditti."], ["🛠️", "Hazırlıklar", "Rumeli Hisarı yaptırıldı, büyük toplar döküldü, sınır güvenliği antlaşmalarla sağlandı."], ["⛓️", "Doğu Roma önlemi", "Üç kat sur onarıldı, Haliç girişine demir zincir gerildi."], ["⛵", "Gemiler karadan", "Gemiler Galata surları önünden kızaklarla Haliç'e indirildi."], ["🏁", "29 Mayıs 1453", "53 günlük kuşatma sonunda şehir alındı; II. Mehmed Fatih unvanını aldı, İstanbul başkent oldu."]], "t": [{"k": "order", "q": "Kuşatmanın olaylarını sıraya diz.", "steps": ["Osmanlı ordusu surlar önünde mevzilendi", "Haliç'e girme girişimi başarısız oldu", "Gemiler karadan Haliç'e indirildi", "29 Mayıs'ta son büyük hücum yapıldı"]}, {"k": "sort", "q": "Neden mi, sonuç mu?", "bins": [["Fetih nedeni", "🎯"], ["Fetih sonucu", "🏁"]], "items": [["Anadolu-Balkan toprak bütünlüğünün sağlanması", 0], ["İpek Yolu'nun önemi", 0], ["Doğu Roma'nın Türk beyliklerini kışkırtması", 0], ["Doğu Roma'nın yıkılması", 1], ["İstanbul'un başkent olması", 1], ["II. Mehmed'in Fatih unvanını alması", 1]]}, {"k": "pick", "rounds": [{"q": "II. Mehmed İstanbul'a girince halka nasıl davrandı?", "o": ["Can ve hürriyet güvencesi verdi", "Şehri yağmaya açtı", "Halkı şehirden çıkardı", "Hiç açıklama yapmadı"], "a": 0, "w": "Halka can ve hürriyet güvencesi verdi, askerin kötülük yapmasını yasakladı.", "h": "İstimalet anlayışı devam ediyordu."}]}], "r": ["Fatih'in Komutanı", "İstanbul'un fethi Osmanlı'yı cihan devleti yolunda bir adım öne taşıdı."]}, {"n": "Kahire", "e": "🕋", "x": 47, "y": 87, "sub": "Yavuz ve Mısır Seferi", "intro": "Yavuz Sultan Selim doğuya, sonra güneye yöneliyor. Hedef: kutsal topraklar ve Baharat Yolu.", "c": [["⚔️", "Çaldıran 1514", "Safevi Devleti yenildi, doğu sınırı güvence altına alındı."], ["🏜️", "Turnadağ 1515", "Dulkadiroğulları Beyliği Osmanlı'ya katılan son Anadolu beyliği oldu."], ["🗡️", "Mercidabık ve Mısır", "Memlükler yenildi; Yavuz Kahire'ye girdi (1516-1517)."], ["🌿", "Sonuçlar", "Mekke ve Medine alındı, padişahlar halife unvanını taşıdı, kutsal emanetler İstanbul'a getirildi, Baharat Yolu denetime geçti."]], "t": [{"k": "order", "q": "Yavuz Sultan Selim'in seferlerini sıraya diz.", "steps": ["Çaldıran Savaşı (1514)", "Turnadağ Savaşı (1515)", "Mercidabık Savaşı (1516)", "Kahire'ye giriş (1517)"]}, {"k": "match", "q": "Sonucu açıklamasıyla eşleştir.", "pairs": [["Mekke ve Medine", "Osmanlı topraklarına katıldı"], ["Baharat Yolu", "Osmanlı denetimine geçti"], ["Halife unvanı", "Osmanlı padişahları taşımaya başladı"], ["Kutsal emanetler", "İstanbul'a getirilip Topkapı Sarayı'nda korundu"]]}], "r": ["Mısır Fatihi", "Güney sınırı güvenceye alındı; Osmanlı İslam dünyasının en güçlü devleti oldu."]}, {"n": "Preveze", "e": "⚓", "x": 12, "y": 26, "sub": "Kanuni ve Barbaros", "intro": "Kanuni Dönemi: Osmanlı denizlere açılıyor. Karşısında koca bir Haçlı donanması!", "c": [["👑", "Kanuni Dönemi", "I. Süleyman Dönemi, Osmanlı'nın en parlak ve güçlü dönemi olarak bilinir."], ["⛵", "Barbaros", "Barbaros Hayreddin Paşa 1534'te kaptanıderya oldu; Ege ve Akdeniz'deki başarılarıyla ün yaptı."], ["🛡️", "Haçlı donanması", "İspanya, Portekiz, Venedik ve Papalık birleşti; komutan Andrea Doria idi."], ["🌙", "Hilal düzeni", "Barbaros donanmayı hilal şeklinde dizdi; hızlı kadırgalar ve uzun menzilli toplar büyük Haçlı gemilerine üstün geldi."], ["🏆", "27 Eylül 1538", "Preveze Deniz Zaferi: Osmanlı Akdeniz'de üstünlük kurdu."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["Barbaros Hayreddin Paşa", "Osmanlı donanmasının komutanı"], ["Andrea Doria", "Haçlı donanmasının komutanı"], ["Hilal düzeni", "Osmanlı donanmasının savaş dizilişi"], ["Preveze (1538)", "Akdeniz'de üstünlüğü getiren zafer"]]}, {"k": "pick", "rounds": [{"q": "Osmanlı'nın denizlerde güçlü olmasının amacı nedir?", "o": ["Fetihleri kalıcı kılmak ve ticaret yollarını güvenceye almak", "Yalnızca gösteriş yapmak", "Anadolu'yu terk etmek", "Vergi azaltmak"], "a": 0, "w": "Donanma fetihlerin kalıcılığı ve ticaret yolları için gerekliydi.", "h": "Denizler ticaretin yoluydu."}]}], "r": ["Akdeniz Kaptanı", "Hilal düzeni ve hızlı kadırgalar, Haçlı donanmasına karşı Akdeniz'in kapısını açtı."]}, {"n": "Cihan Devleti", "e": "🌍", "x": 24, "y": 70, "sub": "Üç kıtada Osmanlı", "intro": "XVI. yüzyıl: Üç kıtada hükmeden Osmanlı artık bir cihan devleti! Peki ne demek bu?", "c": [["🌍", "Üç kıta", "Osmanlı Avrupa, Asya ve Afrika'da geniş bir coğrafyaya hâkim oldu."], ["💡", "Cihan devleti", "Dünya çapında büyük güce ve etkiye sahip devlettir."], ["🕰️", "Türk cihan mefkûresi", "İslamiyet'ten önce amaç adalet ve düzen sağlamaktı; sonra İslam'ı yayma düşüncesi de eklendi. Osmanlı bu anlayışı sürdürdü."], ["⚖️", "Sadece fetih değil", "Fetihlerin yanında Anadolu'da Türk siyasi birliğine verilen önem de büyümeye katkı yaptı."]], "t": [{"k": "order", "q": "Osmanlı hükümdarlarını sırasıyla diz.", "steps": ["Osman Bey", "Orhan Bey", "I. Murad", "II. Mehmed (Fatih)", "Yavuz Sultan Selim", "Kanuni Sultan Süleyman"]}, {"k": "order", "q": "Başkentleri sırasıyla diz.", "steps": ["Bursa", "Edirne", "İstanbul"]}, {"k": "pick", "rounds": [{"q": "Cihan devleti ne demektir?", "o": ["Dünya çapında büyük güce ve etkiye sahip devlet", "Yalnızca denizlerde güçlü devlet", "Yalnızca başkenti büyük olan devlet", "Hiç savaşmayan devlet"], "a": 0, "w": "Cihan devleti dünya çapında güç ve etkiye sahip devlettir.", "h": "'Cihan' dünya demektir."}]}], "r": ["Cihan Veziri", "Küçük bir uç beyliği yaklaşık üç yüzyılda üç kıtaya uzanan bir cihan devletine dönüştü."]}];
+const G={title:"Cihan Yolu: Söğüt'ten Üç Kıtaya",story:"Küçük bir uç beyliğinin başındasın! Her durakta Osmanlı'nın yükselişinin bir adımını keşfedecek, kartları açıp görevleri tamamlayarak haritada Osmanlı topraklarını genişleteceksin.",end:["Osmanlı cihan devleti oldu!","Söğüt'ten Kahire'ye, Edirne'den Preveze'ye uzanan yükseliş yolculuğunu tamamladın. Şimdi bu devletin nasıl yönetildiğini ve değişen dünyaya nasıl uyum sağladığını Cihan Divanı'nda keşfet."],next:["Cihan Divanı oyununa geç ➜","7sinif-cihan-divani.html"],map:d=>{const OV={1:"M41.3 14.4L49.3 14.4L49.3 8.8L41.3 8.8Z",2:"M30.7 16.0L49.3 16.0L49.3 6.8L30.7 6.8Z",3:"M16.7 12.0L38.3 12.0L38.3 0.0L16.7 0.0Z",4:"M8.3 26.0L36.7 26.0L53.3 18.0L53.3 0.0L8.3 0.0Z",5:"M53.3 27.2L70.0 27.2L70.0 4.0L53.3 4.0Z",6:"M53.3 24.8L96.7 24.8L96.7 6.0L53.3 6.0ZM60.0 48.0L83.3 48.0L83.3 24.8L61.7 24.8ZM26.7 60.0L58.0 60.0L58.0 46.4L26.7 47.2Z",8:"M83.3 52.0L100.0 52.0L100.0 24.8L83.3 24.8ZM0.0 60.0L26.7 60.0L26.7 46.4L0.0 46.4Z"};const P=[[86, 15.0], [49, 14.4], [38, 16.2], [31, 7.2], [26, 17.4], [43, 9.6], [47, 52.2], [12, 15.6], [24, 42.0]],NM=["Malazgirt", "Söğüt", "Bursa", "Edirne", "Balkanlar", "İstanbul", "Kahire", "Preveze", "Cihan Devleti"],LB=[[0, 7.6, "middle"], [0, 7.6, "middle"], [0, 7.6, "middle"], [0, 7.4, "middle"], [0, 7.6, "middle"], [5.5, 1.2, "start"], [0, -6.2, "middle"], [0, 7.6, "middle"], [0, 7.6, "middle"]];
+const ov=Object.keys(OV).filter(k=>d[k]).map(k=>`<path d="${OV[k]}"/>`).join('');
+const seg=P.slice(0,-1).map((a,k)=>{const b=P[k+1],on=!!d[k],c=on?'#ffd37a':'#fff',mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,ag=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
+return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#0b1a33" stroke-opacity=".5" stroke-width="1.5" stroke-linecap="round"/><line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${c}" stroke-opacity="${on?1:.8}" stroke-width=".7" stroke-linecap="round"${on?'':' stroke-dasharray="1.4 1.4"'}/><path d="M-1.5 -1.3L1.5 0L-1.5 1.3Z" transform="translate(${mx} ${my}) rotate(${ag})" fill="${c}" stroke="#0b1a33" stroke-width=".35" stroke-linejoin="round"/>`}).join('');
+const lab=P.map((p,i)=>`<circle cx="${+(p[0]+5).toFixed(1)}" cy="${+(p[1]-5).toFixed(1)}" r="1.8" fill="${d[i]?'#ffd37a':'#0b1a33'}" stroke="#fff" stroke-width=".35"/><text x="${+(p[0]+5).toFixed(1)}" y="${+(p[1]-4.2).toFixed(1)}" font-size="2.1" font-weight="800" text-anchor="middle" fill="${d[i]?'#0b1a33':'#fff'}">${i+1}</text>`).join('');
+return `<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="bl" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation=".7"/></filter></defs><rect width="100" height="60" fill="#2b7ca8"/><rect width="100" height="60" fill="#e3d09b"/><path d="M33 6Q45 4 60 12Q75 12 90 14L100 20V34L82 38Q60 30 42 18Q36 12 33 6Z" fill="#c6d58e" fill-opacity=".8"/><path d="M60 14Q75 20 90 16" fill="none" stroke="#a98a52" stroke-width="1.4" stroke-linecap="round" stroke-opacity=".5"/><g fill="#e0584a" fill-opacity=".5" filter="url(#bl)">${ov}</g><g fill="#2b7ca8" stroke="#7fc0e0" stroke-width=".4"><path d="M0.0 0.0L0.0 48.0L26.7 46.4L43.0 47.2L51.0 46.8L58.0 46.0L60.0 40.8L61.7 36.4L62.7 30.0L64.0 25.6L58.7 24.8L45.7 24.4L40.0 25.6L34.7 24.0L33.3 18.4L30.7 13.6L30.7 10.4L27.3 8.4L21.0 10.0L23.0 19.2L19.7 26.0L14.7 24.0L13.3 18.0L11.7 13.6L8.3 9.6L8.0 4.0L3.3 2.0Z"/><path d="M39.7 7.6L49.3 6.0L55.0 4.0L60.7 3.6L64.3 6.8L71.7 8.2L75.7 8.0L82.0 5.6L82.0 0.0L36.7 0.0L36.7 4.4Z"/><path d="M30.7 10.4L35.0 10.8L40.3 10.4L40.3 8.0L36.7 8.0L33.3 9.2Z"/><path d="M52.0 51.6L56.3 60.0L51.7 60.0L51.3 55.2Z"/></g><path d="M47 52V46M47 46Q45 42 40 42M47 46Q50 42 54 42" fill="none" stroke="#2b7ca8" stroke-width=".7"/>${seg}${lab}</svg>`}};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 7-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>
