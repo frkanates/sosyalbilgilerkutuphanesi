@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demokrasi Yolu | 7. Sınıf Yaşayan Demokrasimiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>:root{--bg:#0e2f3a;--panel:#16424f;--soft:#1f5463;--line:#38788a;--ink:#f6f0e0;--a:#e0a82e;--b:#3fc1a5;--c:#e0584a;--map:#2a7f8f;--onb:#231a00;--onok:#04251d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+h1,h2,h3,h4,.brand{font-family:'Alegreya',Georgia,'Nunito',sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:5}
+.back{color:var(--ink);text-decoration:none;font-weight:800;font-size:.9rem;white-space:nowrap}
+.brand{font-weight:600;font-size:1.15rem;display:flex;gap:8px;align-items:center;min-width:0}
+.hud{display:flex;gap:10px;align-items:center;font-weight:800;white-space:nowrap}
+.bar{width:90px;height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .5s}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.hero h1{margin:6px 0 0;font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.1}
+.hero p{max-width:62ch;margin:8px 0 14px}
+.mapbox{position:relative;aspect-ratio:5/3;border-radius:24px;overflow:hidden;background:var(--map);border:4px solid var(--line);box-shadow:0 8px 0 var(--line)}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:var(--a);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.28);transition:transform .2s;padding:0}
+.pin span{font-size:23px;line-height:1}
+.pin:hover{transform:translate(-50%,-50%) scale(1.12)}
+.pin.done{background:var(--b)}
+.pin.done::before{content:'';position:absolute;inset:-9px;border-radius:50%;border:3px dotted #fff;animation:spin 9s linear infinite}
+.pin.next{animation:pulse 1.7s infinite}
+.pin small{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;white-space:nowrap;font-weight:800;font-size:12px;background:var(--panel);color:var(--ink);padding:1px 9px;border-radius:10px;border:2px solid var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 4px 0 rgba(0,0,0,.28),0 0 0 12px rgba(255,255,255,.4)}}
+@media(max-width:620px){.pin{width:38px;height:38px}.pin span{font-size:18px}.pin small{display:none}.bar{width:60px}.back{display:none}}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.lg{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border-radius:16px;background:var(--panel);border:2px solid var(--line)}
+.lg .e{font-size:26px}.lg small{display:block;opacity:.75}.lg .stars{margin-left:auto;color:var(--c)}.lg.done{border-color:var(--b)}
+.finale{margin:20px 0;padding:22px;border-radius:24px;background:var(--panel);border:3px solid var(--b);text-align:center}
+.finale h2{margin:0 0 6px;font-size:1.7rem}
+.modal{position:fixed;inset:0;background:rgba(5,10,25,.62);display:grid;place-items:end center;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 18px 28px;animation:up .3s}
+@media(min-width:780px){.modal{place-items:center;padding:20px}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.head{display:flex;gap:12px;align-items:center}.head .e{font-size:40px}.head h2{margin:0;font-size:1.5rem;line-height:1.1}.head small{opacity:.75}
+.x{margin-left:auto;background:none;border:0;font-size:1.4rem;padding:6px}
+.lead{font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.card{background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;min-height:100px}
+.card .e{font-size:30px;display:block}.card b{display:block}
+.card p{display:none;margin:6px 0 0;font-size:.93rem}
+.card.on p{display:block}.card.on{border-color:var(--b);background:var(--panel)}
+.card:not(.on)::after{content:'Dokun ve öğren';display:block;font-size:.8rem;opacity:.65;margin-top:4px}
+.btn{background:var(--a);color:var(--onb,#fff);border:0;border-radius:14px;padding:11px 22px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.q{font-weight:800;font-size:1.08rem;margin:10px 0}
+.tip,.step{opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:8px 13px;border-radius:12px;border:2px solid var(--line);background:var(--soft);font-weight:700;text-align:left}
+.chip.sel{background:var(--a);border-color:var(--a);color:var(--onb,#fff)}
+.chip.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bin{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:110px;background:var(--soft)}
+.bin h4{margin:0 0 8px;font-size:1rem}.bin .chip{display:block;margin-bottom:6px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.col{display:flex;flex-direction:column;gap:8px}
+.seq{padding-left:1.4em}.seq li{margin:4px 0;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);font-weight:700}
+.opt.ok{background:var(--b);border-color:var(--b);color:var(--onok,#fff)}.opt.no{opacity:.45;text-decoration:line-through}
+.why{font-weight:700}.hint{min-height:1.6em;font-weight:800;color:var(--a);margin-top:8px}
+.reward{text-align:center;padding:14px 0}.reward h3{font-size:1.5rem;margin:6px 0}.stars{letter-spacing:3px;font-size:1.5rem;color:var(--c)}
+.form{display:grid;gap:10px;margin-top:12px}.form input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);font:inherit}
+.fin-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}.fin-actions .btn{text-decoration:none;display:inline-block;margin-top:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.bin .chip{pointer-events:none}
+</style></head><body>
+<header class="top"><a class="back" href="../index.html">← Kütüphane</a><div class="brand"><span>🗳️</span>Demokrasi Yolu (7. Sınıf)</div><div class="hud"><span id="xp"></span><div class="bar"><i id="bar"></i></div></div></header>
+<main id="stage"></main>
+<div class="modal" id="M" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+const KEY="sbk7-oyun-4b";const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyXiHI9AyNIRxZ92vaF0_Snv8C-HHELeXgYkrvfixjLCyYsMf6ElGw8AkxmrDDhs3LY/exec";const OYUN="7. Sınıf 4. Öğrenme Alanı Oyunu: Demokrasi Yolu";const LINK_KOD=(function(){const p=new URLSearchParams(location.search);let k=(p.get('kod')||'').trim();if(!k){for(const x of p.keys()){if(x!=='kod'){k=x.trim();break}}}return k})();
+const ST=[{"n": "Dünyada Demokrasi", "e": "🌍", "x": 12, "y": 26, "sub": "Atina'dan 1948'e", "intro": "Demokrasi bir günde doğmadı! Yolculuğumuz dünyadaki ilk adımlarla başlıyor.", "c": [["🏛️", "Antik Atina (MÖ 6. yy)", "Yurttaşlar meydanlarda toplanıp oy kullandı; doğrudan demokrasinin ilk örneği."], ["📜", "On İki Levha (MÖ 5. yy)", "Roma'da yazılı hukuk kuralları ve kanun üstünlüğü ilkesi gelişti."], ["🕌", "Veda Hutbesi (632)", "İnsan hakları, can-mal güvenliği, kadın hakları ve ırk-soy üstünlüğünün reddi ilan edildi."], ["👑", "Magna Carta (1215)", "İngiltere'de kralın yetkileri tarihte ilk kez kısıtlandı."], ["🌐", "1776, 1789, 1948", "Amerikan Bağımsızlık Bildirgesi, Fransız Bildirisi ve BM İnsan Hakları Evrensel Bildirgesi hakları yaydı."]], "t": [{"k": "match", "q": "Gelişmeyi açıklamasıyla eşleştir.", "pairs": [["Antik Atina", "Doğrudan demokrasinin ilk örneği"], ["On İki Levha", "Yazılı hukuk ve kanun üstünlüğü"], ["Magna Carta (1215)", "Kralın yetkilerinin ilk kez kısıtlanması"], ["Veda Hutbesi", "İnsan hakları ve eşitliğin ilanı"], ["İHEB (1948)", "İnsan haklarının uluslararası güvenceye kavuşması"]]}, {"k": "order", "q": "Gelişmeleri tarih sırasına diz.", "steps": ["Magna Carta (1215)", "Haklar Bildirisi (1689)", "Amerikan Bağımsızlık Bildirgesi (1776)", "Fransız İnsan ve Yurttaş Hakları Bildirisi (1789)"]}], "r": ["Demokrasi Tarihçisi", "Dünyada demokrasi yüzyıllar içinde adım adım gelişti."]}, {"n": "Osmanlı'da Adımlar", "e": "🕰️", "x": 37, "y": 26, "sub": "1808'den 1908'e", "intro": "Osmanlı'da padişahın yetkileri nasıl sınırlandı? Adımları sırayla keşfet.", "c": [["🤝", "Sened-i İttifak (1808)", "Padişahın yetkileri ilk kez ayanlar karşısında sınırlandırıldı."], ["📜", "Tanzimat Fermanı (1839)", "Padişah, kendi gücünün üstünde kanun gücü olduğunu kabul etti; can, mal ve namus güvencesi geldi."], ["⚖️", "Islahat Fermanı (1856)", "Gayrimüslim tebaaya yönelik eşitlik ve haklar genişletildi."], ["🏛️", "I. Meşrutiyet (1876)", "Kanun-ı Esasi ile ilk anayasa ilan edildi; Meclis-i Mebusan açıldı."], ["🗳️", "II. Meşrutiyet (1908)", "İlk kez siyasi partiler kuruldu, çok partili yaşam tecrübesi başladı."]], "t": [{"k": "order", "q": "Osmanlı'daki adımları sıraya diz.", "steps": ["Sened-i İttifak (1808)", "Tanzimat Fermanı (1839)", "Islahat Fermanı (1856)", "I. Meşrutiyet (1876)", "II. Meşrutiyet (1908)"]}, {"k": "pick", "rounds": [{"q": "Halkın ilk kez kısıtlı da olsa yönetime katıldığı gelişme hangisidir?", "o": ["I. Meşrutiyet ve Meclis-i Mebusan", "Sened-i İttifak", "Islahat Fermanı", "Cumhuriyetin ilanı"], "a": 0, "w": "Kanun-ı Esasi ile Meclis-i Mebusan açıldı.", "h": "İlk anayasa ve ilk meclis."}, {"q": "Hangi gelişmeyle ilk kez siyasi partiler kuruldu?", "o": ["II. Meşrutiyet", "Tanzimat", "Sened-i İttifak", "I. Meşrutiyet"], "a": 0, "w": "II. Meşrutiyet'le çok partili yaşam tecrübesi başladı.", "h": "1908."}]}], "r": ["Meşrutiyet Elçisi", "Osmanlı'da hak, hukuk ve katılım adım adım genişledi."]}, {"n": "Gazi Meclis", "e": "🏛️", "x": 62, "y": 26, "sub": "23 Nisan 1920", "intro": "Anadolu'da bir meclis açılıyor: Türk milletinin temsilcileri bir araya geldi!", "c": [["📅", "23 Nisan 1920", "TBMM açıldı; millî egemenliğin tek temsilcisi oldu."], ["🎖️", "Gazi Meclis", "Millî Mücadele'yi yönetip zafere ulaştırdığı için bu unvanı aldı."], ["📜", "1921 Anayasası", "Egemenlik kayıtsız şartsız milletindir maddesiyle yeni devletin hukukî temeli atıldı."], ["⚙️", "Kuvvetler birliği", "Savaşın olağanüstü şartlarında kararlar hızlı alınsın diye yetkiler Meclis'te toplandı."]], "t": [{"k": "match", "q": "Eşleştirmeyi yap.", "pairs": [["23 Nisan 1920", "TBMM'nin açılışı"], ["Gazi Meclis", "Millî Mücadele'yi yönettiği için verilen unvan"], ["1921 Anayasası", "Egemenlik kayıtsız şartsız milletindir"], ["Kuvvetler birliği", "Yetkilerin tek organda toplanması"]]}, {"k": "pick", "rounds": [{"q": "1921'de kuvvetler birliğinin benimsenmesinin nedeni nedir?", "o": ["Savaş şartlarında kararların hızlı alınması", "Halkın oy kullanmaması", "Padişahı güçlendirmek", "Yargıyı kaldırmak"], "a": 0, "w": "Millî Mücadele'nin olağanüstü şartları bunu gerektirdi.", "h": "Savaş vardı."}]}], "r": ["Meclis Kâtibi", "TBMM hem savaşı yönetti hem de yeni devletin temelini attı."]}, {"n": "Cumhuriyet", "e": "🇹🇷", "x": 87, "y": 26, "sub": "29 Ekim 1923", "intro": "Cumhuriyet ilan ediliyor! Bu kelime tam olarak ne demek?", "c": [["📅", "29 Ekim 1923", "Devletin yönetim şekli cumhuriyet olarak belirlendi."], ["🗣️", "Abdurrahman Şeref Bey", "Egemenlik sınırsız ve koşulsuz ulusundur; bu cumhuriyettir, doğan çocuğun adıdır, dedi."], ["📜", "1924 Anayasası", "Cumhuriyetin hukukî yapısını sağlamlaştırdı; yargı bağımsızlığı ve kanun önünde eşitlik geldi."], ["🔤", "Cumhuriyet nedir?", "Cumhur (halk) kelimesinden türemiştir; egemenlik millete aittir ve seçilmiş temsilcilerle kullanılır."]], "t": [{"k": "pick", "rounds": [{"q": "Cumhuriyet yönetiminin temel özelliği nedir?", "o": ["Egemenliğin millete ait olması", "Yönetimin babadan oğula geçmesi", "Yetkilerin tek kişide toplanması", "Seçimlerin yapılmaması"], "a": 0, "w": "Cumhuriyette egemenlik millete aittir.", "h": "'Cumhur' halk demektir."}, {"q": "Cumhuriyetin ilanı hangi tarihte yapılmıştır?", "o": ["29 Ekim 1923", "23 Nisan 1920", "30 Ağustos 1922", "10 Kasım 1938"], "a": 0, "w": "Cumhuriyet 29 Ekim 1923'te ilan edildi.", "h": "Cumhuriyet Bayramı."}]}, {"k": "match", "q": "Eşleştir.", "pairs": [["29 Ekim 1923", "Cumhuriyetin ilanı"], ["1924 Anayasası", "Yargı bağımsızlığı ve kanun önünde eşitlik"], ["Cumhuriyet", "Egemenliğin millete ait olduğu yönetim"]]}], "r": ["Cumhuriyet Neferi", "Cumhuriyet, egemenliğin kayıtsız şartsız millete ait olması demektir."]}, {"n": "Çok Partili Hayat", "e": "🗳️", "x": 87, "y": 74, "sub": "1923'ten 1946'ya", "intro": "Hükümetin denetlenmesi ve çoğulculuk için muhalefet denemeleri! Peki hangisi neydi?", "c": [["🟥", "Cumhuriyet Halk Fırkası (1923)", "Kurulan ilk siyasi parti."], ["🟦", "Terakkiperver Cumhuriyet Fırkası (1924)", "Kâzım Karabekir başkanlığında kurulan ilk muhalefet partisi."], ["🟩", "Serbest Cumhuriyet Fırkası (1930)", "Ali Fethi Okyar tarafından Atatürk'ün isteğiyle, hükümetin denetlenmesi ve çoğulculuk için kuruldu."], ["📅", "1945-1946", "Dönemin şartları olgunlaşmadığı için bu partiler kapatıldı; kalıcı çok partili hayata Millî Kalkınma Partisi (1945) ve 21 Temmuz 1946 seçimleriyle geçildi."]], "t": [{"k": "match", "q": "Partiyi kurucusuyla eşleştir.", "pairs": [["Terakkiperver Cumhuriyet Fırkası", "Kâzım Karabekir"], ["Serbest Cumhuriyet Fırkası", "Ali Fethi Okyar"], ["Cumhuriyet Halk Fırkası", "Kurulan ilk siyasi parti (1923)"]]}, {"k": "order", "q": "Partileri kuruluş sırasına diz.", "steps": ["Cumhuriyet Halk Fırkası (1923)", "Terakkiperver Cumhuriyet Fırkası (1924)", "Serbest Cumhuriyet Fırkası (1930)", "Millî Kalkınma Partisi (1945)"]}, {"k": "pick", "rounds": [{"q": "Kalıcı çok partili hayata geçiş hangi yılla başlamıştır?", "o": ["1945-1946", "1924", "1930", "1960"], "a": 0, "w": "Millî Kalkınma Partisi (1945) ve 1946 seçimleriyle geçildi.", "h": "İkinci Dünya Savaşı sonrası."}]}], "r": ["Çoğulcu Seçmen", "Çok partili hayat, çoğulculuk ve hükümetin denetlenmesi için şarttır."]}, {"n": "Kadın Hakları", "e": "👩", "x": 62, "y": 74, "sub": "0-3-4 modeli", "intro": "Türk kadını siyasi haklarına birçok Avrupa ülkesinden önce kavuştu. Sırayla bakalım!", "c": [["🏙️", "1930", "Kadınlar belediye seçimlerine katılma hakkı kazandı."], ["🌾", "1933", "Köy muhtarı seçme ve seçilme hakkı verildi."], ["🏛️", "1934", "Milletvekili seçme ve seçilme hakkı verildi."], ["👩‍💼", "1935", "18 kadın milletvekili TBMM'ye girdi."]], "t": [{"k": "order", "q": "Kadınlara tanınan hakları sırala.", "steps": ["Belediye seçimlerine katılma (1930)", "Köy muhtarı seçme ve seçilme (1933)", "Milletvekili seçme ve seçilme (1934)"]}, {"k": "match", "q": "Yılı hakla eşleştir.", "pairs": [["1930", "Belediye seçimleri"], ["1933", "Köy muhtarlığı"], ["1934", "Milletvekilliği"], ["1935", "18 kadın milletvekili Meclis'te"]]}], "r": ["Eşit Yurttaş", "Kadınlara tanınan haklar demokrasinin 'genel oy' ilkesini güçlendirdi."]}, {"n": "Bugünün Cumhuriyeti", "e": "⚖️", "x": 37, "y": 74, "sub": "Nitelikler, üç erk, seçim", "intro": "Bugün devletimiz nasıl yönetiliyor? Üç erk ve seçim ilkelerini keşfet.", "c": [["📜", "Madde 2", "Türkiye Cumhuriyeti demokratik, laik ve sosyal bir hukuk devletidir."], ["🏛️", "Yasama", "TBMM 600 milletvekilinden oluşur; kanun yapar, bütçeyi kabul eder, savaş ilanına karar verir."], ["🧑‍💼", "Yürütme", "Cumhurbaşkanı 5 yıllığına halk tarafından seçilir; bakanları atar, kanunu onaylar veya veto eder."], ["⚖️", "Yargı", "Bağımsız ve tarafsız mahkemeler: Anayasa Mahkemesi, Yargıtay, Danıştay, Uyuşmazlık Mahkemesi."], ["🗳️", "Seçim ilkeleri", "Genel, eşit, gizli, serbest oy; açık sayım ve döküm; tek dereceli seçim."]], "t": [{"k": "sort", "q": "Yetkiyi erkiyle eşleştir.", "bins": [["Yasama", "🏛️"], ["Yürütme", "🧑‍💼"], ["Yargı", "⚖️"]], "items": [["Kanun yapmak", 0], ["Bütçeyi kabul etmek", 0], ["Savaş ilanına karar vermek", 0], ["Bakanları atamak", 1], ["Cumhurbaşkanlığı Kararnamesi çıkarmak", 1], ["Kanunu veto etmek", 1], ["Kanunların Anayasa'ya uygunluğunu denetlemek", 2], ["Bireysel başvuruları incelemek", 2], ["Yerel mahkeme kararlarını son kez incelemek", 2]]}, {"k": "match", "q": "Seçim ilkesini açıklamasıyla eşleştir.", "pairs": [["Genel oy", "18 yaşını dolduran her vatandaş oy kullanır"], ["Eşit oy", "Her seçmenin yalnızca bir oy hakkı vardır"], ["Gizli oy", "Tercih kimse görmeden yapılır"], ["Açık sayım ve döküm", "Oylar herkesin gözü önünde sayılır"]]}], "r": ["Üç Erk Uzmanı", "Yasama, yürütme ve yargı birbirini dengeler; seçimler demokrasinin kalbidir."]}, {"n": "Demokrasiye Sahip Çıkış", "e": "🛡️", "x": 12, "y": 74, "sub": "Sorunlar ve sahip çıkma", "intro": "Demokrasi kendiliğinden korunmaz! Karşılaşılan sorunlar ve sahip çıkış örnekleri.", "c": [["⚠️", "Askerî darbeler", "27 Mayıs 1960 ve 12 Eylül 1980 darbeleriyle demokratik düzen durdu; Meclis feshedildi, anayasa askıya alındı, partiler kapatıldı."], ["🛡️", "15 Temmuz 2016", "Millet sokaklara çıkıp demokrasiye sahip çıktı; 15 Temmuz Demokrasi ve Millî Birlik Günü oldu."], ["🌍", "Dünyada sorunlar", "Darbeler, etnik-dinî ayrımcılık, savaşlarda yaşam hakkı ihlali ve ırk ayrımcılığı (apartheid) örnekleri vardır."], ["🏫", "Günlük hayat", "Sıraya girmemek, engelli park yerine park etmek, farklı düşünceye saygısızlık da antidemokratiktir."]], "t": [{"k": "sort", "q": "Davranışı sınıflandır.", "bins": [["Demokratik", "🗳️"], ["Antidemokratik", "🚫"]], "items": [["Ailede çocuğun da fikrini sormak", 0], ["Sıraya girmek", 0], ["Farklı düşünene saygı göstermek", 0], ["Engelli park yerine park etmek", 1], ["Sırayı 'biz büyüğüz' diyerek gasp etmek", 1], ["Farklı inançtakiyle alay etmek", 1]]}, {"k": "pick", "rounds": [{"q": "15 Temmuz 2016'da millet ne yapmıştır?", "o": ["Sokaklara çıkarak demokrasiye sahip çıkmıştır", "Darbeyi desteklemiştir", "Meclisi feshetmiştir", "Sandığa gitmemiştir"], "a": 0, "w": "Millet canı pahasına demokrasiye ve millî iradeye sahip çıktı.", "h": "Tanklara karşı durdu."}, {"q": "Aşağıdakilerden hangisi demokrasiye zarar verir?", "o": ["Askerî darbeler", "Yüksek seçmen katılımı", "Çoğulculuk", "Hukukun üstünlüğü"], "a": 0, "w": "Darbeler halkın iradesini ve hukuku yok sayar.", "h": "Zor kullanımıyla yönetime el koymak."}]}], "r": ["Demokrasi Nöbetçisi", "Demokrasiyi korumak her yurttaşın görevidir."]}];
+const G={title:"Demokrasi Yolu: Atina'dan Günümüze",story:"Demokrasinin tarihte ve Türkiye'de nasıl geliştiğini bir yolculukla keşfet! Her durakta kartları aç, görevleri tamamla; tamamladıkça yol altın rengine döner ve demokrasi meşalesi yanar.",end:["Demokrasi yolunu tamamladın!","Dünyada ve Türkiye'de demokrasinin adımlarını, devletin yönetim yapısını ve demokrasinin sorunlarını öğrendin. Şimdi Cumhuriyet Nöbeti'nde kararlar vererek bilgini sına."],next:["Cumhuriyet Nöbeti oyununa geç ➜","7sinif-cumhuriyet-nobeti.html"],map:d=>{const P=[[12, 15.6], [37, 15.6], [62, 15.6], [87, 15.6], [87, 44.4], [62, 44.4], [37, 44.4], [12, 44.4]];
+const seg=P.slice(0,-1).map((a,k)=>{const b=P[k+1],on=!!d[k],c=on?'#ffd37a':'#e8d9b0';
+return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#0b2530" stroke-opacity=".55" stroke-width="3.2" stroke-linecap="round"/><line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${on?'#c98f1d':'#8a6f45'}" stroke-width="2.4" stroke-linecap="round"/><line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${c}" stroke-width=".7" stroke-linecap="round" stroke-dasharray="1.6 1.6"/>`}).join('');
+const num=P.map((p,i)=>`<circle cx="${+(p[0]+5).toFixed(1)}" cy="${+(p[1]-5).toFixed(1)}" r="1.8" fill="${d[i]?'#ffd37a':'#0b2530'}" stroke="#fff" stroke-width=".35"/><text x="${+(p[0]+5).toFixed(1)}" y="${+(p[1]-4.2).toFixed(1)}" font-size="2.1" font-weight="800" text-anchor="middle" fill="${d[i]?'#0b2530':'#fff'}">${i+1}</text>`).join('');
+const n=P.filter((p,i)=>d[i]).length,fl=P.map((p,i)=>d[i]?`<path d="M${p[0]-1} ${p[1]-4.4}v-4.6l4 1.6-4 1.6" fill="#d2483c" stroke="#fff" stroke-width=".3"/>`:'').join('');
+const trees=[[4,52],[20,38],[48,40],[72,40],[96,50],[30,56],[56,56],[78,57],[8,10],[50,6],[74,8],[96,8]].map(t=>`<g transform="translate(${t[0]} ${t[1]})"><circle r="2" cy="-1.6" fill="#2f8f6a"/><rect x="-.3" y="0" width=".6" height="1.6" fill="#6b4a2b"/></g>`).join('');
+return `<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c5d6e"/><stop offset="1" stop-color="#e9c46a" stop-opacity=".55"/></linearGradient></defs><rect width="100" height="60" fill="#2c7a5b"/><rect width="100" height="60" fill="url(#sk)" opacity=".35"/><path d="M0 34Q20 22 40 34T80 30T100 36V60H0Z" fill="#3a9a6d" opacity=".7"/><path d="M0 50Q25 40 50 50T100 46V60H0Z" fill="#256b4e" opacity=".8"/><circle cx="92" cy="6" r="4" fill="#ffd37a" opacity=".85"/>${trees}${seg}${num}${fl}<text x="50" y="58" font-size="2.6" font-weight="800" text-anchor="middle" fill="#fff" fill-opacity=".85">🔥 ${n} / ${P.length} durak</text></svg>`}};
+
+const $=s=>document.querySelector(s);
+const H=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const shk=e=>{e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')};
+let S={done:{},xp:0,miss:{}};
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+S.miss=S.miss||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const M=$('#M'),SH=$('#sheet');
+const close=()=>{M.hidden=true};
+M.onclick=e=>{if(e.target===M)close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const TK={
+ sort(t,box,ok,bad){
+  box.append(H('p','q',t.q));
+  let sel=null,left=t.items.length;
+  const chips=H('div','chips'),bins=H('div','bins');
+  t.bins.forEach((b,bi)=>{
+   const e=H('div','bin','<h4>'+b[1]+' '+b[0]+'</h4>');e.tabIndex=0;e.setAttribute('role','button');
+   const go=()=>{
+    if(!sel){bad('Önce bir kutu seç, sonra sepete dokun');return}
+    if(sel.b===bi){sel.el.className='chip ok';sel.el.disabled=true;e.append(sel.el);sel=null;if(!--left)ok()}
+    else{bad(sel.el.textContent+' buraya ait değil, tekrar dene');shk(e)}
+   };
+   e.onclick=go;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go()}};
+   bins.append(e)});
+  shuf(t.items).forEach(([x,b])=>{const c=H('button','chip',x);
+   c.onclick=()=>{chips.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={el:c,b}};chips.append(c)});
+  box.append(chips,bins)},
+ order(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Adımlara doğru sırayla dokun:'));
+  let k=0;const chips=H('div','chips'),out=H('ol','seq');
+  shuf(t.steps.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','chip',x);
+   c.onclick=()=>{if(i===k){out.append(H('li','',x));c.remove();if(++k===t.steps.length)ok()}else{bad('Bu adımın sırası henüz gelmedi');shk(c)}};
+   chips.append(c)});
+  box.append(chips,out)},
+ match(t,box,ok,bad){
+  box.append(H('p','q',t.q),H('small','tip','Soldan bir kutu seç, sağdaki eşiyle birleştir:'));
+  let sel=null,left=t.pairs.length;
+  const g=H('div','match'),L=H('div','col'),R=H('div','col');
+  t.pairs.forEach(([a],i)=>{const c=H('button','chip',a);
+   c.onclick=()=>{L.querySelectorAll('.sel').forEach(y=>y.classList.remove('sel'));c.classList.add('sel');sel={c,i}};L.append(c)});
+  shuf(t.pairs.map((p,i)=>[p[1],i])).forEach(([b,i])=>{const c=H('button','chip',b);
+   c.onclick=()=>{
+    if(!sel){bad('Önce soldan bir kutu seç');return}
+    if(sel.i===i){sel.c.className='chip ok';c.className='chip ok';sel.c.onclick=null;c.onclick=null;sel=null;if(!--left)ok()}
+    else{bad('Eşleşmedi, tekrar dene');shk(c)}};
+   R.append(c)});
+  g.append(L,R);box.append(g)},
+ pick(t,box,ok,bad){
+  let r=0;
+  const run=()=>{
+   const q=t.rounds[r];box.innerHTML='';box.append(H('p','q',q.q));
+   const o=H('div','opts');
+   shuf(q.o.map((x,i)=>[x,i])).forEach(([x,i])=>{const c=H('button','opt',x);
+    c.onclick=()=>{
+     if(i===q.a){o.querySelectorAll('button').forEach(y=>y.disabled=true);c.classList.add('ok');
+      box.append(H('p','why','✅ '+q.w));
+      const last=r+1===t.rounds.length;const nb=H('button','btn',last?'Tamam':'Sonraki');
+      nb.onclick=()=>{r++;if(last)ok();else run()};box.append(nb)}
+     else{c.disabled=true;c.classList.add('no');bad(q.h||'Bu değil, tekrar düşün')}};
+    o.append(c)});
+   box.append(o)};
+  run()}
+};
+function render(){
+ const n=Object.keys(S.done).length,nx=ST.findIndex((s,i)=>!S.done[i]);
+ $('#xp').textContent='⭐ '+S.xp;$('#bar').style.width=(n/ST.length*100)+'%';
+ const st=$('#stage');st.innerHTML='';
+ st.append(H('section','hero','<h1>'+G.title+'</h1><p>'+G.story+'</p>'));
+ const box=H('div','mapbox');box.innerHTML=G.map(S.done);
+ ST.forEach((s,i)=>{
+  const b=H('button','pin'+(S.done[i]?' done':'')+(i===nx?' next':''),'<span>'+s.e+'</span><small>'+s.n+'</small>');
+  b.style.left=s.x+'%';b.style.top=s.y+'%';b.setAttribute('aria-label',s.n);b.onclick=()=>openSt(i);box.append(b)});
+ st.append(box);
+ const ol=H('div','legend');
+ ST.forEach((s,i)=>{
+  const b=H('button','lg'+(S.done[i]?' done':''),'<span class="e">'+s.e+'</span><span><b>'+s.n+'</b><small>'+s.sub+'</small></span><span class="stars">'+(S.done[i]?'★'.repeat(S.done[i]):'○')+'</span>');
+  b.onclick=()=>openSt(i);ol.append(b)});
+ st.append(ol);if(LINK_KOD&&!S.me&&!window._asked){window._asked=1;askName()}
+ if(n===ST.length){
+  const f=H('section','finale','<h2>'+G.end[0]+'</h2><p>'+G.end[1]+'</p><p class="why" id="msg"></p>');
+  const b=H('button','btn','Baştan oyna');b.onclick=()=>{S={done:{},xp:0,miss:{},me:S.me};save();render();scrollTo(0,0)};
+  const fa=H('div','fin-actions');fa.append(b);if(G.next){const a=H('a','btn',G.next[0]);a.href=G.next[1]+location.search;fa.append(a)}f.append(fa);st.append(f);sendRes()}
+}
+function openSt(i){
+ const s=ST[i];let miss=0,seen=0;
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">'+s.e+'</span><div><h2>'+s.n+'</h2><small>'+s.sub+'</small></div><button class="x" aria-label="Kapat">✕</button></div><div id="body"></div>';
+ SH.querySelector('.x').onclick=close;
+ const body=SH.querySelector('#body');
+ body.append(H('p','lead',s.intro));
+ const go=H('button','btn','Önce kartlara dokun');go.disabled=true;
+ const cards=H('div','cards');
+ s.c.forEach(([e,t,d])=>{
+  const c=H('button','card','<span class="e">'+e+'</span><b>'+t+'</b><p>'+d+'</p>');
+  c.onclick=()=>{if(!c.classList.contains('on')){c.classList.add('on');if(++seen===s.c.length){go.disabled=false;go.textContent='Göreve geç'}}};
+  cards.append(c)});
+ body.append(cards,go);
+ const task=k=>{
+  body.innerHTML='';
+  const box=H('div','task'),info=H('div','hint');
+  body.append(H('small','step','Görev '+(k+1)+'/'+s.t.length),box,info);
+  TK[s.t[k].k](s.t[k],box,()=>{if(k+1<s.t.length)task(k+1);else finish()},m=>{miss++;info.textContent=m});
+ };
+ const finish=()=>{
+  const stars=miss===0?3:miss<3?2:1,prev=S.done[i]||0;
+  if(stars>prev){S.xp+=(stars-prev)*10;S.done[i]=stars;S.miss[i]=miss}
+  save();
+  body.innerHTML='<div class="reward"><div class="stars">'+'★'.repeat(stars)+'☆'.repeat(3-stars)+'</div><h3>🏅 '+s.r[0]+'</h3><p>'+s.r[1]+'</p></div>';
+  const b=H('button','btn','Haritaya dön');b.onclick=()=>{close();render()};body.append(b);
+ };
+ go.onclick=()=>task(0);
+}
+function askName(){
+ M.hidden=false;
+ SH.innerHTML='<div class="head"><span class="e">👋</span><div><h2>Hoş geldin!</h2><small>Kendini tanıt, yolculuk başlasın</small></div></div><div class="form"><input id="fa" placeholder="Ad Soyad" autocomplete="name"><input id="fs" placeholder="Sınıf (ör. 7-A)"><input id="fn" placeholder="Okul numarası (bilmiyorsan boş bırak)" inputmode="numeric"><button class="btn" id="fg">Başla</button><div class="hint" id="fh"></div></div>';
+ $('#fg').onclick=()=>{const a=$('#fa').value.trim(),s=$('#fs').value.trim();if(!a||!s){$('#fh').textContent='Ad soyad ve sınıf gerekli';return}S.me={a,s,n:$('#fn').value.trim()||'-'};save();close();render()};
+}
+async function sendRes(){
+ const m=$('#msg');if(!m)return;
+ if(!LINK_KOD||!SCRIPT_URL)return;
+ if(S.sent){m.textContent='✓ Sonuçların öğretmenine gönderildi.';return}
+ if(!S.me){m.innerHTML='Sonucun öğretmenine gitmesi için önce kendini tanıt: <button class="btn" id="rt">Adımı yaz</button>';$('#rt').onclick=askName;return}
+ m.textContent='⏳ Sonuçların öğretmenine gönderiliyor…';
+ const stars=ST.map((s,i)=>S.done[i]||0),tot=stars.reduce((a,b)=>a+b,0);
+ const body={kod:LINK_KOD,okulKodu:LINK_KOD,oyun:OYUN,ad:S.me.a,sinif:S.me.s,no:S.me.n||'-',puan:Math.round(tot/(3*ST.length)*100),b:stars,yanlis:Object.values(S.miss||{}).reduce((a,b)=>a+b,0),liste:ST.map((s,i)=>s.n+': '+stars[i]+'★').join(' | ')};
+ try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});S.sent=true;save();m.textContent='✓ Sonuçların öğretmenine gönderildi.'}
+ catch(e){m.innerHTML='⚠️ Sonuç gönderilemedi. <button class="btn" id="rt">Tekrar dene</button>';$('#rt').onclick=sendRes}
+}
+render();
+</script></body></html>
