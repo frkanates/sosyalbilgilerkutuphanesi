@@ -158,7 +158,7 @@
       backdrop-filter: blur(8px);
       padding: 6px;
       border-radius: 16px;
-      max-width: 480px;
+      max-width: 600px;
       margin: 0 auto;
       border: 1.5px solid rgba(217, 119, 6, 0.25);
       box-shadow: var(--shadow-sm);
@@ -516,6 +516,7 @@
       <button class="tab-btn active" id="tab-btn-5" role="tab" aria-selected="true" aria-controls="grade-5-content" onclick="switchGrade(5)">5. Sınıf <span class="dot" aria-hidden="true">●</span></button>
       <button class="tab-btn" id="tab-btn-6" role="tab" aria-selected="false" aria-controls="grade-6-content" onclick="switchGrade(6)">6. Sınıf <span class="dot" aria-hidden="true">●</span></button>
       <button class="tab-btn" id="tab-btn-7" role="tab" aria-selected="false" aria-controls="grade-7-content" onclick="switchGrade(7)">7. Sınıf <span class="dot" aria-hidden="true">●</span></button>
+      <button class="tab-btn" id="tab-btn-8" role="tab" aria-selected="false" aria-controls="grade-8-content" onclick="switchGrade(8)">8. Sınıf <span class="dot" aria-hidden="true">●</span></button>
     </div>
   </div>
 
@@ -1514,6 +1515,46 @@
       </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- 8. SINIF (8-sinif/ KLASÖRÜ) -->
+    <!-- ========================================== -->
+    <div id="grade-8-content" class="grade-view" role="tabpanel" aria-labelledby="tab-btn-8">
+      <div class="accordion-header-title">8. Sınıf</div>
+
+      <div class="accordion-list">
+
+        <!-- 8. Sınıf - Kavramlar Sözlüğü -->
+        <div class="acc-item has-content open">
+          <div class="acc-trigger" role="button" tabindex="0" onclick="toggleAcc(this)">
+            <div class="acc-trigger-left">
+              <span class="unit-num-badge">Tekrar</span>
+              <div class="unit-title-box">
+                <h3>Kavramlar Sözlüğü</h3>
+                <p>İnkılap Tarihi 1-7. ünite kavramları: flash kartlarla tekrar ve bağlantılı kavramlar.</p>
+              </div>
+            </div>
+            <div class="acc-trigger-right">
+              <span class="chevron-icon">▼</span>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <div class="action-grid">
+                <a href="8-sinif/kavramlar-sozlugu.html" class="action-card game">
+                  <div class="card-left">
+                    <span>🗂️</span>
+                    <span>Kavram Kartları</span>
+                  </div>
+                  <span class="badge-label">Kartları Aç ➜</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </main>
 
   <!-- FOOTER -->
@@ -1570,7 +1611,7 @@
       let saved = null;
       try { saved = localStorage.getItem('sbk_grade'); } catch(e){}
       const g = location.hash.indexOf('#grade-') === 0 ? location.hash.slice(7) : saved;
-      switchGrade(['4', '6', '7'].indexOf(g) > -1 ? Number(g) : 5, false);
+      switchGrade(['4', '6', '7', '8'].indexOf(g) > -1 ? Number(g) : 5, false);
 
       document.querySelectorAll('.acc-trigger').forEach(function (t) {
         t.setAttribute('aria-expanded', t.closest('.acc-item').classList.contains('open'));
