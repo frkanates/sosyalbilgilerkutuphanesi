@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dünya Kâşifi</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f4f6fb;--card:#fff;--text:#1b2433;--mute:#5b6779;--sea:#dbeafe;--land:#c3cfdf;--line:#fff;--pri:#2563eb;--ok:#22c55e;--bad:#ef4444}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1624;--card:#1a2438;--text:#e8edf7;--mute:#9aa6b8;--sea:#12233f;--land:#3b4a63;--line:#0f1624;--pri:#5b8def}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1624;--card:#1a2438;--text:#e8edf7;--mute:#9aa6b8;--sea:#12233f;--land:#3b4a63;--line:#0f1624;--pri:#5b8def}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+.wrap{max-width:980px;margin:0 auto;padding:14px}
+h1{font-size:1.5rem;margin:6px 0 2px}
+.card{background:var(--card);border-radius:16px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+label{display:block;font-weight:600;margin:12px 0 4px}
+input,select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--mute);background:var(--bg);color:var(--text);font-size:1rem}
+button{background:var(--pri);color:#fff;border:0;border-radius:12px;padding:12px 20px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:14px}
+button.sec{background:transparent;color:var(--pri);border:2px solid var(--pri)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.q{font-size:1.25rem;font-weight:800}
+.pill{background:var(--card);border-radius:999px;padding:6px 14px;font-weight:700}
+#map{background:var(--sea);border-radius:16px;overflow:hidden;touch-action:none}
+#msg{min-height:1.6em;font-weight:700;margin:8px 0}
+.hide{display:none}
+ul{padding-left:20px}
+.hint{color:var(--mute);font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🌍 Dünya Kâşifi</h1>
+
+<div id="start" class="card">
+  <p>Dünyayı adım adım öğrenelim! Her seviyede yardım azalır. Bir seviyede en az 70 puan alırsan sıradaki açılır.</p>
+  <label for="ad">Adın Soyadın</label>
+  <input id="ad" placeholder="Örn: Ayşe Yılmaz" autocomplete="off">
+  <div id="seviyeler"></div>
+  <p class="hint">İpucu: Haritayı iki parmakla yakınlaştırabilir veya sürükleyebilirsin.</p>
+</div>
+
+<div id="game" class="hide">
+  <div class="bar"><span class="pill" id="sayac">Soru 1/10</span><span class="pill" id="puan">Puan: 0</span></div>
+  <div class="q" id="soru"></div>
+  <div id="map"></div>
+  <div id="msg"></div>
+  <button id="sonraki" class="hide">Sonraki Soru →</button>
+</div>
+
+<div id="end" class="card hide">
+  <h2 id="son"></h2>
+  <div id="yanlis"></div>
+  <button id="tekrar">Seviye Seç</button>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson@1.6.27/build/topojson.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/datamaps@0.5.9/dist/datamaps.world.min.js"></script>
+<script>
+// Sonuçları Google Sheets'e göndermek için Apps Script web uygulaması adresini buraya yazın.
+// Sayfa adresine ?kod=6-A gibi bir kod eklenirse sonuçlar o kodla kaydedilir; kod yoksa kaydedilmez.
+var SCRIPT_URL = "";
+var KOD = new URLSearchParams(location.search).get("kod");
+
+var ULKE = [
+["TUR","Türkiye","Asya"],["RUS","Rusya","Avrupa"],["CHN","Çin","Asya"],["IND","Hindistan","Asya"],["JPN","Japonya","Asya"],
+["KOR","Güney Kore","Asya"],["IRN","İran","Asya"],["IRQ","Irak","Asya"],["SAU","Suudi Arabistan","Asya"],["SYR","Suriye","Asya"],
+["KAZ","Kazakistan","Asya"],["MNG","Moğolistan","Asya"],["IDN","Endonezya","Asya"],["PAK","Pakistan","Asya"],["AFG","Afganistan","Asya"],
+["THA","Tayland","Asya"],["VNM","Vietnam","Asya"],["MMR","Myanmar","Asya"],["PHL","Filipinler","Asya"],["MYS","Malezya","Asya"],
+["UZB","Özbekistan","Asya"],["TKM","Türkmenistan","Asya"],["AZE","Azerbaycan","Asya"],["GEO","Gürcistan","Asya"],
+["FRA","Fransa","Avrupa"],["DEU","Almanya","Avrupa"],["ITA","İtalya","Avrupa"],["ESP","İspanya","Avrupa"],["GBR","Birleşik Krallık","Avrupa"],
+["PRT","Portekiz","Avrupa"],["POL","Polonya","Avrupa"],["UKR","Ukrayna","Avrupa"],["SWE","İsveç","Avrupa"],["NOR","Norveç","Avrupa"],
+["FIN","Finlandiya","Avrupa"],["GRC","Yunanistan","Avrupa"],["ROU","Romanya","Avrupa"],["BGR","Bulgaristan","Avrupa"],["ISL","İzlanda","Avrupa"],["IRL","İrlanda","Avrupa"],
+["EGY","Mısır","Afrika"],["LBY","Libya","Afrika"],["DZA","Cezayir","Afrika"],["MAR","Fas","Afrika"],["NGA","Nijerya","Afrika"],
+["ETH","Etiyopya","Afrika"],["KEN","Kenya","Afrika"],["ZAF","Güney Afrika","Afrika"],["TZA","Tanzanya","Afrika"],["SDN","Sudan","Afrika"],
+["SOM","Somali","Afrika"],["AGO","Angola","Afrika"],["MDG","Madagaskar","Afrika"],
+["USA","ABD","Kuzey Amerika"],["CAN","Kanada","Kuzey Amerika"],["MEX","Meksika","Kuzey Amerika"],["CUB","Küba","Kuzey Amerika"],
+["BRA","Brezilya","Güney Amerika"],["ARG","Arjantin","Güney Amerika"],["CHL","Şili","Güney Amerika"],["PER","Peru","Güney Amerika"],
+["COL","Kolombiya","Güney Amerika"],["VEN","Venezuela","Güney Amerika"],["BOL","Bolivya","Güney Amerika"],
+["AUS","Avustralya","Okyanusya"],["NZL","Yeni Zelanda","Okyanusya"]
+];
+var AD = {}; ULKE.forEach(function(u){AD[u[0]]=u[1];});
+var KIT={
+"Asya":"RUS AFG ARE ARM AZE BGD BHR BRN BTN CHN GEO IDN IND IRN IRQ ISR JOR JPN KAZ KGZ KHM KOR KWT LAO LBN LKA MMR MNG MYS NPL OMN PAK PHL PRK QAT SAU SGP SYR THA TJK TKM TLS TUR UZB VNM YEM PSE",
+"Avrupa":"ALB AND AUT BEL BGR BIH BLR CHE CZE DEU DNK ESP EST FIN FRA GBR GRC HRV HUN IRL ISL ITA LTU LUX LVA MDA MKD MNE NLD NOR POL PRT ROU RUS SRB SVK SVN SWE UKR",
+"Afrika":"AGO BDI BEN BFA BWA CAF CIV CMR COD COG DJI DZA EGY ERI ESH ETH GAB GHA GIN GMB GNB GNQ KEN LBR LBY LSO MAR MDG MLI MOZ MRT MWI NAM NER NGA RWA SDN SEN SLE SOM SSD SWZ TCD TGO TUN TZA UGA ZAF ZMB ZWE",
+"Kuzey Amerika":"USA CAN MEX CUB GTM BLZ HND SLV NIC CRI PAN JAM HTI DOM BHS GRL PRI",
+"Güney Amerika":"BRA ARG CHL PER COL VEN BOL ECU PRY URY GUY SUR",
+"Okyanusya":"AUS NZL PNG FJI SLB VUT NCL"};
+var CK={}; Object.keys(KIT).forEach(function(k){KIT[k].split(" ").forEach(function(c){CK[c]=k;});});CK.RUS="Avrupa ve Asya";
+var EX="ARM Ermenistan,BEL Belçika,LUX Lüksemburg,CHE İsviçre,AND Andorra,DNK Danimarka,CZE Çekya,AUT Avusturya,NLD Hollanda,SVK Slovakya,SVN Slovenya,HUN Macaristan,MDA Moldova,BLR Belarus,LTU Litvanya,TCD Çad,NER Nijer,TUN Tunus,MLI Mali,MRT Moritanya,ISR İsrail,KWT Kuveyt,JOR Ürdün,QAT Katar,ARE BAE,OMN Umman,YEM Yemen,KGZ Kırgızistan,NPL Nepal,BTN Butan,BGD Bangladeş,LAO Laos,PRK Kuzey Kore,URY Uruguay,PRY Paraguay,ECU Ekvador,BEN Benin,CMR Kamerun,ERI Eritre,DJI Cibuti,SSD Güney Sudan,NAM Namibya,BWA Botsvana,ZWE Zimbabve,MOZ Mozambik,SWZ Esvatini,LSO Lesotho,TJK Tacikistan,GUY Guyana,SUR Surinam";
+var EX2="KHM Kamboçya,LBN Lübnan,LKA Sri Lanka,ALB Arnavutluk,BIH Bosna-Hersek,EST Estonya,HRV Hırvatistan,LVA Letonya,MKD Kuzey Makedonya,MNE Karadağ,SRB Sırbistan,BDI Burundi,BFA Burkina Faso,CAF Orta Afrika Cumhuriyeti,CIV Fildişi Sahili,COD Kongo Demokratik Cumhuriyeti,COG Kongo,GAB Gabon,GHA Gana,GIN Gine,GMB Gambiya,GNB Gine-Bissau,GNQ Ekvator Ginesi,LBR Liberya,MWI Malavi,RWA Ruanda,SEN Senegal,SLE Sierra Leone,TGO Togo,UGA Uganda,ZMB Zambiya,GTM Guatemala,BLZ Belize,HND Honduras,SLV El Salvador,NIC Nikaragua,CRI Kosta Rika,PAN Panama,JAM Jamaika,HTI Haiti,DOM Dominik Cumhuriyeti,GRL Grönland,PNG Papua Yeni Gine";
+var TINY="BHR SGP PSE PRI NCL VUT SLB FJI BHS BRN TLS".split(" ");
+(EX+","+EX2+",ESH Batı Sahra,TLS Doğu Timor,BRN Brunei,PSE Filistin").split(",").forEach(function(x){AD[x.slice(0,3)]=x.slice(4);});
+var KOM={TUR:"BGR GRC GEO ARM AZE IRN IRQ SYR",FRA:"BEL LUX DEU CHE ITA ESP",DEU:"DNK POL CZE AUT CHE FRA NLD BEL LUX",ITA:"FRA CHE AUT SVN",ESP:"PRT FRA AND",POL:"DEU CZE SVK UKR BLR LTU",UKR:"POL SVK HUN ROU MDA BLR RUS",EGY:"LBY SDN ISR",IRN:"TUR IRQ AFG PAK TKM AZE ARM",IRQ:"TUR IRN KWT SAU JOR SYR",SAU:"IRQ JOR KWT QAT ARE OMN YEM",CHN:"RUS MNG KAZ IND NPL VNM MMR PRK",IND:"PAK CHN NPL BTN BGD MMR",BRA:"ARG URY PRY BOL PER COL VEN GUY SUR",ARG:"CHL BOL PRY BRA URY",PER:"ECU COL BRA BOL CHL",NGA:"BEN NER TCD CMR",ETH:"ERI DJI SOM KEN SSD SDN",ZAF:"NAM BWA ZWE MOZ SWZ LSO",AFG:"IRN PAK TKM UZB TJK CHN",RUS:"NOR FIN EST LVA BLR UKR GEO AZE KAZ CHN MNG",GBR:"IRL",IRL:"GBR",PRT:"ESP",BEL:"FRA LUX DEU NLD",NLD:"BEL DEU",CHE:"FRA DEU AUT ITA",AUT:"DEU CZE SVK HUN SVN ITA CHE",CZE:"DEU POL SVK AUT",SVK:"POL UKR HUN AUT CZE",HUN:"AUT SVK UKR ROU SRB HRV SVN",ROU:"UKR MDA HUN SRB BGR",BGR:"ROU SRB MKD GRC TUR",GRC:"ALB MKD BGR TUR",SRB:"HUN ROU BGR MKD MNE BIH HRV",HRV:"SVN HUN SRB BIH MNE",BIH:"HRV SRB MNE",ALB:"MNE MKD GRC",MKD:"SRB BGR GRC ALB",MNE:"HRV BIH SRB ALB",SWE:"NOR FIN",NOR:"SWE FIN RUS",FIN:"SWE NOR RUS",DNK:"DEU",EST:"RUS LVA",LVA:"EST LTU BLR RUS",LTU:"LVA BLR POL RUS",BLR:"RUS UKR POL LTU LVA",MDA:"ROU UKR",GEO:"RUS TUR ARM AZE",ARM:"GEO AZE IRN TUR",AZE:"RUS GEO ARM IRN TUR",SYR:"TUR IRQ JOR ISR LBN",LBN:"SYR ISR",ISR:"LBN SYR JOR EGY",JOR:"SYR IRQ SAU ISR",KWT:"IRQ SAU",ARE:"SAU OMN",OMN:"ARE SAU YEM",YEM:"SAU OMN",QAT:"SAU",PAK:"IRN AFG CHN IND",KAZ:"RUS CHN KGZ UZB TKM",UZB:"KAZ KGZ TJK AFG TKM",TKM:"KAZ UZB AFG IRN",KGZ:"KAZ UZB TJK CHN",TJK:"UZB KGZ CHN AFG",MNG:"RUS CHN",NPL:"IND CHN",BTN:"IND CHN",BGD:"IND MMR",MMR:"BGD IND CHN LAO THA",THA:"MMR LAO KHM MYS",LAO:"CHN MMR THA KHM VNM",KHM:"THA LAO VNM",VNM:"CHN LAO KHM",MYS:"THA IDN BRN",IDN:"MYS PNG TLS",PRK:"CHN KOR RUS",KOR:"PRK",MAR:"DZA ESH",DZA:"MAR TUN LBY NER MLI MRT",TUN:"DZA LBY",LBY:"TUN DZA NER TCD SDN EGY",SDN:"EGY LBY TCD CAF SSD ETH ERI",SSD:"SDN ETH KEN UGA COD CAF",TCD:"LBY SDN CAF CMR NGA NER",NER:"DZA LBY TCD NGA BEN BFA MLI",MLI:"DZA NER BFA CIV GIN SEN MRT",MRT:"MAR DZA MLI SEN",SEN:"MRT MLI GIN GNB GMB",GIN:"SEN MLI CIV LBR SLE GNB",GNB:"SEN GIN",SLE:"GIN LBR",LBR:"SLE GIN CIV",CIV:"LBR GIN MLI BFA GHA",BFA:"MLI NER BEN TGO GHA CIV",GHA:"CIV BFA TGO",TGO:"GHA BFA BEN",BEN:"TGO BFA NER NGA",CMR:"NGA TCD CAF COG GAB GNQ",CAF:"TCD SDN SSD COD COG CMR",GAB:"GNQ CMR COG",COG:"GAB CMR CAF COD AGO",COD:"COG CAF SSD UGA RWA BDI TZA ZMB AGO",AGO:"COD COG ZMB NAM",ZMB:"COD TZA MWI MOZ ZWE BWA NAM AGO",ZWE:"ZMB MOZ ZAF BWA",BWA:"NAM ZMB ZWE ZAF",NAM:"AGO ZMB BWA ZAF",MOZ:"TZA MWI ZMB ZWE SWZ ZAF",MWI:"TZA MOZ ZMB",TZA:"KEN UGA RWA BDI COD ZMB MWI MOZ",KEN:"ETH SOM SSD UGA TZA",UGA:"SSD KEN TZA RWA COD",RWA:"UGA TZA BDI COD",BDI:"RWA TZA COD",SOM:"DJI ETH KEN",ERI:"SDN ETH DJI",DJI:"ERI ETH SOM",USA:"CAN MEX",CAN:"USA",MEX:"USA GTM BLZ",GTM:"MEX BLZ HND SLV",HND:"GTM SLV NIC",NIC:"HND CRI",CRI:"NIC PAN",PAN:"CRI COL",DOM:"HTI",HTI:"DOM",COL:"VEN BRA PER ECU PAN",VEN:"COL BRA GUY",GUY:"VEN BRA SUR",SUR:"GUY BRA",ECU:"COL PER",BOL:"PER BRA PRY ARG CHL",PRY:"BOL BRA ARG",URY:"BRA ARG",CHL:"PER BOL ARG"};
+var SEV=["Kıtaları Bul","Komşular + Kıta","Kıta Boyalı","Dünya Ustası"];
+var TOPLAM=10, map=null, havuz, i, puan, hedef, kilit, yanlislar, dokunulan=[], sev, acik=1;
+if(new URLSearchParams(location.search).get("seviye")==="ac"||location.hash==="#ac") acik=4;
+var $=function(id){return document.getElementById(id);};
+var LAND=getComputedStyle(document.documentElement).getPropertyValue("--land").trim()||"#c3cfdf";
+function mix(a){return a.sort(function(){return Math.random()-0.5;});}
+function ids(k){var tum=k.indexOf(" ve ")>0;return k.split(" ve ").reduce(function(a,x){return a.concat(KIT[x].split(" "));},[]).filter(function(c){return tum||c!=="RUS";});}
+function show(id){["start","game","end"].forEach(function(x){$(x).classList.toggle("hide",x!==id);});}
+function menu(){
+  $("seviyeler").innerHTML=SEV.map(function(n,k){
+    return '<button style="display:block;width:100%;text-align:left" class="'+(k+1<=acik?"":"sec")+'" '+(k+1<=acik?"":"disabled")+' data-s="'+(k+1)+'">'+(k+1<=acik?"":"🔒 ")+"Seviye "+(k+1)+": "+n+"</button>";}).join("");
+  Array.prototype.forEach.call($("seviyeler").querySelectorAll("button"),function(b){b.onclick=function(){basla(+b.getAttribute("data-s"));};});
+  show("start");
+}
+function kur(){
+  if(map) return;
+  if(typeof Datamap==="undefined"||typeof d3==="undefined"||typeof topojson==="undefined"){
+    $("msg").textContent="Harita kütüphanesi yüklenemedi."; return;}
+  try{
+  var kutu=$("map"),gw=Math.min($("game").clientWidth,Math.max(300,(innerHeight-200)/0.66));
+  kutu.style.width=gw+"px";kutu.style.height=Math.round(gw*0.66)+"px";kutu.style.margin="0 auto";BW=gw;BH=Math.round(gw*0.66);
+  map=new Datamap({element:$("map"),width:$("map").clientWidth,height:$("map").clientHeight,projection:"mercator",
+    fills:{defaultFill:LAND},
+    geographyConfig:{popupOnHover:false,highlightOnHover:false,borderColor:getComputedStyle(document.documentElement).getPropertyValue("--line").trim()||"#fff",borderWidth:0.5},
+    done:function(m){
+      m.svg.selectAll(".datamaps-subunit").on("click",function(g){tikla(g.id,g.properties.name,g.id==="RUS"?rusTaraf(d3.mouse(this.parentNode)[0]):null);});
+      zb=d3.behavior.zoom().scaleExtent([1,10]).on("zoom",function(){
+        zs=d3.event.scale;m.svg.selectAll("g").attr("transform","translate("+d3.event.translate+")scale("+zs+")");stil();});m.svg.call(zb);
+    }});
+  }catch(e){map=null;$("msg").textContent="Harita çizilemedi: "+e.message;}
+}
+var zs=1,zb,BW=0,BH=0,tk=0;
+function stil(){d3.selectAll(".etiket").style("font-size",(11/zs)+"px").style("stroke-width",(3/zs)+"px");}
+function etiketle(list){
+  list.forEach(function(c){
+    var n=map.svg.select("."+c).node();if(!n)return;
+    var b=n.getBBox();
+    d3.select(n.parentNode).append("text").attr("class","etiket").attr("x",b.x+b.width/2).attr("y",b.y+b.height/2).attr("dy",".35em").attr("text-anchor","middle")
+      .style({"fill":"#0b1220","stroke":"#fff","paint-order":"stroke","font-weight":"700","pointer-events":"none"}).text(AD[c]||c);
+  });stil();
+}
+var OD={"Avrupa":"IRL PRT NOR GRC UKR","Asya":"TUR JPN IDN KAZ CHN IND","Afrika":"MAR EGY ZAF SEN SOM","Kuzey Amerika":"USA CAN MEX CUB PAN","Güney Amerika":"BRA ARG CHL COL VEN","Okyanusya":"AUS NZL PNG","Avrupa ve Asya":"IRL PRT NOR GRC JPN IDN TUR IND CHN KAZ"};
+function git(k,tx,ty,ms){
+  zs=k;zb.scale(k).translate([tx,ty]);
+  map.svg.selectAll("g").transition().duration(ms).attr("transform","translate("+tx+","+ty+")scale("+k+")");
+  stil();
+}
+function odakla(){
+  var W=BW,H=BH,k,cx,cy,hb=map.svg.select("."+hedef.id).node().getBBox(),buyuk=hb.width>0.5*W;
+  if(sev===2){
+    var x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+    (KOM[hedef.id]+" "+hedef.id).split(" ").forEach(function(c){
+      var n=map.svg.select("."+c).node();if(!n)return;var b=n.getBBox();if(b.width>0.5*W)return;
+      x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.width);y1=Math.max(y1,b.y+b.height);});
+    if(x1>x0){k=0.85*Math.min(W/(x1-x0),H/(y1-y0));cx=(x0+x1)/2;cy=(y0+y1)/2;}
+  }
+  if(!k){
+    var pw=Math.max(5*hb.width,0.18*W);
+    k=W/pw;cx=hb.x+hb.width/2;cy=hb.y+hb.height/2;
+    if(buyuk){cx=0.7*W;cy=hb.y+hb.height*0.7;k=1.8;}
+  }
+  k=Math.max(1.2,Math.min(6,k));
+  if(sev>=3){var f=sev===4?0.35:0.2;cx+=(Math.random()-0.5)*f*W/k;cy+=(Math.random()-0.5)*f*H/k;}
+  git(k,W/2-k*cx,H/2-k*cy,1400);
+}
+var RP=[],kpn=0;
+function rusTaraf(x){return(x>0.55*BW&&x<0.667*BW)?"Avrupa":"Asya";}
+function rusP(k,r){if(k==="Avrupa"||k==="Asya")RP.push([k,r]);}
+function ciz(k,r){
+  var n=map.svg.select(".RUS").node();if(!n)return;
+  var g=d3.select(n.parentNode),id="kp"+(++kpn),W=BW,H=BH;
+  var cp=g.append("clipPath").attr("id",id).attr("class","rus-kp");
+  (k==="Avrupa"?[[0.55*W,0.667*W]]:[[0.667*W,W],[-W,0.3*W]]).forEach(function(a){
+    cp.append("rect").attr("x",a[0]).attr("y",-H).attr("width",a[1]-a[0]).attr("height",3*H);});
+  g.append("path").attr("class","rus-kp").attr("d",n.getAttribute("d")).attr("clip-path","url(#"+id+")")
+    .style({"fill":r,"stroke":"none","pointer-events":"none"});
+}
+function boya(o){map.updateChoropleth(o);dokunulan=dokunulan.concat(Object.keys(o));RP.forEach(function(p){if(!o.RUS)ciz(p[0],p[1]);});RP=[];}
+function sifirla(){d3.selectAll(".etiket,.rus-kp").remove();RP=[];var o={};dokunulan.forEach(function(k){o[k]=LAND;});map.updateChoropleth(o);dokunulan=[];}
+function basla(s){
+  sev=s;show("game");kur();if(!map)return;
+  if(s===1) havuz=mix(Object.keys(KIT)).map(function(k){return {kita:k};});
+  else if(s===2) havuz=mix(Object.keys(KOM).filter(function(c){return AD[c]&&!map.svg.select("."+c).empty();})).slice(0,TOPLAM).map(function(c){return {id:c,ad:AD[c],kita:CK[c]};});
+  else havuz=mix(Object.keys(CK).filter(function(c){return AD[c]&&TINY.indexOf(c)<0&&!map.svg.select("."+c).empty();})).slice(0,TOPLAM).map(function(c){return {id:c,ad:AD[c],kita:CK[c]};});
+  i=0;puan=0;yanlislar=[];
+  soru();
+}
+function soru(){
+  sifirla();kilit=false;hedef=havuz[i];
+  $("sayac").textContent="Seviye "+sev+" · Soru "+(i+1)+"/"+havuz.length;
+  $("puan").textContent="Puan: "+puan;
+  var t="",o={};
+  if(sev===1) t="Haritada "+hedef.kita+" kıtasını bul! (Kıtadaki herhangi bir ülkeye dokun)";
+  else if(sev===2){
+    var n=KOM[hedef.id].split(" ");
+    ids(hedef.kita).forEach(function(c){o[c]="#fde68a";});rusP(hedef.kita,"#fde68a");
+    n.forEach(function(c){o[c]="#60a5fa";});
+    boya(o);etiketle(n);
+    t="Haritada "+hedef.ad+" ülkesini bul! (Yardım: mavi ülkeler komşuları, sarı bölge kıtası)";
+  }
+  else if(sev===3){ids(hedef.kita).forEach(function(c){o[c]="#fde68a";});rusP(hedef.kita,"#fde68a");boya(o);t="Haritada "+hedef.ad+" ülkesini bul! (Sarı bölge: "+hedef.kita+" kıtası)";}
+  else t="Haritada "+hedef.ad+" ülkesini bul!";
+  $("soru").textContent=t;$("msg").textContent="";$("sonraki").classList.add("hide");
+  var my=++tk;git(1,0,0,700);
+  if(sev>1)setTimeout(function(){if(my===tk&&!kilit)odakla();},1500);
+}
+function tikla(id,ing,rs){
+  if(kilit)return;kilit=true;
+  var ok=sev===1?(id==="RUS"?rs===hedef.kita:KIT[hedef.kita].split(" ").indexOf(id)>=0):(id===hedef.id),o={};
+  if(ok){
+    puan+=10;
+    if(sev===1){ids(hedef.kita).forEach(function(c){o[c]="#22c55e";});rusP(hedef.kita,"#22c55e");}else o[id]="#22c55e";
+    boya(o);$("msg").textContent="✅ Doğru! +10 puan";
+  }else{
+    if(sev===1){ids(hedef.kita).forEach(function(c){o[c]="#22c55e";});rusP(hedef.kita,"#22c55e");}else o[hedef.id]="#22c55e";
+    if(id==="RUS"&&sev===1)RP.push([rs,"#ef4444"]);else o[id]="#ef4444";boya(o);
+    yanlislar.push(sev===1?hedef.kita:hedef.ad);
+    $("msg").textContent="❌ Yanlış! Tıkladığın yer: "+(AD[id]||ing)+". Doğru yer yeşil ile gösterildi.";
+  }
+  if(sev>=2)etiketle([hedef.id]);
+  $("puan").textContent="Puan: "+puan;
+  $("sonraki").textContent=(i+1<havuz.length)?"Sonraki Soru →":"Sonucu Gör";
+  $("sonraki").classList.remove("hide");
+}
+function bitir(){
+  show("end");
+  var max=havuz.length*10,gec=puan>=max*0.7,ad=$("ad").value.trim();
+  var ek="";
+  if(gec&&sev<4&&acik<=sev){acik=sev+1;ek="<p>🔓 Seviye "+acik+" açıldı!</p>";}
+  else if(!gec)ek="<p>Sonraki seviyeyi açmak için en az "+(max*0.7)+" puan gerekiyor. Tekrar dene!</p>";
+  else if(sev===4)ek="<p>Tüm seviyeleri bitirdin, dünya kâşifisin! 🏆</p>";
+  $("son").textContent="🎉 "+(ad||"Kâşif")+", Seviye "+sev+" puanın: "+puan+"/"+max;
+  $("yanlis").innerHTML=ek+(yanlislar.length?"<p>Tekrar etmen gerekenler:</p><ul>"+yanlislar.map(function(y){return "<li>"+y+"</li>";}).join("")+"</ul>":"<p>Hiç hata yapmadın, harika! 🌟</p>");
+  if(SCRIPT_URL&&KOD){try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",body:JSON.stringify({sinif:KOD,ad:ad,seviye:sev,puan:puan,yanlis:yanlislar.join(", "),oyun:"Dünya Kâşifi"})});}catch(e){}}
+}
+$("sonraki").onclick=function(){i++;if(i<havuz.length)soru();else bitir();};
+$("tekrar").onclick=menu;
+var tc=0;document.querySelector("h1").onclick=function(){if(++tc>=5){acik=4;menu();}};
+menu();
+</script>
+</body>
+</html>
