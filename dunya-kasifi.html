@@ -37,6 +37,12 @@ ul{padding-left:20px}
   <p>Dünyayı adım adım öğrenelim! Her seviyede yardım azalır. Bir seviyede en az 70 puan alırsan sıradaki açılır.</p>
   <label for="ad">Adın Soyadın</label>
   <input id="ad" placeholder="Örn: Ayşe Yılmaz" autocomplete="off">
+  <div id="kayitAlan" class="hide">
+    <label for="no">Okul Numaran (bilmiyorsan boş bırak)</label>
+    <input id="no" inputmode="numeric" maxlength="10" placeholder="Örn: 142" autocomplete="off">
+    <label for="sube">Sınıf / Şuben</label>
+    <select id="sube"></select>
+  </div>
   <div id="seviyeler"></div>
   <p class="hint">İpucu: Haritayı iki parmakla yakınlaştırabilir veya sürükleyebilirsin.</p>
 </div>
@@ -52,6 +58,7 @@ ul{padding-left:20px}
 <div id="end" class="card hide">
   <h2 id="son"></h2>
   <div id="yanlis"></div>
+  <p id="kayitDurum" class="hide" style="font-weight:700"></p>
   <button id="tekrar">Seviye Seç</button>
 </div>
 </div>
@@ -61,10 +68,16 @@ ul{padding-left:20px}
 <script src="https://cdn.jsdelivr.net/npm/topojson@1.6.27/build/topojson.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/datamaps@0.5.9/dist/datamaps.world.min.js"></script>
 <script>
-// Sonuçları Google Sheets'e göndermek için Apps Script web uygulaması adresini buraya yazın.
-// Sayfa adresine ?kod=6-A gibi bir kod eklenirse sonuçlar o kodla kaydedilir; kod yoksa kaydedilmez.
-var SCRIPT_URL = "";
-var KOD = new URLSearchParams(location.search).get("kod");
+// Sonuçlar bu Google Apps Script web uygulamasına gönderilir (sadece adreste ?tasokul varsa).
+var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOkyeXqX84wasI0Xypt4gQhDl0fvMVi8k206KUk4BwRNxWYKTihFWuPz1vqQqLJ-BB/exec";
+function okulKodu(){
+  var p=new URLSearchParams(location.search);
+  if(p.get("kod"))return p.get("kod").trim();
+  if(p.has("tasokul"))return (p.get("tasokul")||"tasokul").trim();
+  var k=Array.from(p.keys());
+  return k.length>0&&!p.get(k[0])?k[0].trim():"";
+}
+var OKUL=okulKodu(), KAYIT=OKUL!=="";
 
 var ULKE = [
 ["TUR","Türkiye","Asya"],["RUS","Rusya","Avrupa"],["CHN","Çin","Asya"],["IND","Hindistan","Asya"],["JPN","Japonya","Asya"],
@@ -177,11 +190,16 @@ function ciz(k,r){
 function boya(o){map.updateChoropleth(o);dokunulan=dokunulan.concat(Object.keys(o));RP.forEach(function(p){if(!o.RUS)ciz(p[0],p[1]);});RP=[];}
 function sifirla(){d3.selectAll(".etiket,.rus-kp").remove();RP=[];var o={};dokunulan.forEach(function(k){o[k]=LAND;});map.updateChoropleth(o);dokunulan=[];}
 function basla(s){
+  if(KAYIT){
+    if(!$("ad").value.trim()){alert("Lütfen adını ve soyadını yaz!");return;}
+    var n=$("no").value.trim();
+    if(n&&!/^\d{1,10}$/.test(n)){alert("Okul numarasını yazacaksan sadece rakam kullan. Bilmiyorsan boş bırakabilirsin!");return;}
+  }
   sev=s;show("game");kur();if(!map)return;
   if(s===1) havuz=mix(Object.keys(KIT)).map(function(k){return {kita:k};});
   else if(s===2) havuz=mix(Object.keys(KOM).filter(function(c){return AD[c]&&!map.svg.select("."+c).empty();})).slice(0,TOPLAM).map(function(c){return {id:c,ad:AD[c],kita:CK[c]};});
   else havuz=mix(Object.keys(CK).filter(function(c){return AD[c]&&TINY.indexOf(c)<0&&!map.svg.select("."+c).empty();})).slice(0,TOPLAM).map(function(c){return {id:c,ad:AD[c],kita:CK[c]};});
-  i=0;puan=0;yanlislar=[];
+  i=0;puan=0;yanlislar=[];tBas=Date.now();
   soru();
 }
 function soru(){
@@ -221,6 +239,16 @@ function tikla(id,ing,rs){
   $("sonraki").textContent=(i+1<havuz.length)?"Sonraki Soru →":"Sonucu Gör";
   $("sonraki").classList.remove("hide");
 }
+var tBas=0,PK="dk_pending";
+function bekleyen(){try{return JSON.parse(localStorage.getItem(PK)||"[]");}catch(e){return [];}}
+function bekleyenYaz(l){try{localStorage.setItem(PK,JSON.stringify(l));}catch(e){}}
+function gonder(pl){
+  return fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(pl)})
+    .then(function(){bekleyenYaz(bekleyen().filter(function(p){return p.kayitId!==pl.kayitId;}));return true;})
+    .catch(function(){return false;});
+}
+function bekleyenleriGonder(){bekleyen().forEach(gonder);}
+window.addEventListener("online",bekleyenleriGonder);
 function bitir(){
   show("end");
   var max=havuz.length*10,gec=puan>=max*0.7,ad=$("ad").value.trim();
@@ -230,11 +258,27 @@ function bitir(){
   else if(sev===4)ek="<p>Tüm seviyeleri bitirdin, dünya kâşifisin! 🏆</p>";
   $("son").textContent="🎉 "+(ad||"Kâşif")+", Seviye "+sev+" puanın: "+puan+"/"+max;
   $("yanlis").innerHTML=ek+(yanlislar.length?"<p>Tekrar etmen gerekenler:</p><ul>"+yanlislar.map(function(y){return "<li>"+y+"</li>";}).join("")+"</ul>":"<p>Hiç hata yapmadın, harika! 🌟</p>");
-  if(SCRIPT_URL&&KOD){try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",body:JSON.stringify({sinif:KOD,ad:ad,seviye:sev,puan:puan,yanlis:yanlislar.join(", "),oyun:"Dünya Kâşifi"})});}catch(e){}}
+  var dr=$("kayitDurum");dr.classList.add("hide");
+  if(KAYIT){
+    var sube=$("sube").value,tk="dk_tur_"+sube+"_"+ad.toLocaleLowerCase("tr").replace(/\s+/g," "),tur=1;
+    try{tur=(+localStorage.getItem(tk)||0)+1;localStorage.setItem(tk,tur);}catch(e){}
+    var sn=Math.round((Date.now()-tBas)/1000);
+    var pl={okulKodu:OKUL,kayitId:"dk"+Date.now()+Math.random().toString(36).slice(2,7),oyun:"Dünya Kâşifi",adSoyad:ad,okulNo:$("no").value.trim()||"-",sube:sube,
+      seviye:sev+". Seviye: "+SEV[sev-1],turSayisi:tur,dogruSayisi:havuz.length-yanlislar.length,toplamSoru:havuz.length,puan:puan,
+      gecenSure:(sn>=60?Math.floor(sn/60)+" dk ":"")+(sn%60)+" sn",gecenSureSn:sn,yanlisTiklama:yanlislar.length,hataliSorular:yanlislar.join(", ")};
+    dr.classList.remove("hide");dr.style.color="";dr.textContent="⏳ Sonuçların gönderiliyor...";
+    var q=bekleyen();q.push(pl);bekleyenYaz(q);
+    gonder(pl).then(function(ok){dr.style.color=ok?"#059669":"#b45309";dr.textContent=ok?"✓ Sonuçların öğretmenine gönderildi!":"⚠️ İnternet sorunu var. Sonucun bağlantı gelince otomatik gönderilecek.";});
+  }
 }
 $("sonraki").onclick=function(){i++;if(i<havuz.length)soru();else bitir();};
 $("tekrar").onclick=menu;
 var tc=0;document.querySelector("h1").onclick=function(){if(++tc>=5){acik=4;menu();}};
+if(KAYIT){
+  $("kayitAlan").classList.remove("hide");
+  var sb=$("sube");["4","5","6","7"].forEach(function(g){["A","B","C"].forEach(function(h){var o=document.createElement("option");o.value=o.textContent=g+"-"+h;sb.appendChild(o);});});
+  bekleyenleriGonder();
+}
 menu();
 </script>
 </body>
