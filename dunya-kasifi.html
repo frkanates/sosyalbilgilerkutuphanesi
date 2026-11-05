@@ -27,6 +27,8 @@ button.sec{background:transparent;color:var(--pri);border:2px solid var(--pri)}
 .hide{display:none}
 ul{padding-left:20px}
 .hint{color:var(--mute);font-size:.9rem}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);align-items:center;justify-content:center;z-index:50;padding:16px}
+.mcard{background:var(--card);border-radius:16px;padding:22px;width:100%;max-width:420px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
 </style>
 </head>
 <body>
@@ -35,14 +37,6 @@ ul{padding-left:20px}
 
 <div id="start" class="card">
   <p>Dünyayı adım adım öğrenelim! Her seviyede yardım azalır. Bir seviyede en az 70 puan alırsan sıradaki açılır.</p>
-  <label for="ad">Adın Soyadın</label>
-  <input id="ad" placeholder="Örn: Ayşe Yılmaz" autocomplete="off">
-  <div id="kayitAlan" class="hide">
-    <label for="no">Okul Numaran (bilmiyorsan boş bırak)</label>
-    <input id="no" inputmode="numeric" maxlength="10" placeholder="Örn: 142" autocomplete="off">
-    <label for="sube">Sınıf / Şuben</label>
-    <select id="sube"></select>
-  </div>
   <div id="seviyeler"></div>
   <p class="hint">İpucu: Haritayı iki parmakla yakınlaştırabilir veya sürükleyebilirsin.</p>
 </div>
@@ -61,6 +55,20 @@ ul{padding-left:20px}
   <p id="kayitDurum" class="hide" style="font-weight:700"></p>
   <button id="tekrar">Seviye Seç</button>
 </div>
+</div>
+
+<div class="modal" id="girisModal" style="display:none">
+  <div class="mcard">
+    <h2 style="margin-top:0">Dünya Kâşifi 🌍</h2>
+    <p>Lütfen bilgilerini girerek keşfe başla!</p>
+    <label for="ad">Adın ve Soyadın</label>
+    <input id="ad" maxlength="60" placeholder="Örn: Ali Yılmaz" autocomplete="off">
+    <label for="no">Okul Numaran (bilmiyorsan boş bırak)</label>
+    <input id="no" inputmode="numeric" maxlength="10" placeholder="Örn: 142" autocomplete="off">
+    <label for="sube">Sınıf / Şuben</label>
+    <select id="sube"></select>
+    <button id="girisBtn" style="width:100%">Keşfe Başla</button>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
@@ -275,9 +283,15 @@ $("sonraki").onclick=function(){i++;if(i<havuz.length)soru();else bitir();};
 $("tekrar").onclick=menu;
 var tc=0;document.querySelector("h1").onclick=function(){if(++tc>=5){acik=4;menu();}};
 if(KAYIT){
-  $("kayitAlan").classList.remove("hide");
+  $("girisModal").style.display="flex";
   var sb=$("sube");["4","5","6","7"].forEach(function(g){["A","B","C"].forEach(function(h){var o=document.createElement("option");o.value=o.textContent=g+"-"+h;sb.appendChild(o);});});
   bekleyenleriGonder();
+  $("girisBtn").onclick=function(){
+    if(!$("ad").value.trim()){alert("Lütfen adını ve soyadını yaz!");return;}
+    var n=$("no").value.trim();
+    if(n&&!/^\d{1,10}$/.test(n)){alert("Okul numarasını yazacaksan sadece rakam kullan. Bilmiyorsan boş bırakabilirsin!");return;}
+    $("girisModal").style.display="none";
+  };
 }
 menu();
 </script>
